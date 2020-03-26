@@ -1,9 +1,19 @@
+#include "UGE.h"
 
-namespace UGE {
-	__declspec(dllimport) void Print();
-}
+class Sandbox : public UGE::Application
+{
+public:
+	Sandbox(){
 
-int main(){
+	}
+	~Sandbox(){
 
-	UGE::Print();
+	}
+
+
+};
+
+UGE::Application* UGE::createApp()
+{
+	return new Sandbox();
 }
