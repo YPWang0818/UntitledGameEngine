@@ -15,5 +15,8 @@ public:
 
 UGE::Application* UGE::createApp()
 {
+	UGE_CRITICAL("fatal error!");
+	UGE_CRITICAL("fatal error!");
+	//UGE::Log::getCoreLogger();
 	return new Sandbox();
 }
