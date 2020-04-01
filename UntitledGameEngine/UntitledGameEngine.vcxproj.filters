@@ -4,6 +4,9 @@
     <Filter Include="UGE">
       <UniqueIdentifier>{E625880B-522F-887C-DBAA-9E7C47B3937C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UGE\events">
+      <UniqueIdentifier>{2A878C9F-163F-CEEC-7F46-A7486B1D69DD}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\UGE.h" />
@@ -19,6 +22,21 @@
     <ClInclude Include="src\UGE\Log.h">
       <Filter>UGE</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\events\ApplicationEvents.h">
+      <Filter>UGE\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\events\Event.h">
+      <Filter>UGE\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\events\KeyEvents.h">
+      <Filter>UGE\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\events\MouseEvents.h">
+      <Filter>UGE\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\events\WindowEvents.h">
+      <Filter>UGE\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
@@ -27,5 +45,6 @@
     <ClCompile Include="src\UGE\Log.cpp">
       <Filter>UGE</Filter>
     </ClCompile>
+    <ClCompile Include="src\UGE\events\compiletest.cpp" />
   </ItemGroup>
 </Project>

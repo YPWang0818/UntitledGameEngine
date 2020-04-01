@@ -27,8 +27,8 @@ workspace "UntitledGameEngine"
 		}
 		
 		includedirs {
-			"%{prj.name}/vendor/spdlog/include" --spdlog
-			
+			"%{prj.name}/vendor/spdlog/include", --spdlog
+			"%{prj.name}/src/UGE" -- core.h directory
 		}
 		
 		filter {"system:windows"}
