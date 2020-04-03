@@ -37,9 +37,20 @@ namespace UGE {
 		EVENT_TYPE_DECORATION(mouseScrolled)
 		EVENT_CATEGORY_DECORATION(mouseEvents)
 
-		MouseMovedEvent(int xOffset, int yOffset)
+		MouseScrolledEvent(int xOffset, int yOffset)
 			:m_xOffset(xOffset), m_yOffset(yOffset)
-		{}
+		{};
+
+		inline int getxOffset() const { return m_xOffset; };
+		inline int getyOffset() const { return m_yOffset; };
+
+		std::string toString() const override {
+			std::stringstream ss;
+			ss << "MouseScrolledEvent: ( " << m_xOffset << " , " << m_yOffset << " )";
+
+			return ss.str();
+		};
+
 
 	private:
 		int m_xOffset;
@@ -47,6 +58,58 @@ namespace UGE {
 
 	};
 
+	class UGE_API MouseButtonEvents : public Event
+	{
+		// Abstract class for mouse button events.
+	public:
+		EVENT_CATEGORY_DECORATION(mouseEvents)
+		inline int getMosueButton() const { return m_button; };
+	
+	protected:
+		MouseButtonEvents(int button)
+			: m_button(button)
+		{};
+
+		int m_button;
+
+	};
 
 
+	class UGE_API MousePressedEvent : public MouseButtonEvents
+	{
+		// Abstract class for mouse button events.
+	public:
+		EVENT_TYPE_DECORATION(mousePressed)
+		MousePressedEvent(int button)
+			: MouseButtonEvents(button)
+		{};
+
+		std::string toString() const override {
+			std::stringstream ss;
+			ss << "MousePressedEvent:" << m_button;
+
+			return ss.str();
+		};
+
+
+	};
+
+	class UGE_API MouseReleasedEvent : public MouseButtonEvents
+	{
+		// Abstract class for mouse button events.
+	public:
+		EVENT_TYPE_DECORATION(mouseReleased)
+			MouseReleasedEvent(int button)
+			: MouseButtonEvents(button)
+		{};
+
+		std::string toString() const override {
+			std::stringstream ss;
+			ss << "MouseReleasedEvent:" << m_button;
+
+			return ss.str();
+		};
+
+
+	};
 }
