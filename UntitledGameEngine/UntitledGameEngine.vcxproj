@@ -76,10 +76,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src\UGE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src\UGE;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -90,13 +91,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>..\bin\Debug_x86_64_windows\UntitledGameEngine\UntitledGameEngine.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Debug_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Debug_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll ..\bin\Debug_x86_64_windows\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll ..\bin\Debug_x86_64_windows\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src\UGE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src\UGE;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -111,13 +116,17 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>..\bin\Release_x86_64_windows\UntitledGameEngine\UntitledGameEngine.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Release_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Release_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll ..\bin\Release_x86_64_windows\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll ..\bin\Release_x86_64_windows\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src\UGE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src\UGE;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -133,7 +142,7 @@
       <ImportLibrary>..\bin\Dist_x86_64_windows\UntitledGameEngine\UntitledGameEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Dist_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll bin\Dist_x86_64_windows\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll bin\Dist_x86_64_windows\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Dist_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Dist_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll ..\bin\Dist_x86_64_windows\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist_x86_64_windows\UntitledGameEngine\UntitledGameEngine.dll ..\bin\Dist_x86_64_windows\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -147,11 +156,14 @@
     <ClInclude Include="src\UGE\events\KeyEvents.h" />
     <ClInclude Include="src\UGE\events\MouseEvents.h" />
     <ClInclude Include="src\UGE\events\WindowEvents.h" />
+    <ClInclude Include="src\ugepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp" />
-    <ClCompile Include="src\UGE\events\compiletest.cpp" />
     <ClCompile Include="src\UGE\Log.cpp" />
+    <ClCompile Include="src\ugepch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,3 +1,4 @@
+#include "ugepch.h"
 #include "Application.h"
 
 namespace UGE {

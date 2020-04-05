@@ -37,6 +37,7 @@
     <ClInclude Include="src\UGE\events\WindowEvents.h">
       <Filter>UGE\events</Filter>
     </ClInclude>
+    <ClInclude Include="src\ugepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
@@ -45,6 +46,6 @@
     <ClCompile Include="src\UGE\Log.cpp">
       <Filter>UGE</Filter>
     </ClCompile>
-    <ClCompile Include="src\UGE\events\compiletest.cpp" />
+    <ClCompile Include="src\ugepch.cpp" />
   </ItemGroup>
 </Project>

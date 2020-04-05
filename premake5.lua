@@ -9,6 +9,15 @@ workspace "UntitledGameEngine"
 	
 	outdir = "%{cfg.buildcfg}_%{cfg.architecture}_%{cfg.system}"
 	
+	-- The include directories of dependencies.
+	IncludeDir = {}
+	IncludeDir["GLFW"] = "UntitledGameEngine/vendor/glfw/include"
+	IncludeDir["spdlog"] = "UntitledGameEngine/vendor/spdlog/include"
+	
+	group "Dependencies"
+		include "UntitledGameEngine/vendor/glfw"
+
+	group ""
 	
 	project "UntitledGameEngine"
 		location "UntitledGameEngine"
@@ -18,17 +27,33 @@ workspace "UntitledGameEngine"
 		targetdir ("bin/" .. outdir .. "/%{prj.name}")
 		objdir ("obj/" .. outdir .. "/%{prj.name}")
 		
+		pchheader "ugepch.h"
+		pchsource "UntitledGameEngine/src/ugepch.cpp"
+		
+		postbuildcommands {
+			("{COPY}   %{cfg.buildtarget.relpath} ../bin/".. outdir .. "/Sandbox/")  
+			}	
+	
+		
 		files {
 			"%{prj.name}/src/**.h",
 			"%{prj.name}/src/**.hpp",
 			"%{prj.name}/src/**.cpp",
-			"%{prj.name}/src/**.c"
+			"%{prj.name}/src/**.c",
+			"%{prj.name}/vendor/spdlog/include/**.h"
 		
 		}
 		
 		includedirs {
-			"%{prj.name}/vendor/spdlog/include", --spdlog
-			"%{prj.name}/src/UGE" -- core.h directory
+			"%{prj.name}/src/UGE", -- core.h directory
+			"%{prj.name}/src", -- ugepch.h directory
+			"%{IncludeDir.GLFW}", 
+			"%{IncludeDir.spdlog}"
+		}
+		
+		Links
+		{	"GLFW",
+			"opengl32.lib"
 		}
 		
 		filter {"system:windows"}
@@ -54,10 +79,8 @@ workspace "UntitledGameEngine"
 			defines{"UGE_DIST"}
 			optimize "speed"
 	
-		postbuildcommands {
-			("{COPY}   %{cfg.buildtarget.relpath} ./bin/".. outdir .. "/Sandbox")  
-			}	
-			
+
+		
 	project "Sandbox"
 			
 			
@@ -78,7 +101,7 @@ workspace "UntitledGameEngine"
 		
 		includedirs {
 			"UntitledGameEngine/src",
-			"UntitledGameEngine/vendor/spdlog/include" --spdlog
+			"%{IncludeDir.spdlog}"
 			
 		}
 		
