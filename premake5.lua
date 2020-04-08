@@ -8,6 +8,7 @@ workspace "UntitledGameEngine"
 	}
 	
 	outdir = "%{cfg.buildcfg}_%{cfg.architecture}_%{cfg.system}"
+	workdir = "%{wks.location}"
 	
 	-- The include directories of dependencies.
 	IncludeDir = {}
@@ -16,7 +17,6 @@ workspace "UntitledGameEngine"
 	
 	group "Dependencies"
 		include "UntitledGameEngine/vendor/glfw"
-
 	group ""
 	
 	project "UntitledGameEngine"
@@ -24,8 +24,8 @@ workspace "UntitledGameEngine"
 		kind "SharedLib"
 		language "C++"
 	
-		targetdir ("bin/" .. outdir .. "/%{prj.name}")
-		objdir ("obj/" .. outdir .. "/%{prj.name}")
+		targetdir (workdir.."/bin/" .. outdir .. "/%{prj.name}")
+		objdir (workdir.."/obj/" .. outdir .. "/%{prj.name}")
 		
 		pchheader "ugepch.h"
 		pchsource "UntitledGameEngine/src/ugepch.cpp"
@@ -51,7 +51,7 @@ workspace "UntitledGameEngine"
 			"%{IncludeDir.spdlog}"
 		}
 		
-		Links
+		links
 		{	"GLFW",
 			"opengl32.lib"
 		}
