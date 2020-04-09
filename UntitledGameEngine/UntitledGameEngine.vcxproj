@@ -149,7 +149,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\platform\windows\WindowsWIndow.h" />
+    <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\UGE.h" />
     <ClInclude Include="src\UGE\Application.h" />
     <ClInclude Include="src\UGE\Core.h" />
@@ -202,6 +202,7 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\UGE\Application.cpp" />
     <ClCompile Include="src\UGE\Log.cpp" />
     <ClCompile Include="src\ugepch.cpp">

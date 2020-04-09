@@ -190,7 +190,7 @@
       <Filter>vendor\spdlog\include\spdlog</Filter>
     </ClInclude>
     <ClInclude Include="src\UGE\BaseWindow.h" />
-    <ClInclude Include="src\platform\windows\WindowsWIndow.h" />
+    <ClInclude Include="src\platform\windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
@@ -202,5 +202,6 @@
     <ClCompile Include="src\ugepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>
