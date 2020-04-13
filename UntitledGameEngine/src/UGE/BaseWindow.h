@@ -27,7 +27,7 @@ namespace UGE{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 
-		virtual ~BaseWindow() {} = 0;
+		virtual ~BaseWindow() {};
 
 		virtual unsigned int getWidth() const  = 0;
 		virtual unsigned int getHight() const = 0;
@@ -37,7 +37,7 @@ namespace UGE{
 		virtual void setVSync(bool enabled) = 0;
 		virtual bool isVSync() const = 0;
 
-		static BaseWindow* Create(const WindowProps& prop = WindowProps());
+
 
 
 

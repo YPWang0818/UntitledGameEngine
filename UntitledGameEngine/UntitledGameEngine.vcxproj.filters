@@ -10,6 +10,12 @@
     <Filter Include="src\UGE\events">
       <UniqueIdentifier>{E12393D6-CDF1-86DC-B685-F702A2F26241}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\platform">
+      <UniqueIdentifier>{41663D6D-2DC9-CC11-D64E-05C8C2909894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\platform\windows">
+      <UniqueIdentifier>{9B5931A8-87E8-BA71-3007-CF6C1C75CB17}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -48,6 +54,9 @@
     <ClInclude Include="src\UGE\Application.h">
       <Filter>src\UGE</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\BaseWindow.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
     <ClInclude Include="src\UGE\Core.h">
       <Filter>src\UGE</Filter>
     </ClInclude>
@@ -71,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="src\UGE\events\WindowEvents.h">
       <Filter>src\UGE\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\windows\WindowsWindow.h">
+      <Filter>src\platform\windows</Filter>
     </ClInclude>
     <ClInclude Include="src\ugepch.h">
       <Filter>src</Filter>
@@ -189,8 +201,6 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h">
       <Filter>vendor\spdlog\include\spdlog</Filter>
     </ClInclude>
-    <ClInclude Include="src\UGE\BaseWindow.h" />
-    <ClInclude Include="src\platform\windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
@@ -199,9 +209,11 @@
     <ClCompile Include="src\UGE\Log.cpp">
       <Filter>src\UGE</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\windows\WindowsWindow.cpp">
+      <Filter>src\platform\windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\ugepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>

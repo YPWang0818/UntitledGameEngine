@@ -79,7 +79,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_ENABLE_ASSERT;UGE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -101,7 +101,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_ENABLE_ASSERT;UGE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -127,7 +127,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_ENABLE_ASSERT;UGE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -149,9 +149,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\UGE.h" />
     <ClInclude Include="src\UGE\Application.h" />
+    <ClInclude Include="src\UGE\BaseWindow.h" />
     <ClInclude Include="src\UGE\Core.h" />
     <ClInclude Include="src\UGE\EntryPoint.h" />
     <ClInclude Include="src\UGE\Log.h" />
@@ -160,8 +160,8 @@
     <ClInclude Include="src\UGE\events\KeyEvents.h" />
     <ClInclude Include="src\UGE\events\MouseEvents.h" />
     <ClInclude Include="src\UGE\events\WindowEvents.h" />
+    <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\ugepch.h" />
-    <ClInclude Include="src\UGE\BaseWindow.h" />
     <ClInclude Include="vendor\spdlog\include\spdlog\async_logger.h" />
     <ClInclude Include="vendor\spdlog\include\spdlog\common.h" />
     <ClInclude Include="vendor\spdlog\include\spdlog\contrib\sinks\step_file_sink.h" />
@@ -202,9 +202,9 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\UGE\Application.cpp" />
     <ClCompile Include="src\UGE\Log.cpp" />
+    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ugepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

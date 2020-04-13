@@ -63,7 +63,8 @@ workspace "UntitledGameEngine"
 			
 			defines{
 			"UGE_PLATFORM_WINDOWS",
-			"UGE_DLL_BUILD"
+			"UGE_DLL_BUILD",
+			"UGE_ENABLE_ASSERT"
 			}
 			
 			
@@ -101,7 +102,8 @@ workspace "UntitledGameEngine"
 		
 		includedirs {
 			"UntitledGameEngine/src",
-			"%{IncludeDir.spdlog}"
+			"%{IncludeDir.spdlog}",
+			"%{IncludeDir.GLFW}"
 			
 		}
 		

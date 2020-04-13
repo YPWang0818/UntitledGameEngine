@@ -7,15 +7,15 @@ namespace UGE {
 	static bool s_GLFWInitialized = false; // A tag to record if GLFW is initialized.
 
 
-	BaseWindow* BaseWindow::Create(const WindowProps& prop) {
-		return new WindowsWindow()
+	 WindowsWindow* WindowsWindow::Create(const WindowProps& props) {
+		return new WindowsWindow(props);
 	};
 
 
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		Init();
+		Init(props);
 	};
 
 	WindowsWindow::~WindowsWindow()
@@ -24,7 +24,7 @@ namespace UGE {
 	};
 
 
-	virtual void WindowsWindow::Init(const WindowProps& props) {
+	 void WindowsWindow::Init(const WindowProps& props) {
 
 		m_data.title = props.Title;
 		m_data.hight = props.Hight;
@@ -44,14 +44,37 @@ namespace UGE {
 
 		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_window);
-		glfwSetWindowUserPointer(m_window, &props);
+		glfwSetWindowUserPointer(m_window, &m_data);
 
 	};
 
-	virtual void WindowsWindow::ShutDown()
+	 void WindowsWindow::ShutDown()
 	{
 		glfwDestroyWindow(m_window);
+		glfwTerminate();
 	};
 
 
+	void WindowsWindow::onUpdate()
+	{
+		glfwPollEvents();
+		glfwSwapBuffers(m_window);
+		
+
+	};
+
+	 void WindowsWindow::setVSync(bool enabled) {
+
+		if (enabled) {
+			glfwSwapInterval(1);
+		}
+		else {
+			glfwSwapInterval(0);
+		}
+		m_data.VSync = enabled;
+	};
+
+	 bool WindowsWindow::isVSync() const {
+		return m_data.VSync;
+	};
 }

@@ -35,3 +35,11 @@ namespace UGE
 #define UGE_WARN(...) ::UGE::Log::getClientLogger()->warn(__VA_ARGS__)
 #define UGE_INFO(...) ::UGE::Log::getClientLogger()->info(__VA_ARGS__)
 #define UGE_TRACE(...) ::UGE::Log::getClientLogger()->trace(__VA_ARGS__)
+
+#ifdef UGE_ENABLE_ASSERT
+	#define UGE_CORE_ASSERT(X, ...) {if(!X){ UGE_CORE_ERROR("Assertion Failed {0}", __VA_ARGS__);   __debugbreak();} }
+	#define UGE_ASSERT(X, ...) {if(!X){ UGE_ERROR("Assertion Failed {0}", __VA_ARGS__);__debugbreak(); } }
+#else
+	#define UGE_CORE_ASSERT(X, ...)
+	#define UGE_ASSERT(X, ...)
+#endif

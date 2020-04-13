@@ -1,6 +1,6 @@
 #pragma once
 #include "GLFW/glfw3.h"
-#include "UGE/BaseWindow.h"
+#include "BaseWindow.h"
 
 namespace UGE {
 
@@ -16,7 +16,9 @@ namespace UGE {
 
 		virtual void onUpdate() override;
 		virtual void setVSync(bool enabled) override;
-		virtual bool isVSync() override;
+		virtual bool isVSync() const override;
+
+		static WindowsWindow* Create(const WindowProps& props = WindowProps());
 
 	private:
 		virtual void Init(const WindowProps& props);
