@@ -33,10 +33,11 @@ namespace UGE{
 		virtual unsigned int getHight() const = 0;
 
 		virtual void onUpdate() = 0;
-		virtual void setEventCallback(EventCallbackFn& callback) = 0;
+		virtual void setEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void setVSync(bool enabled) = 0;
 		virtual bool isVSync() const = 0;
 
+		static BaseWindow* Create(const WindowProps& = WindowProps());
 
 
 

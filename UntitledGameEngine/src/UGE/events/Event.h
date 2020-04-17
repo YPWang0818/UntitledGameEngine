@@ -53,11 +53,11 @@ namespace UGE {
 
 		// Overriding the these base method using macros.
 
-		#define EVENT_TYPE_DECORATION(type) static EventType getStaticType(){ return EventType::##type; };\
+		#define _EVENT_TYPE_DECORATION(type) static EventType getStaticType(){ return EventType::##type; };\
 		virtual EventType getEventType() const override { return getStaticType(); }; \
 		virtual const char* getName() const override { return #type; };
 
-		#define EVENT_CATEGORY_DECORATION(cat) virtual EventCategory getEventCategory(){return EventCategory::##cat; };
+		#define _EVENT_CATEGORY_DECORATION(cat) virtual EventCategory getEventCategory()const override {return EventCategory::##cat; };
 
 
 		virtual inline std::string toString() const { return getName(); };

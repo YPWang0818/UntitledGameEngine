@@ -10,8 +10,8 @@ namespace UGE {
 	{
 	public:
 
-		EVENT_TYPE_DECORATION(mouseMoved)
-		EVENT_CATEGORY_DECORATION(mouseEvents)
+		_EVENT_TYPE_DECORATION(mouseMoved)
+		_EVENT_CATEGORY_DECORATION(mouseEvents)
 
 		MouseMovedEvent(int xPos, int yPos)
 			:m_xPos(xPos), m_yPos(yPos)
@@ -34,8 +34,8 @@ namespace UGE {
 	class UGE_API MouseScrolledEvent : public Event {
 
 	public:
-		EVENT_TYPE_DECORATION(mouseScrolled)
-		EVENT_CATEGORY_DECORATION(mouseEvents)
+		_EVENT_TYPE_DECORATION(mouseScrolled)
+		_EVENT_CATEGORY_DECORATION(mouseEvents)
 
 		MouseScrolledEvent(int xOffset, int yOffset)
 			:m_xOffset(xOffset), m_yOffset(yOffset)
@@ -62,7 +62,7 @@ namespace UGE {
 	{
 		// Abstract class for mouse button events.
 	public:
-		EVENT_CATEGORY_DECORATION(mouseEvents)
+		_EVENT_CATEGORY_DECORATION(mouseEvents)
 		inline int getMosueButton() const { return m_button; };
 	
 	protected:
@@ -79,7 +79,7 @@ namespace UGE {
 	{
 		// Abstract class for mouse button events.
 	public:
-		EVENT_TYPE_DECORATION(mousePressed)
+		_EVENT_TYPE_DECORATION(mousePressed)
 		MousePressedEvent(int button)
 			: MouseButtonEvents(button)
 		{};
@@ -98,7 +98,7 @@ namespace UGE {
 	{
 		// Abstract class for mouse button events.
 	public:
-		EVENT_TYPE_DECORATION(mouseReleased)
+		_EVENT_TYPE_DECORATION(mouseReleased)
 			MouseReleasedEvent(int button)
 			: MouseButtonEvents(button)
 		{};

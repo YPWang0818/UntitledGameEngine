@@ -160,6 +160,7 @@
     <ClInclude Include="src\UGE\events\KeyEvents.h" />
     <ClInclude Include="src\UGE\events\MouseEvents.h" />
     <ClInclude Include="src\UGE\events\WindowEvents.h" />
+    <ClInclude Include="src\UGE\events\evt_Includes.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\ugepch.h" />
     <ClInclude Include="vendor\spdlog\include\spdlog\async_logger.h" />

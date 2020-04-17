@@ -10,15 +10,15 @@ namespace UGE {
 		WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
 
-		virtual inline unsigned int getWidth() const override { return m_data.width; };
-		virtual inline unsigned int getHight() const override { return m_data.hight; };
-		virtual inline void setEventCallback(EventCallbackFn& callback) override { m_data.func = callback; };
+		inline unsigned int getWidth() const override { return m_data.width; };
+		inline unsigned int getHight() const override { return m_data.hight; };
+		inline void setEventCallback(const EventCallbackFn& callback) override { m_data.callback_fun = callback; };
 
 		virtual void onUpdate() override;
 		virtual void setVSync(bool enabled) override;
 		virtual bool isVSync() const override;
 
-		static WindowsWindow* Create(const WindowProps& props = WindowProps());
+		//static WindowsWindow* Create(const WindowProps& props = WindowProps());
 
 	private:
 		virtual void Init(const WindowProps& props);
@@ -31,7 +31,7 @@ namespace UGE {
 			unsigned int width;
 			unsigned int hight;
 			bool VSync;
-			EventCallbackFn func;
+			EventCallbackFn callback_fun;
 		};
 
 		WindowData m_data;

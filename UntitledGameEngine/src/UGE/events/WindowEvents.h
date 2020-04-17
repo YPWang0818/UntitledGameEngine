@@ -9,8 +9,8 @@ namespace UGE {
 	class UGE_API WindowCloseEvent : public Event
 	{
 	public:
-		EVENT_TYPE_DECORATION(windowClose)
-		EVENT_CATEGORY_DECORATION(windowEvents)
+		_EVENT_TYPE_DECORATION(windowClose)
+		_EVENT_CATEGORY_DECORATION(windowEvents)
 
 	};
 
@@ -19,8 +19,8 @@ namespace UGE {
 	{
 	public:
 
-		EVENT_TYPE_DECORATION(windowResize)
-		EVENT_CATEGORY_DECORATION(windowEvents)
+		_EVENT_TYPE_DECORATION(windowResize)
+		_EVENT_CATEGORY_DECORATION(windowEvents)
 
 		WindowResizeEvent(unsigned int width, unsigned int hight)
 			:m_width(width), m_hight(hight)
@@ -48,8 +48,8 @@ namespace UGE {
 	class UGE_API WindowFocusEvent : public Event
 	{
 	public:
-		EVENT_TYPE_DECORATION(windowFocus)
-		EVENT_CATEGORY_DECORATION(windowEvents)
+		_EVENT_TYPE_DECORATION(windowFocus)
+		_EVENT_CATEGORY_DECORATION(windowEvents)
 
 	};
 
@@ -58,8 +58,8 @@ namespace UGE {
 	class UGE_API WindowLostFocusEvent : public Event
 	{
 	public:
-		EVENT_TYPE_DECORATION(windowClose)
-		EVENT_CATEGORY_DECORATION(windowEvents)
+		_EVENT_TYPE_DECORATION(windowClose)
+		_EVENT_CATEGORY_DECORATION(windowEvents)
 
 
 	};
@@ -67,8 +67,8 @@ namespace UGE {
 	class UGE_API WindowMovedEvent : public Event
 	{
 	public:
-		EVENT_TYPE_DECORATION(windowMoved)
-		EVENT_CATEGORY_DECORATION(windowEvents)
+		_EVENT_TYPE_DECORATION(windowMoved)
+		_EVENT_CATEGORY_DECORATION(windowEvents)
 
 	};
 }

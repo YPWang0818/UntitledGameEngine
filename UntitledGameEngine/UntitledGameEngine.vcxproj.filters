@@ -81,6 +81,9 @@
     <ClInclude Include="src\UGE\events\WindowEvents.h">
       <Filter>src\UGE\events</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\events\evt_Includes.h">
+      <Filter>src\UGE\events</Filter>
+    </ClInclude>
     <ClInclude Include="src\platform\windows\WindowsWindow.h">
       <Filter>src\platform\windows</Filter>
     </ClInclude>

@@ -10,7 +10,7 @@ namespace UGE{
 	{
 	public:
 		//Abstract base class for all key events.
-		EVENT_CATEGORY_DECORATION(keyEvents)
+		_EVENT_CATEGORY_DECORATION(keyEvents)
 		inline int getKeyCode() const { return m_keyCode; };
 	protected:
 		int m_keyCode;
@@ -26,7 +26,7 @@ namespace UGE{
 	class UGE_API KeyPressedEvent :public KeyEvents
 	{
 	public:
-		EVENT_TYPE_DECORATION(keyPressed)
+		_EVENT_TYPE_DECORATION(keyPressed)
 
 		KeyPressedEvent(int keyCode, int repeatCount)
 			: KeyEvents(keyCode), m_repeatCount(repeatCount)
@@ -49,7 +49,7 @@ namespace UGE{
 	class UGE_API KeyReleasedEvent : public KeyEvents
 	{
 	public:
-		EVENT_TYPE_DECORATION(keyReleased)
+		_EVENT_TYPE_DECORATION(keyReleased)
 
 		KeyReleasedEvent(int keyCode)
 			:KeyEvents(keyCode)
