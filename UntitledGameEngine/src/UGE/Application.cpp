@@ -16,12 +16,28 @@ namespace UGE {
 
 	};
 
+	void Application::PushLayer(Layer* layer) {
+		m_layer_stack.PushLayer(layer);
+		layer->onAttach();
+	};
+
+	void Application::PushOverlay(Layer* overlay) {
+		m_layer_stack.PushLayer(overlay);
+		overlay->onAttach();
+	};
+
 	void Application::onEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 
 		dispatcher.DispatchEvents<WindowCloseEvent>(_UGE_BIND_CALLBACK(Application::_CloseWindow));
-
 		UGE_CORE_TRACE("{0}", e);
+
+		for (auto it = m_layer_stack.rbegin(); it != m_layer_stack.rend(); ++it) {
+			(*it)->onEvent(e);
+			if (e.Handled()) {
+				break;
+			}
+		}
 	};
 
 	void Application::Run() {
@@ -30,7 +46,12 @@ namespace UGE {
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			for (Layer* layer : m_layer_stack) {
+				layer->onUpdate();
+			};
+
 			m_window->onUpdate();
+		
 		};
 	};
 

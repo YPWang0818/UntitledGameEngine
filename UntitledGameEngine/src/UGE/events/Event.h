@@ -64,6 +64,9 @@ namespace UGE {
 		inline bool isInCategory(const EventCategory& evtcat) const {
 			return (getEventCategory() & evtcat);
 		}
+		inline bool Handled() const {
+			return m_handled;
+		}
 
 
 	protected:
@@ -104,7 +107,6 @@ namespace UGE {
 		return os << e.toString();
 
 	};
-
 
 }
 

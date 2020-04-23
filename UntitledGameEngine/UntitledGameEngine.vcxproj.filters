@@ -204,6 +204,8 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h">
       <Filter>vendor\spdlog\include\spdlog</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\Layer.h" />
+    <ClInclude Include="src\UGE\LayersStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
@@ -218,5 +220,7 @@
     <ClCompile Include="src\ugepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\UGE\Layer.cpp" />
+    <ClCompile Include="src\UGE\LayersStack.cpp" />
   </ItemGroup>
 </Project>

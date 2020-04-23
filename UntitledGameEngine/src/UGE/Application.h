@@ -1,6 +1,8 @@
 #pragma once
 #include "ugepch.h"
 #include "Core.h"
+#include "Layer.h"
+#include "LayersStack.h"
 #include "platform/windows/WindowsWindow.h"
 #include "events/evt_includes.h"
 
@@ -13,6 +15,8 @@ namespace UGE {
 		virtual ~Application();
 
 		void onEvent(Event& e);
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
 		void Run();
 
 	private:
@@ -20,6 +24,7 @@ namespace UGE {
 
 		std::unique_ptr<BaseWindow> m_window;
 		bool m_running = true;
+		LayersStack m_layer_stack;
 
 	};
 
