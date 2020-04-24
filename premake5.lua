@@ -15,17 +15,16 @@ workspace "UntitledGameEngine"
 	IncludeDir["GLFW"] = "UntitledGameEngine/vendor/glfw/include"
 	IncludeDir["spdlog"] = "UntitledGameEngine/vendor/spdlog/include"
 	
-	group "Dependencies"
-		include "UntitledGameEngine/vendor/glfw"
-	group ""
+
 	
 	project "UntitledGameEngine"
 		location "UntitledGameEngine"
 		kind "SharedLib"
 		language "C++"
 	
-		targetdir (workdir.."/bin/" .. outdir .. "/%{prj.name}")
-		objdir (workdir.."/obj/" .. outdir .. "/%{prj.name}")
+		targetdir ("bin/" .. outdir .. "/%{prj.name}")
+		objdir ("obj/" .. outdir .. "/%{prj.name}")	
+		
 		
 		pchheader "ugepch.h"
 		pchsource "UntitledGameEngine/src/ugepch.cpp"
@@ -69,14 +68,17 @@ workspace "UntitledGameEngine"
 			
 			
 		filter {"configurations:Debug"}
+			buildoptions "/MDd"
 			defines{"UGE_DEBUG"}
 			symbols "on"
 			
 		filter {"configurations:Release"}
+			buildoptions "/MD"
 			defines{"UGE_RELEASE"}
 			optimize "on"
 			
 		filter {"configurations:Dist"}
+			buildoptions "/MD"
 			defines{"UGE_DIST"}
 			optimize "speed"
 	
@@ -122,16 +124,21 @@ workspace "UntitledGameEngine"
 			
 			
 		filter {"configurations:Debug"}
+			buildoptions "/MDd"
 			defines{"UGE_DEBUG"}
 			symbols "on"
 			
 		filter {"configurations:Release"}
+			buildoptions "/MD"
 			defines{"UGE_RELEASE"}
 			optimize "on"
 			
 		filter {"configurations:Dist"}
+			buildoptions "/MD"
 			defines{"UGE_DIST"}
 			optimize "speed"
 	
-
+group "Dependencies"
+		include "UntitledGameEngine/vendor/glfw"
+group ""
 	

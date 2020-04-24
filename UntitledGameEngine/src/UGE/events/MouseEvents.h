@@ -16,6 +16,7 @@ namespace UGE {
 		MouseMovedEvent(int xPos, int yPos)
 			:m_xPos(xPos), m_yPos(yPos)
 		{};
+		
 
 		inline int getXPos() const { return m_xPos; };
 		inline int getYPos() const { return m_yPos; };

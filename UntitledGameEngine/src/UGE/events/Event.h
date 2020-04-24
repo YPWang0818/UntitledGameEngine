@@ -98,14 +98,18 @@ namespace UGE {
 		
 		};
 
+	/**template<typename OStream>
+		friend OStream& operator<<(OStream& os, const Event& e)
+		{
+			return os << e.toString();
+		}**/
+
 	private:
 		Event& m_event;
 	};
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& e) {
-
 		return os << e.toString();
-
 	};
 
 }

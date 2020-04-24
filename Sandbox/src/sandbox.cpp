@@ -11,12 +11,13 @@ public:
 	};
 
 	void onUpdate() override {
-		//UGE_TRACE("Example Layer Updated");
+
+	//UGE_TRACE("Example Layer Updated");
 	};
 
 	void onEvent(UGE::Event& e) override {
 		
-			UGE_TRACE("{0}", e);
+	UGE_TRACE("Event Found {0}", e);
 		
 	};
 };

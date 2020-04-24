@@ -63,6 +63,12 @@
     <ClInclude Include="src\UGE\EntryPoint.h">
       <Filter>src\UGE</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\Layer.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\LayersStack.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
     <ClInclude Include="src\UGE\Log.h">
       <Filter>src\UGE</Filter>
     </ClInclude>
@@ -204,11 +210,15 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h">
       <Filter>vendor\spdlog\include\spdlog</Filter>
     </ClInclude>
-    <ClInclude Include="src\UGE\Layer.h" />
-    <ClInclude Include="src\UGE\LayersStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
+      <Filter>src\UGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\Layer.cpp">
+      <Filter>src\UGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\LayersStack.cpp">
       <Filter>src\UGE</Filter>
     </ClCompile>
     <ClCompile Include="src\UGE\Log.cpp">
@@ -220,7 +230,5 @@
     <ClCompile Include="src\ugepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\UGE\Layer.cpp" />
-    <ClCompile Include="src\UGE\LayersStack.cpp" />
   </ItemGroup>
 </Project>
