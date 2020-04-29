@@ -4,3 +4,6 @@
 [submodule "UntitledGameEngine/vendor/glfw"]
 	path = UntitledGameEngine/vendor/glfw
 	url = https://github.com/YPWang0818/glfw
+[submodule "UntitledGameEngine/vendor/ImGui"]
+	path = UntitledGameEngine/vendor/ImGui
+	url = https://github.com/YPWang0818/imgui
