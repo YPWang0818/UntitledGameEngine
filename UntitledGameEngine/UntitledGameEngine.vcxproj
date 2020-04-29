@@ -152,6 +152,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h" />
     <ClInclude Include="src\UGE.h" />
     <ClInclude Include="src\UGE\Application.h" />
     <ClInclude Include="src\UGE\BaseWindow.h" />
@@ -166,6 +167,8 @@
     <ClInclude Include="src\UGE\events\MouseEvents.h" />
     <ClInclude Include="src\UGE\events\WindowEvents.h" />
     <ClInclude Include="src\UGE\events\evt_Includes.h" />
+    <ClInclude Include="src\UGE\imgui\ImguiLayer.h" />
+    <ClInclude Include="src\platform\openGL\imgui_opengl_renderer.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\ugepch.h" />
     <ClInclude Include="vendor\spdlog\include\spdlog\async_logger.h" />
@@ -208,10 +211,13 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\UGE\Application.cpp" />
     <ClCompile Include="src\UGE\Layer.cpp" />
     <ClCompile Include="src\UGE\LayersStack.cpp" />
     <ClCompile Include="src\UGE\Log.cpp" />
+    <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
+    <ClCompile Include="src\platform\openGL\imgui_oepngl_renderer.cpp" />
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ugepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

@@ -8,11 +8,21 @@
 
 
 namespace UGE {
+
+	// This class is a singleton.
 	class UGE_API Application
 	{
 	public:
+
+		inline static Application& getInstance() {
+			return *s_Instance;
+		};
+		void operator=(const Application&) = delete;
+
 		Application();
 		virtual ~Application();
+
+		inline BaseWindow&  getWindowHandle() const { return *m_window; };
 
 		void onEvent(Event& e);
 		void PushLayer(Layer* layer);
@@ -22,11 +32,17 @@ namespace UGE {
 	private:
 		bool _CloseWindow(WindowCloseEvent& e);
 
+	private:
+		static Application* s_Instance;
+
 		std::unique_ptr<BaseWindow> m_window;
 		bool m_running = true;
 		LayersStack m_layer_stack;
 
+
 	};
+
+
 
 	Application* createApp();
 }
