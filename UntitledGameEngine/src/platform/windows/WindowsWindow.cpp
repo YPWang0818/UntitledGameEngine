@@ -39,8 +39,8 @@ namespace UGE {
 
 		if (!(_glfw_initialized))
 		{
-			int success = glfwInit();
-			UGE_CORE_ASSERT(success, "Could not initalized glfw!");
+			int glfw_success = glfwInit();
+			UGE_CORE_ASSERT(glfw_success, "Could not initalized glfw!");
 			glfwSetErrorCallback(_glfw_custom_error_callback);
 			_glfw_initialized = true;
 
@@ -49,6 +49,11 @@ namespace UGE {
 		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_window);
 		glfwSetWindowUserPointer(m_window, &m_data);
+
+		int glad_success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+		UGE_CORE_ASSERT(glad_success ,"Failed to initialize OpenGL context.");
+	
 
 		//set glfw callbacks.
 

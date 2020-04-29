@@ -6,9 +6,7 @@ class ExampleLayer: public UGE::Layer
 public:
 	ExampleLayer()
 		:Layer("Example")
-	{
-
-	};
+	{};
 
 	void onUpdate() override {
 
@@ -17,7 +15,7 @@ public:
 
 	void onEvent(UGE::Event& e) override {
 		
-	UGE_TRACE("Event Found {0}", e);
+		UGE_TRACE("Event Found {0}", e);
 		
 	};
 };

@@ -14,6 +14,8 @@ workspace "UntitledGameEngine"
 	IncludeDir = {}
 	IncludeDir["GLFW"] = "UntitledGameEngine/vendor/glfw/include"
 	IncludeDir["spdlog"] = "UntitledGameEngine/vendor/spdlog/include"
+	IncludeDir["glad"] = "UntitledGameEngine/vendor/glad/include"
+	IncludeDir["ImGui"] = "UntitledGameEngine/vendor/ImGui"
 	
 
 	
@@ -47,11 +49,15 @@ workspace "UntitledGameEngine"
 			"%{prj.name}/src/UGE", -- core.h directory
 			"%{prj.name}/src", -- ugepch.h directory
 			"%{IncludeDir.GLFW}", 
-			"%{IncludeDir.spdlog}"
+			"%{IncludeDir.spdlog}",
+			"%{IncludeDir.glad}",
+			"%{IncludeDir.ImGui}"
 		}
 		
 		links
 		{	"GLFW",
+			"glad",
+			"ImGui",
 			"opengl32.lib"
 		}
 		
@@ -105,7 +111,9 @@ workspace "UntitledGameEngine"
 		includedirs {
 			"UntitledGameEngine/src",
 			"%{IncludeDir.spdlog}",
-			"%{IncludeDir.GLFW}"
+			"%{IncludeDir.GLFW}",
+			"%{IncludeDir.glad}",
+			"%{IncludeDir.ImGui}"
 			
 		}
 		
@@ -140,5 +148,7 @@ workspace "UntitledGameEngine"
 	
 group "Dependencies"
 		include "UntitledGameEngine/vendor/glfw"
+		include "UntitledGameEngine/vendor/glad"
+		include "UntitledGameEngine/vendor/ImGui"
 group ""
 	
