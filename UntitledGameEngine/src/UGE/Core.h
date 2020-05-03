@@ -10,3 +10,5 @@
 	#error UGE only supports Windows. 
 #endif
 
+
+#define _UGE_BIND_CALLBACK(func) std::bind(&func, this , std::placeholders::_1)

@@ -87,6 +87,71 @@ namespace UGE {
 
 	void ImguiLayer::onEvent(Event& e)
 	{
+		EventDispatcher dispatcher(e);
+
+		dispatcher.DispatchEvents<KeyPressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyCallBack));
+		dispatcher.DispatchEvents<KeyReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyCallBack));
+		dispatcher.DispatchEvents<MousePressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MouseButtonCallBack));
+		dispatcher.DispatchEvents<MouseReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MouseButtonCallBack));
+		dispatcher.DispatchEvents<MouseMovedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
+		dispatcher.DispatchEvents<MouseScrolledEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
+		//dispatcher.DispatchEvents<KeyCharEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
 
 	}
+
+
+	bool ImguiLayer::_KeyCallBack(Event& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		if (e.getEventType() == EventType::keyPressed) {
+
+			io.KeysDown[e.getKeyCode()] = true;
+			return true;
+		}
+		else if(e.getEventType() == EventType::keyReleased){
+			io.KeysDown[e.getKeyCode()] = false;
+			return true;
+		}
+
+		return false;
+	}
+
+
+	bool ImguiLayer::_MouseButtonCallBack(Event& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		if (e.getEventType() == EventType::mousePressed) {
+
+			io.MouseDown[e.getMosueButton()] = true;
+			return true;
+		}
+		else if (e.getEventType() == EventType::mouseReleased) {
+			io.MousesDown[e.getMouseButton()] = false;
+			return true;
+		}
+
+		return false
+	}
+
+
+	bool ImguiLayer::_CursorPosCallBack(Event& e)
+	{
+		io.MousePos = ImVec2((float)e.getXPos(), (float)e.getYPos());
+		return true;
+	}
+
+
+	bool ImguiLayer::_ScrollCallBack(Event& e)
+	{
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseWheelH += (float)e.getxOffset();
+		io.MouseWheel += (float)e.getyOffset();
+
+
+		return true;
+	}
+
+
+	//bool ImguiLayer::_CharCallBack(Event& e){}
 }

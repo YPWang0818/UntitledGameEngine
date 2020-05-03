@@ -3,7 +3,7 @@
 #include "glfw/glfw3.h"
 
 
-#define _UGE_BIND_CALLBACK(func) std::bind(&func, this , std::placeholders::_1)
+
 
 namespace UGE {
 

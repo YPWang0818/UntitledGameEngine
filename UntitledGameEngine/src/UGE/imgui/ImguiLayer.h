@@ -1,6 +1,7 @@
 #pragma once
 #include "ugepch.h"
 #include "UGE/Layer.h"
+#include "events/evt_Includes.h"
 
 namespace UGE{
 	
@@ -17,6 +18,12 @@ namespace UGE{
 
 	private:
 		float m_time;
+
+		bool _KeyCallBack(Event& e);
+		bool _MouseButtonCallBack(Event& e);
+		bool _CursorPosCallBack(Event& e);
+		bool _ScrollCallBack(Event& e);
+		//bool _CharCallBack(Event& e);
 	};
 
 };
