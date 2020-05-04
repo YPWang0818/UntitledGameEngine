@@ -104,6 +104,13 @@ namespace UGE {
 
 			});
 
+		glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int c) {
+
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			KeyTypedEvent event(c);
+			data.callback_fun(event);
+			});
+
 		glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods ){
 
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

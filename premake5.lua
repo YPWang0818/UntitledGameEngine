@@ -17,7 +17,7 @@ workspace "UntitledGameEngine"
 	IncludeDir["glad"] = "UntitledGameEngine/vendor/glad/include"
 	IncludeDir["ImGui"] = "UntitledGameEngine/vendor/ImGui"
 	
-
+	startproject "Sandbox"
 	
 	project "UntitledGameEngine"
 		location "UntitledGameEngine"
@@ -110,6 +110,7 @@ workspace "UntitledGameEngine"
 		
 		includedirs {
 			"UntitledGameEngine/src",
+			"UntitledGameEngine/src/UGE",
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.glad}",

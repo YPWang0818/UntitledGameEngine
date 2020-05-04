@@ -65,4 +65,24 @@ namespace UGE{
 
 	};
 
+
+	class UGE_API KeyTypedEvent : public KeyEvents
+	{
+	public:
+		_EVENT_TYPE_DECORATION(keyTyped)
+
+		KeyTypedEvent (int keyCode)
+			:KeyEvents(keyCode)
+		{
+
+		};
+
+		std::string toString() const override {
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_keyCode;
+			return ss.str();
+		};
+
+	};
+
 }

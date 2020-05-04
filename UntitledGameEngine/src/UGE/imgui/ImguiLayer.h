@@ -19,11 +19,13 @@ namespace UGE{
 	private:
 		float m_time;
 
-		bool _KeyCallBack(Event& e);
-		bool _MouseButtonCallBack(Event& e);
-		bool _CursorPosCallBack(Event& e);
-		bool _ScrollCallBack(Event& e);
-		//bool _CharCallBack(Event& e);
+		bool _KeyPressedCallBack(KeyPressedEvent& e);
+		bool _KeyReleasedCallBack(KeyReleasedEvent& e);
+		bool _MousePressedCallBack(MousePressedEvent& e);
+		bool _MouseReleasedCallBack(MouseReleasedEvent& e);
+		bool _CursorPosCallBack(MouseMovedEvent& e);
+		bool _ScrollCallBack(MouseScrolledEvent& e);
+		bool _CharCallBack(KeyTypedEvent& e);
 	};
 
 };

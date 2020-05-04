@@ -8,8 +8,7 @@
 namespace UGE {
 	ImguiLayer::ImguiLayer()
 		: Layer("ImGui Layer")
-	{
-	}
+	{};
 
 	void ImguiLayer::onAttach()
 	{
@@ -89,60 +88,95 @@ namespace UGE {
 	{
 		EventDispatcher dispatcher(e);
 
-		dispatcher.DispatchEvents<KeyPressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyCallBack));
-		dispatcher.DispatchEvents<KeyReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyCallBack));
-		dispatcher.DispatchEvents<MousePressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MouseButtonCallBack));
-		dispatcher.DispatchEvents<MouseReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MouseButtonCallBack));
+		dispatcher.DispatchEvents<KeyPressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyPressedCallBack));
+		dispatcher.DispatchEvents<KeyReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyReleasedCallBack));
+		dispatcher.DispatchEvents<MousePressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MousePressedCallBack));
+		dispatcher.DispatchEvents<MouseReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MouseReleasedCallBack));
 		dispatcher.DispatchEvents<MouseMovedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
 		dispatcher.DispatchEvents<MouseScrolledEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
-		//dispatcher.DispatchEvents<KeyCharEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
+		dispatcher.DispatchEvents<KeyTypedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CharrCallBack));
 
 	}
 
+	static inline void  _update_control_keys(ImGuiIO& io) {
 
-	bool ImguiLayer::_KeyCallBack(Event& e)
-	{
+
+
+		//TODO: repace costum keycode.
+		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+		io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+	};
+
+
+	bool ImguiLayer::_KeyPressedCallBack(KeyPressedEvent& e)
+	{	
+		UGE_CORE_ASSERT((e.getEventType() == EventType::keyPressed), "Incorrect event handling");
+
 		ImGuiIO& io = ImGui::GetIO();
-		if (e.getEventType() == EventType::keyPressed) {
+		io.KeysDown[e.getKeyCode()] = true;
+		_update_control_keys(io);
 
-			io.KeysDown[e.getKeyCode()] = true;
-			return true;
-		}
-		else if(e.getEventType() == EventType::keyReleased){
-			io.KeysDown[e.getKeyCode()] = false;
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
+	bool ImguiLayer::_KeyReleasedCallBack(KeyReleasedEvent& e) {
 
-	bool ImguiLayer::_MouseButtonCallBack(Event& e)
-	{
+		UGE_CORE_ASSERT((e.getEventType() == EventType::keyReleased), "Incorrect event handling");
+
 		ImGuiIO& io = ImGui::GetIO();
-		if (e.getEventType() == EventType::mousePressed) {
+		io.KeysDown[e.getKeyCode()] = false;
+		_update_control_keys(io);
 
-			io.MouseDown[e.getMosueButton()] = true;
-			return true;
-		}
-		else if (e.getEventType() == EventType::mouseReleased) {
-			io.MousesDown[e.getMouseButton()] = false;
-			return true;
-		}
+		return true;
+	}
 
-		return false
+	bool ImguiLayer::_CharCallBack(KeyTypedEvent& e) {
+
+		UGE_CORE_ASSERT((e.getEventType() == EventType::keyTyped), "Incorrect event handling");
+
+		ImGuiIO& io = ImGui::GetIO();
+		UGE_CORE_WARN("KeyType event detected {0}", e);
+		io.AddInputCharacter(e.getKeyCode());
+		_update_control_keys(io);
+
+		return true;
+	}
+
+	bool ImguiLayer::_MousePressedCallBack(MousePressedEvent& e)
+	{
+		UGE_CORE_ASSERT((e.getEventType() == EventType::mousePressed), "Incorrect event handling");
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseDown[e.getMosueButton()] = true;
+		return true;
+	};
+
+
+	bool ImguiLayer::_MouseReleasedCallBack(MouseReleasedEvent& e) {
+
+		UGE_CORE_ASSERT((e.getEventType() == EventType::mouseReleased), "Incorrect event handling");
+		
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseDown[e.getMosueButton()] = false;
+		return true;
 	}
 
 
-	bool ImguiLayer::_CursorPosCallBack(Event& e)
+	bool ImguiLayer::_CursorPosCallBack(MouseMovedEvent& e)
 	{
+		UGE_CORE_ASSERT((e.getEventType() == EventType::mouseMoved), "Incorrect event handling");
+
+		ImGuiIO& io = ImGui::GetIO();
 		io.MousePos = ImVec2((float)e.getXPos(), (float)e.getYPos());
 		return true;
 	}
 
 
-	bool ImguiLayer::_ScrollCallBack(Event& e)
+	bool ImguiLayer::_ScrollCallBack(MouseScrolledEvent& e)
 	{
+
+		UGE_CORE_ASSERT((e.getEventType() == EventType::mouseScrolled), "Incorrect event handling");
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.MouseWheelH += (float)e.getxOffset();
@@ -151,6 +185,9 @@ namespace UGE {
 
 		return true;
 	}
+
+
+
 
 
 	//bool ImguiLayer::_CharCallBack(Event& e){}

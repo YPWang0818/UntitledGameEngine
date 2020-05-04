@@ -32,7 +32,7 @@ namespace UGE
 #define UGE_CORE_TRACE(...) ::UGE::Log::getCoreLogger()->trace(__VA_ARGS__)
 
 #define UGE_CRITICAL(...) ::UGE::Log::getClientLogger()->critical(__VA_ARGS__)
-#define UGE_ERROR ::UGE::Log::getClientLogger()->error(__VA_ARGS__)
+#define UGE_ERROR(...) ::UGE::Log::getClientLogger()->error(__VA_ARGS__)
 #define UGE_WARN(...) ::UGE::Log::getClientLogger()->warn(__VA_ARGS__)
 #define UGE_INFO(...) ::UGE::Log::getClientLogger()->info(__VA_ARGS__)
 #define UGE_TRACE(...) ::UGE::Log::getClientLogger()->trace(__VA_ARGS__)

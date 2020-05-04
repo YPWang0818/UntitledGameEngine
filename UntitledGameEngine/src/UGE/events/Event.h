@@ -20,7 +20,8 @@ namespace UGE {
 		appRender, //app events,
 
 		keyPressed, 
-		keyReleased, //key events
+		keyReleased,
+		keyTyped,//key events
 
 		mousePressed, 
 		mouseReleased, 
