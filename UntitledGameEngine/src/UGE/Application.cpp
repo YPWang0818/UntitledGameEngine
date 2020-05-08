@@ -1,6 +1,6 @@
 #include "ugepch.h"
 #include "Application.h"
-#include "glfw/glfw3.h"
+#include "IO/uge_io.h"
 
 
 
@@ -35,7 +35,7 @@ namespace UGE {
 		EventDispatcher dispatcher(e);
 
 		dispatcher.DispatchEvents<WindowCloseEvent>(_UGE_BIND_CALLBACK(Application::_CloseWindow));
-		UGE_CORE_TRACE("{0}", e);
+		//UGE_CORE_TRACE("{0}", e);
 
 		for (auto it = m_layer_stack.rbegin(); it != m_layer_stack.rend(); ++it) {
 			(*it)->onEvent(e);
@@ -48,12 +48,13 @@ namespace UGE {
 	void Application::Run() {
 		while (m_running) {
 
-			glClearColor(1, 0, 1, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			
 
 			for (Layer* layer : m_layer_stack) {
 				layer->onUpdate();
 			};
+
+			
 
 			m_window->onUpdate();
 		

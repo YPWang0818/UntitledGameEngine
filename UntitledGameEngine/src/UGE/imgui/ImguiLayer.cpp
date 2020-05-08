@@ -2,7 +2,7 @@
 #include "ImguiLayer.h"
 #include "Imgui.h"
 #include "Application.h"
-#include "glfw/glfw3.h"
+#include "IO/uge_io.h"
 #include "platform/openGL/imgui_opengl_renderer.h"
 
 namespace UGE {
@@ -20,28 +20,28 @@ namespace UGE {
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
 		// Set temperary key code mapping
-		io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-		io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-		io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-		io.KeyMap[ImGuiKey_KeyPadEnter] = GLFW_KEY_KP_ENTER;
-		io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-		io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-		io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-		io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-		io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-		io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
+		io.KeyMap[ImGuiKey_Tab] = UGE_KEY_TAB;
+		io.KeyMap[ImGuiKey_LeftArrow] = UGE_KEY_LEFT;
+		io.KeyMap[ImGuiKey_RightArrow] = UGE_KEY_RIGHT;
+		io.KeyMap[ImGuiKey_UpArrow] = UGE_KEY_UP;
+		io.KeyMap[ImGuiKey_DownArrow] = UGE_KEY_DOWN;
+		io.KeyMap[ImGuiKey_PageUp] = UGE_KEY_PAGE_UP;
+		io.KeyMap[ImGuiKey_PageDown] = UGE_KEY_PAGE_DOWN;
+		io.KeyMap[ImGuiKey_Home] = UGE_KEY_HOME;
+		io.KeyMap[ImGuiKey_End] = UGE_KEY_END;
+		io.KeyMap[ImGuiKey_Insert] = UGE_KEY_INSERT;
+		io.KeyMap[ImGuiKey_Delete] = UGE_KEY_DELETE;
+		io.KeyMap[ImGuiKey_Backspace] = UGE_KEY_BACKSPACE;
+		io.KeyMap[ImGuiKey_Space] = UGE_KEY_SPACE;
+		io.KeyMap[ImGuiKey_Enter] = UGE_KEY_ENTER;
+		io.KeyMap[ImGuiKey_Escape] = UGE_KEY_ESCAPE;
+		io.KeyMap[ImGuiKey_KeyPadEnter] = UGE_KEY_KP_ENTER;
+		io.KeyMap[ImGuiKey_A] = UGE_KEY_A;
+		io.KeyMap[ImGuiKey_C] = UGE_KEY_C;
+		io.KeyMap[ImGuiKey_V] = UGE_KEY_V;
+		io.KeyMap[ImGuiKey_X] = UGE_KEY_X;
+		io.KeyMap[ImGuiKey_Y] = UGE_KEY_Y;
+		io.KeyMap[ImGuiKey_Z] = UGE_KEY_Z;
 
 
 		ImGui::StyleColorsDark();
@@ -94,7 +94,7 @@ namespace UGE {
 		dispatcher.DispatchEvents<MouseReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MouseReleasedCallBack));
 		dispatcher.DispatchEvents<MouseMovedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
 		dispatcher.DispatchEvents<MouseScrolledEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
-		dispatcher.DispatchEvents<KeyTypedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CharrCallBack));
+		dispatcher.DispatchEvents<KeyTypedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CharCallBack));
 
 	}
 
@@ -103,9 +103,9 @@ namespace UGE {
 
 
 		//TODO: repace costum keycode.
-		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-		io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+		io.KeyCtrl = io.KeysDown[UGE_KEY_LEFT_CONTROL] || io.KeysDown[UGE_KEY_RIGHT_CONTROL];
+		io.KeyShift = io.KeysDown[UGE_KEY_LEFT_SHIFT] || io.KeysDown[UGE_KEY_RIGHT_SHIFT];
+		io.KeyAlt = io.KeysDown[UGE_KEY_LEFT_ALT] || io.KeysDown[UGE_KEY_RIGHT_ALT];
 	};
 
 
@@ -136,7 +136,6 @@ namespace UGE {
 		UGE_CORE_ASSERT((e.getEventType() == EventType::keyTyped), "Incorrect event handling");
 
 		ImGuiIO& io = ImGui::GetIO();
-		UGE_CORE_WARN("KeyType event detected {0}", e);
 		io.AddInputCharacter(e.getKeyCode());
 		_update_control_keys(io);
 

@@ -20,6 +20,9 @@ namespace UGE {
 		virtual void setVSync(bool enabled) override;
 		virtual bool isVSync() const override;
 
+		inline virtual void* getNativeWindow() const override {
+			return m_window;
+		};
 		//static WindowsWindow* Create(const WindowProps& props = WindowProps());
 
 	private:

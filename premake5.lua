@@ -16,6 +16,7 @@ workspace "UntitledGameEngine"
 	IncludeDir["spdlog"] = "UntitledGameEngine/vendor/spdlog/include"
 	IncludeDir["glad"] = "UntitledGameEngine/vendor/glad/include"
 	IncludeDir["ImGui"] = "UntitledGameEngine/vendor/ImGui"
+	IncludeDir["glm"] = "UntitledGameEngine/vendor/glm"
 	
 	startproject "Sandbox"
 	
@@ -41,7 +42,9 @@ workspace "UntitledGameEngine"
 			"%{prj.name}/src/**.hpp",
 			"%{prj.name}/src/**.cpp",
 			"%{prj.name}/src/**.c",
-			"%{prj.name}/vendor/spdlog/include/**.h"
+			"%{prj.name}/vendor/spdlog/include/**.h",
+			"%{prj.name}/vendor/glm/glm/**.hpp",
+			"%{prj.name}/vendor/glm/glm/**.inl"
 		
 		}
 		
@@ -51,7 +54,8 @@ workspace "UntitledGameEngine"
 			"%{IncludeDir.GLFW}", 
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.glad}",
-			"%{IncludeDir.ImGui}"
+			"%{IncludeDir.ImGui}",
+			"%{IncludeDir.glm}"
 		}
 		
 		links
@@ -69,7 +73,8 @@ workspace "UntitledGameEngine"
 			defines{
 			"UGE_PLATFORM_WINDOWS",
 			"UGE_DLL_BUILD",
-			"UGE_ENABLE_ASSERT"
+			"UGE_ENABLE_ASSERT",
+			"UGE_USING_GLFW"
 			}
 			
 			
@@ -114,7 +119,8 @@ workspace "UntitledGameEngine"
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.glad}",
-			"%{IncludeDir.ImGui}"
+			"%{IncludeDir.ImGui}",
+			"%{IncludeDir.glm}"
 			
 		}
 		
@@ -127,8 +133,10 @@ workspace "UntitledGameEngine"
 			staticruntime "on"
 			systemversion "latest"
 			
+			defines{"UGE_USING_GLFW"}
+			
 		defines{
-			"UGE_PLATFORM_WINDOWS",
+			"UGE_PLATFORM_WINDOWS"
 			}
 			
 			

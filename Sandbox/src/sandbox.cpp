@@ -1,7 +1,10 @@
-#include "Sandbox.h"
-#include <UGE.h>
+#include "UGE.h"
 
-class ExampleLayer: public UGE::Layer
+
+
+UGE::InputHandler& handler = UGE::InputHandler::getInputHandler();
+
+class ExampleLayer : public UGE::Layer
 {
 public:
 	ExampleLayer()
@@ -10,26 +13,32 @@ public:
 
 	void onUpdate() override {
 
-	//UGE_TRACE("Example Layer Updated");
+		UGE_TRACE("MousePos ({0}, {1})", handler.getCursorPos().x, handler.getCursorPos().y);
+		if (handler.isKeyDown(UGE_KEY_F)) {
+			UGE_INFO("Paying respect");
+		};
+
 	};
 
 	void onEvent(UGE::Event& e) override {
-		
+
 		UGE_TRACE("Event Found {0}", e);
-		
+
+	
+
 	};
 };
 
 class Sandbox : public UGE::Application
 {
 public:
-	Sandbox(){
+	Sandbox() {
 
 		PushLayer(new ExampleLayer);
 		PushLayer(new UGE::ImguiLayer);
 
 	}
-	~Sandbox(){
+	~Sandbox() {
 
 	}
 
