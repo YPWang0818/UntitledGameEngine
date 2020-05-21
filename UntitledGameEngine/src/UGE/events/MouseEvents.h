@@ -6,7 +6,7 @@
 
 namespace UGE {
 
-	class UGE_API MouseMovedEvent : public Event 
+	class  MouseMovedEvent : public Event 
 	{
 	public:
 
@@ -32,7 +32,7 @@ namespace UGE {
 		int m_yPos;
 	};
 
-	class UGE_API MouseScrolledEvent : public Event {
+	class  MouseScrolledEvent : public Event {
 
 	public:
 		_EVENT_TYPE_DECORATION(mouseScrolled)
@@ -59,7 +59,7 @@ namespace UGE {
 
 	};
 
-	class UGE_API MouseButtonEvents : public Event
+	class  MouseButtonEvents : public Event
 	{
 		// Abstract class for mouse button events.
 	public:
@@ -76,7 +76,7 @@ namespace UGE {
 	};
 
 
-	class UGE_API MousePressedEvent : public MouseButtonEvents
+	class  MousePressedEvent : public MouseButtonEvents
 	{
 		// Abstract class for mouse button events.
 	public:
@@ -95,7 +95,7 @@ namespace UGE {
 
 	};
 
-	class UGE_API MouseReleasedEvent : public MouseButtonEvents
+	class  MouseReleasedEvent : public MouseButtonEvents
 	{
 		// Abstract class for mouse button events.
 	public:

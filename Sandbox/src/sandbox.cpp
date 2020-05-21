@@ -13,7 +13,7 @@ public:
 
 	void onUpdate() override {
 
-		UGE_TRACE("MousePos ({0}, {1})", handler.getCursorPos().x, handler.getCursorPos().y);
+		//UGE_TRACE("MousePos ({0}, {1})", handler.getCursorPos().x, handler.getCursorPos().y);
 		if (handler.isKeyDown(UGE_KEY_F)) {
 			UGE_INFO("Paying respect");
 		};
@@ -22,9 +22,7 @@ public:
 
 	void onEvent(UGE::Event& e) override {
 
-		UGE_TRACE("Event Found {0}", e);
-
-	
+		//UGE_TRACE("Event Found {0}", e);
 
 	};
 };

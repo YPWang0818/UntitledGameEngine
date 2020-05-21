@@ -22,7 +22,7 @@ namespace UGE{
 
 
 
-	class UGE_API BaseWindow
+	class  BaseWindow
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;

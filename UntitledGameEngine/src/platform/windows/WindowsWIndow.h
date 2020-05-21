@@ -3,10 +3,11 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "BaseWindow.h"
+#include "renderer/GraphicsContex.h"
 
 namespace UGE {
 
-	class UGE_API WindowsWindow : public BaseWindow
+	class  WindowsWindow : public BaseWindow
 	{
 	public:
 		WindowsWindow(const WindowProps& props);
@@ -42,6 +43,7 @@ namespace UGE {
 		WindowData m_data;
 		GLFWwindow* m_window;
 
+		std::unique_ptr<GraphicsContex> m_contex;
 
 	};
 

@@ -2,7 +2,7 @@
 #include "ugepch.h"
 #include "events/uge_events.h"
 namespace UGE {
-	class UGE_API Layer
+	class  Layer
 	{
 	public:
 		Layer(const std::string& debug_name);

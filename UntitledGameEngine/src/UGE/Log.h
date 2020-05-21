@@ -8,7 +8,7 @@
 namespace UGE
 {
 
-	class UGE_API Log
+	class  Log
 	{
 	public:
 		static void Init();

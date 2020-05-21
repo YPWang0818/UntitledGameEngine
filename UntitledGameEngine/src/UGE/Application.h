@@ -10,7 +10,7 @@
 namespace UGE {
 
 	// This class is a singleton.
-	class UGE_API Application
+	class  Application
 	{
 	public:
 

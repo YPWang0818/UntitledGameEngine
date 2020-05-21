@@ -132,9 +132,6 @@
     <ClInclude Include="src\UGE\imgui\ImguiLayer.h">
       <Filter>src\UGE\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h">
-      <Filter>src\platform\openGL</Filter>
-    </ClInclude>
     <ClInclude Include="src\platform\openGL\imgui_opengl_renderer.h">
       <Filter>src\platform\openGL</Filter>
     </ClInclude>
@@ -1485,6 +1482,8 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h">
       <Filter>vendor\spdlog\include\spdlog</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\renderer\GraphicsContex.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLContex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
@@ -1502,9 +1501,6 @@
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp">
       <Filter>src\UGE\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp">
-      <Filter>src\platform\openGL</Filter>
-    </ClCompile>
     <ClCompile Include="src\platform\openGL\imgui_oepngl_renderer.cpp">
       <Filter>src\platform\openGL</Filter>
     </ClCompile>
@@ -1517,5 +1513,6 @@
     <ClCompile Include="src\ugepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\openGL\OpenGLContex.cpp" />
   </ItemGroup>
 </Project>

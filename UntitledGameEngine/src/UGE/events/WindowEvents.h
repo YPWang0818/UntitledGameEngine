@@ -6,7 +6,7 @@
 
 namespace UGE {
 
-	class UGE_API WindowCloseEvent : public Event
+	class  WindowCloseEvent : public Event
 	{
 	public:
 		_EVENT_TYPE_DECORATION(windowClose)
@@ -15,7 +15,7 @@ namespace UGE {
 	};
 
 
-	class UGE_API WindowResizeEvent : public Event
+	class  WindowResizeEvent : public Event
 	{
 	public:
 
@@ -45,7 +45,7 @@ namespace UGE {
 	};
 
 
-	class UGE_API WindowFocusEvent : public Event
+	class  WindowFocusEvent : public Event
 	{
 	public:
 		_EVENT_TYPE_DECORATION(windowFocus)
@@ -55,7 +55,7 @@ namespace UGE {
 
 
 
-	class UGE_API WindowLostFocusEvent : public Event
+	class  WindowLostFocusEvent : public Event
 	{
 	public:
 		_EVENT_TYPE_DECORATION(windowClose)
@@ -64,7 +64,7 @@ namespace UGE {
 
 	};
 
-	class UGE_API WindowMovedEvent : public Event
+	class  WindowMovedEvent : public Event
 	{
 	public:
 		_EVENT_TYPE_DECORATION(windowMoved)

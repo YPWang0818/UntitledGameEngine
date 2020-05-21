@@ -6,7 +6,7 @@
 
 namespace UGE{
 
-	class UGE_API KeyEvents : public Event
+	class  KeyEvents : public Event
 	{
 	public:
 		//Abstract base class for all key events.
@@ -23,7 +23,7 @@ namespace UGE{
 
 	};
 
-	class UGE_API KeyPressedEvent :public KeyEvents
+	class  KeyPressedEvent :public KeyEvents
 	{
 	public:
 		_EVENT_TYPE_DECORATION(keyPressed)
@@ -46,7 +46,7 @@ namespace UGE{
 
 	};
 
-	class UGE_API KeyReleasedEvent : public KeyEvents
+	class  KeyReleasedEvent : public KeyEvents
 	{
 	public:
 		_EVENT_TYPE_DECORATION(keyReleased)
@@ -66,7 +66,7 @@ namespace UGE{
 	};
 
 
-	class UGE_API KeyTypedEvent : public KeyEvents
+	class  KeyTypedEvent : public KeyEvents
 	{
 	public:
 		_EVENT_TYPE_DECORATION(keyTyped)

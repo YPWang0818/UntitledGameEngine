@@ -1,6 +1,7 @@
 #include "ugepch.h"
 #include "WindowsWindow.h"
 #include "events/uge_events.h"
+#include "platform/openGL/OpenGLContex.h"
 
 namespace UGE {
 
@@ -37,6 +38,8 @@ namespace UGE {
 
 		setVSync(true);
 
+		
+
 		if (!(_glfw_initialized))
 		{
 			int glfw_success = glfwInit();
@@ -47,12 +50,10 @@ namespace UGE {
 		}
 
 		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_window);
+		m_contex = std::make_unique<OpenGLContex>(m_window);
+
+		m_contex->Init();
 		glfwSetWindowUserPointer(m_window, &m_data);
-
-		int glad_success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-		UGE_CORE_ASSERT(glad_success ,"Failed to initialize OpenGL context.");
 	
 
 		//set glfw callbacks.
@@ -163,8 +164,12 @@ namespace UGE {
 	void WindowsWindow::onUpdate()
 	{
 		
+
 		glfwPollEvents();
-		glfwSwapBuffers(m_window);
+
+		m_contex->SwapBuffers();
+
+		
 
 		glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);

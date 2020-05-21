@@ -3,7 +3,7 @@
 #include "Layer.h"
 
 namespace UGE {
-	class UGE_API LayersStack
+	class  LayersStack
 	{
 	public:
 		LayersStack() = default;

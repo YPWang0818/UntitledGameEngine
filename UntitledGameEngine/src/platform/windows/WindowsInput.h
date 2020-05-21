@@ -6,7 +6,7 @@
 namespace UGE {
 
 
-	class UGE_API WindowsInput : public InputHandler
+	class  WindowsInput : public InputHandler
 	{
 
 	protected:

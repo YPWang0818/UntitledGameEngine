@@ -43,7 +43,7 @@ namespace UGE {
 
 
 
-	class UGE_API Event {
+	class  Event {
 		// base class for all events
 	friend class EventDispatcher;
 	public:
@@ -75,7 +75,7 @@ namespace UGE {
 	};
 
 
-	class UGE_API  EventDispatcher {
+	class   EventDispatcher {
 
 	template <typename T>
 	using Eventfn = std::function<bool(T&)>;

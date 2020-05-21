@@ -4,7 +4,7 @@
 
  namespace UGE {
 
-     class UGE_API InputHandler {
+     class  InputHandler {
 
 
      public:

@@ -140,6 +140,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\platform\openGL\OpenGLContex.h" />
     <ClInclude Include="src\UGE.h" />
     <ClInclude Include="src\UGE\Application.h" />
     <ClInclude Include="src\UGE\BaseWindow.h" />
@@ -159,11 +160,11 @@
     <ClInclude Include="src\UGE\events\WindowEvents.h" />
     <ClInclude Include="src\UGE\events\uge_events.h" />
     <ClInclude Include="src\UGE\imgui\ImguiLayer.h" />
-    <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h" />
     <ClInclude Include="src\platform\openGL\imgui_opengl_renderer.h" />
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\ugepch.h" />
+    <ClInclude Include="src\UGE\renderer\GraphicsContex.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -612,12 +613,12 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\platform\openGL\OpenGLContex.cpp" />
     <ClCompile Include="src\UGE\Application.cpp" />
     <ClCompile Include="src\UGE\Layer.cpp" />
     <ClCompile Include="src\UGE\LayersStack.cpp" />
     <ClCompile Include="src\UGE\Log.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
-    <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\platform\openGL\imgui_oepngl_renderer.cpp" />
     <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
