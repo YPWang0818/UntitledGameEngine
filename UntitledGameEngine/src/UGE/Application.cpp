@@ -48,16 +48,15 @@ namespace UGE {
 	void Application::Run() {
 		while (m_running) {
 
-			
+
 
 			for (Layer* layer : m_layer_stack) {
 				layer->onUpdate();
 			};
 
-			
 
 			m_window->onUpdate();
-		
+			
 		};
 	};
 

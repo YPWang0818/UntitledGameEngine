@@ -162,8 +162,12 @@ namespace UGE {
 
 	void WindowsWindow::onUpdate()
 	{
+		
 		glfwPollEvents();
 		glfwSwapBuffers(m_window);
+
+		glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 		
 
 	};

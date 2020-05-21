@@ -1,7 +1,9 @@
 project "glad"
 	kind "StaticLib"
 	language "C"
-
+	cppdialect "C++17"
+	staticruntime "On"
+			
 	targetdir (workdir .. "/bin/" .. outdir .. "/%{prj.name}")
 	objdir (workdir .. "/obj/" .. outdir .. "/%{prj.name}")
 
@@ -15,7 +17,6 @@ project "glad"
 
 	filter "system:windows"
 		systemversion "latest"
-		staticruntime "On"
 		
 		includedirs { "include" }
 
@@ -26,16 +27,13 @@ project "glad"
 
 
 	filter "configurations:Debug"
-		buildoptions "/MDd"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		buildoptions "/MD"
 		runtime "Release"
 		optimize "on"
 		
 	filter "configurations:Dist"
-		buildoptions "/MD"
 		runtime "Release"
 		optimize "speed"

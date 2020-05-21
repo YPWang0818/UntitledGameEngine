@@ -22,8 +22,10 @@ workspace "UntitledGameEngine"
 	
 	project "UntitledGameEngine"
 		location "UntitledGameEngine"
-		kind "SharedLib"
+		kind "StaticLib"
 		language "C++"
+		cppdialect "C++17"
+		staticruntime "on"
 	
 		targetdir ("bin/" .. outdir .. "/%{prj.name}")
 		objdir ("obj/" .. outdir .. "/%{prj.name}")	
@@ -32,10 +34,6 @@ workspace "UntitledGameEngine"
 		pchheader "ugepch.h"
 		pchsource "UntitledGameEngine/src/ugepch.cpp"
 		
-		postbuildcommands {
-			("{COPY}   %{cfg.buildtarget.relpath} ../bin/".. outdir .. "/Sandbox/")  
-			}	
-	
 		
 		files {
 			"%{prj.name}/src/**.h",
@@ -66,8 +64,6 @@ workspace "UntitledGameEngine"
 		}
 		
 		filter {"system:windows"}
-			cppdialect "C++17"
-			staticruntime "on"
 			systemversion "latest"
 			
 			defines{
@@ -79,17 +75,14 @@ workspace "UntitledGameEngine"
 			
 			
 		filter {"configurations:Debug"}
-			buildoptions "/MDd"
 			defines{"UGE_DEBUG"}
 			symbols "on"
 			
 		filter {"configurations:Release"}
-			buildoptions "/MD"
 			defines{"UGE_RELEASE"}
 			optimize "on"
 			
 		filter {"configurations:Dist"}
-			buildoptions "/MD"
 			defines{"UGE_DIST"}
 			optimize "speed"
 	
@@ -101,6 +94,8 @@ workspace "UntitledGameEngine"
 	location "Sandbox"
 		kind "ConsoleApp"
 		language "C++"
+		cppdialect "C++17"
+		staticruntime "on"
 	
 		targetdir ("bin/" .. outdir .. "/%{prj.name}")
 		objdir ("obj/" .. outdir .. "/%{prj.name}")
@@ -129,29 +124,23 @@ workspace "UntitledGameEngine"
 		}
 		
 		filter {"system:windows"}
-			cppdialect "C++17"
-			staticruntime "on"
 			systemversion "latest"
 			
-			defines{"UGE_USING_GLFW"}
-			
-		defines{
-			"UGE_PLATFORM_WINDOWS"
+			defines{
+			"UGE_PLATFORM_WINDOWS",
+			"UGE_USING_GLFW"
 			}
 			
 			
 		filter {"configurations:Debug"}
-			buildoptions "/MDd"
 			defines{"UGE_DEBUG"}
 			symbols "on"
 			
 		filter {"configurations:Release"}
-			buildoptions "/MD"
 			defines{"UGE_RELEASE"}
 			optimize "on"
 			
 		filter {"configurations:Dist"}
-			buildoptions "/MD"
 			defines{"UGE_DIST"}
 			optimize "speed"
 	
