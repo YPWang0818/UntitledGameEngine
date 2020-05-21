@@ -16,6 +16,9 @@ namespace UGE {
 		glfwMakeContextCurrent(m_window);
 		int glad_success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		UGE_CORE_ASSERT(glad_success, "Failed to initialize OpenGL context.");
+
+		UGE_CORE_INFO("OpenGL Render: {0}", glGetString(GL_RENDERER));
+		UGE_CORE_INFO("OpenGL Version: {0}", glGetString(GL_VERSION));
 	}
 
 	void OpenGLContex::SwapBuffers()

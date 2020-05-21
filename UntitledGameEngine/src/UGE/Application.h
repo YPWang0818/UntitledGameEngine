@@ -39,6 +39,11 @@ namespace UGE {
 		bool m_running = true;
 		LayersStack m_layer_stack;
 
+		//temperary test
+
+		unsigned int m_vertex_buffer;
+		unsigned int m_index_buffer;
+		unsigned int m_vertex_array;
 
 	};
 
