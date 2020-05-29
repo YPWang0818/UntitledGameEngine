@@ -15,17 +15,17 @@ namespace UGE {
 
 		}
 
-		UGE_CORE_ASSERT(false, "Unknown renderer API.")
+		UGE_CORE_ASSERT(false, "Unknown renderer API.");
 			return nullptr;
 	}
 
 
-	IndexBuffer* IndexBuffer::Create(float* vertices, unsigned int size) {
+	IndexBuffer* IndexBuffer::Create(int* indices, unsigned int size) {
 
 		switch (Renderer::getAPI())
 		{
 		case RendererAPI::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::OpenGL:	return new OpenGLIndexBuffer(vertices, size);
+		case RendererAPI::OpenGL:	return new OpenGLIndexBuffer(indices, size);
 
 		}
 

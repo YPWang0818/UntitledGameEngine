@@ -23,7 +23,7 @@ namespace UGE {
 	{
 
 	public:
-		OpenGLIndexBuffer(float* vertices, unsigned int size);
+		OpenGLIndexBuffer(int* vertices, unsigned int size);
 		~OpenGLIndexBuffer();
 
 		virtual void Bind() const override;

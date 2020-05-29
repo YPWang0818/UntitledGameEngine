@@ -6,6 +6,7 @@
 #include "platform/windows/WindowsWindow.h"
 #include "events/uge_events.h"
 #include "renderer/Buffer.h"
+#include "renderer/Shader.h"
 
 namespace UGE {
 
@@ -40,9 +41,10 @@ namespace UGE {
 		LayersStack m_layer_stack;
 
 		//temperary test
-
-		std::unique_ptr<VertexBuffer> vertex_buffer;
-		std::unique_ptr<IndexBuffer> index_buffer;
+		
+		std::unique_ptr<VertexBuffer> m_vertex_buffer;
+		std::unique_ptr<IndexBuffer> m_index_buffer;
+		std::unique_ptr<Shader> m_shader;
 
 		unsigned int m_vertex_array;
 

@@ -3,7 +3,7 @@
 
 namespace UGE {
 
-	Renderer::s_rendererAPI = RendererAPI::OpenGL;
+	 RendererAPI Renderer::s_rendererAPI = RendererAPI::OpenGL;
 
 
 }
