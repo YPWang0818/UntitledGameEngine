@@ -6,8 +6,8 @@
 	x;\
 	UGE_CORE_ASSERT(_glCall(), "OpenGL Error")
 
-void _glClearError();
-bool _glCall();
+static void _glClearError();
+static bool _glCall();
 
 void _glClearError()
 {

@@ -6,34 +6,26 @@
 namespace UGE {
 
 	
-	/**void GLAPIENTRY
-		MessageCallback(GLenum source,
-			GLenum type,
-			GLuint id,
-			GLenum severity,
-			GLsizei length,
-			const GLchar* message,
-			const void* userParam)
+	uint32_t _get_element_opengl_type(const ShaderDataType& type)
 	{
+		switch (type)
+		{
+		case ShaderDataType::Float:		return GL_FLOAT;
+		case ShaderDataType::Float2:	return GL_FLOAT;
+		case ShaderDataType::Float3:	return GL_FLOAT;
+		case ShaderDataType::Float4:	return GL_FLOAT;
+		case ShaderDataType::Int:		return GL_INT;
+		case ShaderDataType::Int2:		return GL_INT;
+		case ShaderDataType::Int3:		return GL_INT;
+		case ShaderDataType::Int4:		return GL_INT;
+		case ShaderDataType::Mat3:		return GL_FLOAT;
+		case ShaderDataType::Mat4:		return GL_FLOAT;
+		case ShaderDataType::Bool:		return GL_BOOL;
+		};
+		UGE_CORE_ASSERT(false, "Unknown data type.");
+		return 0;
 
-		if (type == GL_DEBUG_TYPE_ERROR) {
-
-			UGE_CORE_ERROR("OpenGL Error:");
-			UGE_CORE_ERROR("Error ID: {0}", id);
-			UGE_CORE_ERROR("{0}", message);
-			UGE_CORE_ASSERT(false, "--------------------");
-
-		}
-		else {
-
-			UGE_CORE_WARN("OpenGL Warning:");
-			UGE_CORE_WARN("Error ID: {0}", id);
-			UGE_CORE_WARN("{0}", message);
-
-		}
-	
-	}**/
-
+	};
 
 
 	OpenGLShader::OpenGLShader(const ShaderProgramSource& shadersrc)

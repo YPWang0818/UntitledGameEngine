@@ -13,8 +13,12 @@ namespace UGE {
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
 
+		virtual void setBufferLayout(const BufferLayout& layout) override { m_layout = layout; };
+		virtual const BufferLayout& getBufferLayout() const override { return m_layout; };
+
 	private:
-		unsigned int m_rendererID;
+		 uint32_t m_rendererID;
+		 BufferLayout m_layout;
 
 	};
 
@@ -28,6 +32,7 @@ namespace UGE {
 
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
+
 		virtual unsigned int getCount() const override { return m_count; };
 
 	private:

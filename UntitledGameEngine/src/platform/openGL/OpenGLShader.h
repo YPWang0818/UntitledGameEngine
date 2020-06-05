@@ -6,6 +6,9 @@
 
 namespace UGE {
 
+	uint32_t _get_element_opengl_type(const ShaderDataType& type);
+
+
 	class OpenGLShader : public Shader {
 
 	public:

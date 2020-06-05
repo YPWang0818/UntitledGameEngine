@@ -7,6 +7,7 @@
 #include "events/uge_events.h"
 #include "renderer/Buffer.h"
 #include "renderer/Shader.h"
+#include "renderer/VertexArray.h"
 
 namespace UGE {
 
@@ -42,11 +43,10 @@ namespace UGE {
 
 		//temperary test
 		
-		std::unique_ptr<VertexBuffer> m_vertex_buffer;
-		std::unique_ptr<IndexBuffer> m_index_buffer;
-		std::unique_ptr<Shader> m_shader;
-
-		unsigned int m_vertex_array;
+		std::shared_ptr<VertexArray> m_vertex_array;
+		std::shared_ptr<VertexBuffer> m_vertex_buffer;
+		std::shared_ptr<IndexBuffer> m_index_buffer;
+		std::shared_ptr<Shader> m_shader;
 
 	};
 

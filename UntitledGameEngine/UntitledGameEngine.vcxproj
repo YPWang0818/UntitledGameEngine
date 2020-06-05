@@ -144,6 +144,8 @@
     <ClInclude Include="src\platform\openGL\OpenGLBuffer.h" />
     <ClInclude Include="src\platform\openGL\OpenGLContex.h" />
     <ClInclude Include="src\platform\openGL\OpenGLShader.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\UGE\renderer\VertexArray.h" />
     <ClInclude Include="src\UGE\renderer\Renderer.h" />
     <ClInclude Include="src\UGE.h" />
     <ClInclude Include="src\UGE\Application.h" />
@@ -622,6 +624,7 @@
     <ClCompile Include="src\platform\openGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLContex.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\UGE\Application.cpp" />
     <ClCompile Include="src\UGE\Layer.cpp" />
     <ClCompile Include="src\UGE\LayersStack.cpp" />
@@ -636,6 +639,7 @@
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
     <ClCompile Include="src\UGE\renderer\Renderer.cpp" />
     <ClCompile Include="src\UGE\renderer\Shader.cpp" />
+    <ClCompile Include="src\UGE\renderer\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">

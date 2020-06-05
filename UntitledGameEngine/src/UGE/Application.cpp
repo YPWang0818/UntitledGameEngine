@@ -3,9 +3,11 @@
 #include "IO/uge_io.h"
 
 #include "glad/glad.h"
-
+#include "platform/openGL/gl_debug.h"
 
 namespace UGE {
+
+
 
 	Application* Application::s_Instance = nullptr;
 
@@ -21,32 +23,38 @@ namespace UGE {
 		//Temperay code
 
 
-		glGenVertexArrays(1, &m_vertex_array);
-		glBindVertexArray(m_vertex_array);
 
-
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f
+		float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f, 0.3f, 0.1f, 0.8f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 0.7f, 0.8f, 0.1f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.8f, 0.1f, 0.9f, 1.0f
 		};
 
 		m_vertex_buffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		m_vertex_buffer->Bind();
 	
+		BufferLayout layout = {
+				{ShaderDataType::Float3, "a_position" },
+				{ShaderDataType::Float4, "a_color" }
+			};
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
-
-
+	
 		int indices[3] = { 0, 1, 2 };
 
 		m_index_buffer.reset(IndexBuffer::Create(indices, 3));
 		m_index_buffer->Bind();
 
+
+
+		m_vertex_array.reset(VertexArray::Create());
+		m_vertex_array->Bind();
+		m_vertex_array->AddVertexBuffer(m_vertex_buffer);
+		m_vertex_array->SetIndexBuffer(m_index_buffer);
+
+		m_vertex_buffer->setBufferLayout(layout);
+
 		ShaderProgramSource src = Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/testshader.shader");
 		m_shader.reset(Shader::Create(src));
-
 		m_shader->Bind();
 
 	};

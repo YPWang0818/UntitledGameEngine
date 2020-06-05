@@ -3,6 +3,17 @@
 
 namespace UGE {
 
+	enum class ShaderDataType {
+		None = 0, Float, Float2, Float3, Float4, Int, Int2, Int3, Int4, Mat3, Mat4, Bool
+
+	};
+
+
+
+	int _shader_data_type_size(const ShaderDataType& type);
+	int  _get_element_count(const ShaderDataType& type);
+
+
 	struct ShaderProgramSource {
 
 		std::string vertex_shader;
