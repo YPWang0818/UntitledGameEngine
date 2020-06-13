@@ -4,6 +4,7 @@
 
 #include "glad/glad.h"
 #include "platform/openGL/gl_debug.h"
+#include "renderer/Renderer.h"
 
 namespace UGE {
 
@@ -25,37 +26,59 @@ namespace UGE {
 
 
 		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.3f, 0.1f, 0.8f, 1.0f,
+			-0.5f, -0.5f, 0.0f, 0.9f, 0.1f, 0.1f, 1.0f,
 			 0.0f,  0.5f, 0.0f, 0.7f, 0.8f, 0.1f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.8f, 0.1f, 0.9f, 1.0f
+			 0.5f, -0.5f, 0.0f, 0.2f, 0.7f, 0.1f, 1.0f
 		};
 
-		m_vertex_buffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		m_vertex_buffer->Bind();
+		float square_vertices[3 * 4] = {
+			-0.75f, -0.75f, 0,
+			-0.75f,  0.75f, 0,
+			 0.75f,  0.75f, 0,
+			 0.75f, -0.75f, 0
+		};
+		
+
+		VertexBuffer* vertex_buffer = VertexBuffer::Create(vertices, sizeof(vertices));
+		VertexBuffer* square_vb = VertexBuffer::Create(square_vertices, sizeof(square_vertices));;
+
 	
 		BufferLayout layout = {
 				{ShaderDataType::Float3, "a_position" },
 				{ShaderDataType::Float4, "a_color" }
 			};
 
-	
+		BufferLayout square_layout = {
+				{ShaderDataType::Float3, "a_position" },
+		};
+
+		vertex_buffer->setBufferLayout(layout);
+		square_vb->setBufferLayout(square_layout);
+
 		int indices[3] = { 0, 1, 2 };
+		int square_indices[6] = { 0, 1, 2, 2, 3, 0 };
 
-		m_index_buffer.reset(IndexBuffer::Create(indices, 3));
-		m_index_buffer->Bind();
-
-
+		IndexBuffer* index_buffer = IndexBuffer::Create(indices, 3);
+		IndexBuffer* square_ib = IndexBuffer::Create(square_indices, 6);
+		
 
 		m_vertex_array.reset(VertexArray::Create());
-		m_vertex_array->Bind();
-		m_vertex_array->AddVertexBuffer(m_vertex_buffer);
-		m_vertex_array->SetIndexBuffer(m_index_buffer);
+		m_vertex_array->AddVertexBuffer(std::shared_ptr<VertexBuffer>(vertex_buffer));
+		m_vertex_array->SetIndexBuffer(std::shared_ptr<IndexBuffer>(index_buffer));
 
-		m_vertex_buffer->setBufferLayout(layout);
+		
+		m_VAsquare.reset(VertexArray::Create());
+		m_VAsquare->AddVertexBuffer(std::shared_ptr<VertexBuffer>(square_vb));
+		m_VAsquare->SetIndexBuffer(std::shared_ptr<IndexBuffer>(square_ib));
+
 
 		ShaderProgramSource src = Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/testshader.shader");
+
+		ShaderProgramSource blue_src = Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/blueshader.shader");
+
 		m_shader.reset(Shader::Create(src));
-		m_shader->Bind();
+		m_blue_shader.reset(Shader::Create(blue_src));
+	
 
 	};
 
@@ -90,21 +113,29 @@ namespace UGE {
 	void Application::Run() {
 		while (m_running) {
 
-			//temperary code
-			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
 
-			//m_vertex_buffer->Bind();
-			//m_index_buffer->Bind();
+
+			RendererCommand::setClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+			RendererCommand::Clear();
+
+			Renderer::BeginScene();
+
+
+			m_blue_shader->Bind();
+			Renderer::Submit(m_VAsquare);
+
 			m_shader->Bind();
+			Renderer::Submit(m_vertex_array);
+			
 
-			glDrawElements(GL_TRIANGLES, m_index_buffer->getCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::EndScene();
+	
+
 
 
 			for (Layer* layer : m_layer_stack) {
 				layer->onUpdate();
 			};
-
 
 			m_window->onUpdate();
 

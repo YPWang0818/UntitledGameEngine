@@ -10,10 +10,10 @@ namespace UGE {
 
 	Shader* Shader::Create(const ShaderProgramSource& shadersrc)
 	{
-		switch (Renderer::getAPI())
+		switch (RendererAPI::getAPI())
 		{
-		case RendererAPI::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::OpenGL:	return new OpenGLShader(shadersrc);
+		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
+		case RendererAPI::API::OpenGL:	return new OpenGLShader(shadersrc);
 
 		}
 

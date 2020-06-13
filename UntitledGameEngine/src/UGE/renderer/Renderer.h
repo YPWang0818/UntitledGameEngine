@@ -1,20 +1,20 @@
 #pragma once
+#include "renderer/RendererAPI.h"
+#include "renderer/RendererCommand.h"
 
 namespace UGE {
 
-	enum RendererAPI {
-		None = 0,
-		OpenGL = 1
-	};
 
 
 	class Renderer {
 
 	public:
+		static void BeginScene();
+		static void EndScene();
+		static void Submit(const std::shared_ptr<VertexArray>& vertex_array);
 
-		inline static RendererAPI getAPI() { return s_rendererAPI; };
-	private:
-		static RendererAPI s_rendererAPI;
+		inline static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
+
 
 	
 	};

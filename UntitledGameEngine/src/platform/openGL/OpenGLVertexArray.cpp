@@ -65,6 +65,8 @@ namespace UGE {
 		glBindVertexArray(m_rendererID);
 		index_buffer->Bind();
 		)
+
+		m_index_buffer = index_buffer;
 	}
 
 }

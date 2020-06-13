@@ -8,10 +8,10 @@ namespace UGE {
 
 	VertexBuffer* VertexBuffer::Create(float* vertices, unsigned int size)
 	{
-		switch (Renderer::getAPI()) 
+		switch (RendererAPI::getAPI()) 
 		{
-		case RendererAPI::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::OpenGL:	return new OpenGLVertexBuffer(vertices, size);
+		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
+		case RendererAPI::API::OpenGL:	return new OpenGLVertexBuffer(vertices, size);
 
 		}
 
@@ -22,10 +22,10 @@ namespace UGE {
 
 	IndexBuffer* IndexBuffer::Create(int* indices, unsigned int size) {
 
-		switch (Renderer::getAPI())
+		switch (RendererAPI::getAPI())
 		{
-		case RendererAPI::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::OpenGL:	return new OpenGLIndexBuffer(indices, size);
+		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
+		case RendererAPI::API::OpenGL:	return new OpenGLIndexBuffer(indices, size);
 
 		}
 

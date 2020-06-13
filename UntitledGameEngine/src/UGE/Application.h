@@ -44,9 +44,9 @@ namespace UGE {
 		//temperary test
 		
 		std::shared_ptr<VertexArray> m_vertex_array;
-		std::shared_ptr<VertexBuffer> m_vertex_buffer;
-		std::shared_ptr<IndexBuffer> m_index_buffer;
+		std::shared_ptr<VertexArray> m_VAsquare;
 		std::shared_ptr<Shader> m_shader;
+		std::shared_ptr<Shader> m_blue_shader;
 
 	};
 
