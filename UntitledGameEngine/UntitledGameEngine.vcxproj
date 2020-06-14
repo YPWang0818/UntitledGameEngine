@@ -140,17 +140,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\platform\openGL\gl_debug.h" />
-    <ClInclude Include="src\platform\openGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\platform\openGL\OpenGLContex.h" />
-    <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\platform\openGL\OpenGLShader.h" />
-    <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\UGE\renderer\OrthographicCamera.h" />
-    <ClInclude Include="src\UGE\renderer\RendererAPI.h" />
-    <ClInclude Include="src\UGE\renderer\RendererCommand.h" />
-    <ClInclude Include="src\UGE\renderer\VertexArray.h" />
-    <ClInclude Include="src\UGE\renderer\Renderer.h" />
     <ClInclude Include="src\UGE.h" />
     <ClInclude Include="src\UGE\Application.h" />
     <ClInclude Include="src\UGE\BaseWindow.h" />
@@ -170,13 +159,24 @@
     <ClInclude Include="src\UGE\events\WindowEvents.h" />
     <ClInclude Include="src\UGE\events\uge_events.h" />
     <ClInclude Include="src\UGE\imgui\ImguiLayer.h" />
+    <ClInclude Include="src\UGE\renderer\Buffer.h" />
+    <ClInclude Include="src\UGE\renderer\GraphicsContex.h" />
+    <ClInclude Include="src\UGE\renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\UGE\renderer\Renderer.h" />
+    <ClInclude Include="src\UGE\renderer\RendererAPI.h" />
+    <ClInclude Include="src\UGE\renderer\RendererCommand.h" />
+    <ClInclude Include="src\UGE\renderer\Shader.h" />
+    <ClInclude Include="src\UGE\renderer\VertexArray.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLContex.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLShader.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\platform\openGL\gl_debug.h" />
     <ClInclude Include="src\platform\openGL\imgui_opengl_renderer.h" />
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\ugepch.h" />
-    <ClInclude Include="src\UGE\renderer\Buffer.h" />
-    <ClInclude Include="src\UGE\renderer\GraphicsContex.h" />
-    <ClInclude Include="src\UGE\renderer\Shader.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -625,22 +625,11 @@
     <ClInclude Include="vendor\spdlog\include\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\platform\openGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\platform\openGL\OpenGLContex.cpp" />
-    <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\platform\openGL\OpenGLShader.cpp" />
-    <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\UGE\Application.cpp" />
     <ClCompile Include="src\UGE\Layer.cpp" />
     <ClCompile Include="src\UGE\LayersStack.cpp" />
     <ClCompile Include="src\UGE\Log.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
-    <ClCompile Include="src\platform\openGL\imgui_oepngl_renderer.cpp" />
-    <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
-    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
-    <ClCompile Include="src\ugepch.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
     <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\UGE\renderer\Renderer.cpp" />
@@ -648,6 +637,17 @@
     <ClCompile Include="src\UGE\renderer\RendererCommand.cpp" />
     <ClCompile Include="src\UGE\renderer\Shader.cpp" />
     <ClCompile Include="src\UGE\renderer\VertexArray.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLContex.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\platform\openGL\imgui_oepngl_renderer.cpp" />
+    <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
+    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\ugepch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">
@@ -659,10 +659,6 @@
     <ProjectReference Include="vendor\ImGui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Shaders\blueshader.shader" />
-    <None Include="Resources\Shaders\testshader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

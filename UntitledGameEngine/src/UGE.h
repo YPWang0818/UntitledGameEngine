@@ -9,5 +9,14 @@
 #include "UGE/events/uge_events.h"
 #include "UGE/IO/uge_io.h"
 
+// Renderer stuff
+#include "UGE/renderer/Buffer.h"
+#include "UGE/renderer/VertexArray.h"
+#include "UGE/renderer/Shader.h"
+#include "UGE/renderer/Renderer.h"
+#include "UGE/renderer/RendererCommand.h"
+#include "UGE/renderer/OrthographicCamera.h"
+
+
 //Entry point
 #include "UGE/EntryPoint.h"

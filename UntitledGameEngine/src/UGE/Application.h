@@ -45,12 +45,7 @@ namespace UGE {
 
 		//temperary test
 		
-		std::shared_ptr<VertexArray> m_vertex_array;
-		std::shared_ptr<VertexArray> m_VAsquare;
-		std::shared_ptr<Shader> m_shader;
-		std::shared_ptr<Shader> m_blue_shader;
 
-		OrthographicCamera m_camera;
 
 	};
 
