@@ -1495,6 +1495,7 @@
     <ClInclude Include="src\UGE\renderer\RendererAPI.h" />
     <ClInclude Include="src\UGE\renderer\RendererCommand.h" />
     <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\UGE\renderer\OrthographicCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\Application.cpp">
@@ -1535,6 +1536,7 @@
     <ClCompile Include="src\UGE\renderer\RendererAPI.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\UGE\renderer\RendererCommand.cpp" />
+    <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\testshader.shader" />

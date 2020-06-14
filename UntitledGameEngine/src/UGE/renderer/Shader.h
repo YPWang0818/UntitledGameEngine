@@ -1,5 +1,6 @@
 #pragma once
 #include "ugepch.h"
+#include "glm/glm.hpp"
 
 namespace UGE {
 
@@ -32,6 +33,8 @@ namespace UGE {
 		virtual void Bind() const  = 0;
 		virtual void UnBind() const = 0;
 
+
+		virtual void setUniformMat4(const std::string& name, const glm::mat4& mat) = 0;
 	private:
 		virtual void _Init(const ShaderProgramSource& shadersrc) = 0;
 

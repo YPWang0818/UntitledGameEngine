@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "glad/glad.h"
 
-#define _GLCALL(x) _glClearError();\
+#define GLCALL(x) _glClearError();\
 	x;\
 	UGE_CORE_ASSERT(_glCall(), "OpenGL Error")
 

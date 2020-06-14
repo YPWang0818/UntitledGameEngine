@@ -146,6 +146,7 @@
     <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\platform\openGL\OpenGLShader.h" />
     <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\UGE\renderer\OrthographicCamera.h" />
     <ClInclude Include="src\UGE\renderer\RendererAPI.h" />
     <ClInclude Include="src\UGE\renderer\RendererCommand.h" />
     <ClInclude Include="src\UGE\renderer\VertexArray.h" />
@@ -641,6 +642,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
+    <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\UGE\renderer\Renderer.cpp" />
     <ClCompile Include="src\UGE\renderer\RendererAPI.cpp" />
     <ClCompile Include="src\UGE\renderer\RendererCommand.cpp" />

@@ -35,14 +35,14 @@ namespace UGE {
 		UGE_CORE_ASSERT(vertex_buffer->getBufferLayout().getLayoutElements().size(), "No Buffer Layout.");
 
 		int idx = 0;
-		_GLCALL(
+		GLCALL(
 		glBindVertexArray(m_rendererID);
 		vertex_buffer->Bind();
 		)
 
 		for (const auto& element : vertex_buffer->getBufferLayout()) {
 
-			_GLCALL(
+			GLCALL(
 
 			glEnableVertexAttribArray(idx);
 			glVertexAttribPointer(idx,
@@ -61,7 +61,7 @@ namespace UGE {
 
 	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& index_buffer)
 	{
-		_GLCALL(
+		GLCALL(
 		glBindVertexArray(m_rendererID);
 		index_buffer->Bind();
 		)

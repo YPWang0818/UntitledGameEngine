@@ -3,6 +3,7 @@
 #include"renderer/Shader.h"
 #include "ugepch.h"
 #include "glad/glad.h"
+#include "glm/glm.hpp"
 
 namespace UGE {
 
@@ -18,7 +19,7 @@ namespace UGE {
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
 
-
+		virtual void setUniformMat4(const std::string& name, const glm::mat4& mat) override;
 	private:
 		GLuint m_rendererID;
 		virtual void _Init(const ShaderProgramSource& shadersrc) override;

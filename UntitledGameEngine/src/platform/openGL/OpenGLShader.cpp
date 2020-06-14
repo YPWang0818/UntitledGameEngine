@@ -2,6 +2,7 @@
 #include "platform/openGL/OpenGLShader.h"
 #include "glad/glad.h"
 #include "gl_debug.h"
+#include "glm/gtc/type_ptr.hpp"
 
 namespace UGE {
 
@@ -35,19 +36,26 @@ namespace UGE {
 
 	OpenGLShader::~OpenGLShader()
 	{
-		_GLCALL( glDeleteProgram(m_rendererID) );
+		GLCALL( glDeleteProgram(m_rendererID) );
 	}
 
 
 	void OpenGLShader::Bind() const
 	{
-		_GLCALL( glUseProgram(m_rendererID) );
+		GLCALL( glUseProgram(m_rendererID) );
 	}
 
 
 	void OpenGLShader::UnBind() const
 	{
-		_GLCALL (glUseProgram(0) );
+		GLCALL (glUseProgram(0) );
+	}
+
+	void OpenGLShader::setUniformMat4(const std::string& name, const glm::mat4& mat)
+	{
+		GLint location = glGetUniformLocation(m_rendererID, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+
 	}
 
 	void OpenGLShader::_Init(const ShaderProgramSource& shadersrc)
@@ -56,18 +64,18 @@ namespace UGE {
 		//glEnable(GL_DEBUG_OUTPUT);
 		//glDebugMessageCallback(MessageCallback, 0);
 
-		_GLCALL( GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER) );
+		GLCALL( GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER) );
 
 	
 		const GLchar* source = shadersrc.vertex_shader.c_str();
 
-		_GLCALL(
+		GLCALL(
 		glShaderSource(vertexShader, 1, &source, 0);
 		glCompileShader(vertexShader)
 		);
 
 		GLint isCompiled = 0;
-		_GLCALL( glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled) );
+		GLCALL( glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled) );
 		if (isCompiled == GL_FALSE)
 		{
 			GLint maxLength = 0;
@@ -85,17 +93,17 @@ namespace UGE {
 		}
 
 		
-		_GLCALL( GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER) );
+		GLCALL( GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER) );
 
 
 		source = shadersrc.fragment_shader.c_str();
 
-		_GLCALL(
+		GLCALL(
 		glShaderSource(fragmentShader, 1, &source, 0);
 		glCompileShader(fragmentShader)
 		);
 
-		_GLCALL( glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled) );
+		GLCALL( glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled) );
 
 		if (isCompiled == GL_FALSE)
 		{
@@ -114,7 +122,7 @@ namespace UGE {
 			return;
 		}
 
-		_GLCALL( 
+		GLCALL( 
 		m_rendererID = glCreateProgram();
 		glAttachShader(m_rendererID, vertexShader);
 		glAttachShader(m_rendererID, fragmentShader); 
@@ -123,19 +131,19 @@ namespace UGE {
 		);
 
 		GLint isLinked = 0;
-		_GLCALL( glGetProgramiv(m_rendererID, GL_LINK_STATUS, (int*)&isLinked) );
+		GLCALL( glGetProgramiv(m_rendererID, GL_LINK_STATUS, (int*)&isLinked) );
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			_GLCALL( glGetProgramiv(m_rendererID, GL_INFO_LOG_LENGTH, &maxLength) );
+			GLCALL( glGetProgramiv(m_rendererID, GL_INFO_LOG_LENGTH, &maxLength) );
 
 			std::vector<GLchar> infoLog(maxLength);
-			_GLCALL( glGetProgramInfoLog(m_rendererID, maxLength, &maxLength, &infoLog[0]) );
+			GLCALL( glGetProgramInfoLog(m_rendererID, maxLength, &maxLength, &infoLog[0]) );
 
 	
-			_GLCALL( glDeleteProgram(m_rendererID) );
+			GLCALL( glDeleteProgram(m_rendererID) );
 		
-			_GLCALL( glDeleteShader(vertexShader) );
+			GLCALL( glDeleteShader(vertexShader) );
 			glDeleteShader(fragmentShader);
 
 			UGE_CORE_ERROR("{0}", infoLog.data());
@@ -144,10 +152,10 @@ namespace UGE {
 			return;
 		}
 
-		_GLCALL( glValidateProgram(m_rendererID) );
+		GLCALL( glValidateProgram(m_rendererID) );
 
 
-		_GLCALL(
+		GLCALL(
 		glDetachShader(m_rendererID, vertexShader);
 		glDetachShader(m_rendererID, fragmentShader);
 		glDeleteShader(vertexShader);

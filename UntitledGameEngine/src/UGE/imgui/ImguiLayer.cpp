@@ -88,13 +88,13 @@ namespace UGE {
 	{
 		EventDispatcher dispatcher(e);
 
-		dispatcher.DispatchEvents<KeyPressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyPressedCallBack));
-		dispatcher.DispatchEvents<KeyReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_KeyReleasedCallBack));
-		dispatcher.DispatchEvents<MousePressedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MousePressedCallBack));
-		dispatcher.DispatchEvents<MouseReleasedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_MouseReleasedCallBack));
-		dispatcher.DispatchEvents<MouseMovedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
-		dispatcher.DispatchEvents<MouseScrolledEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
-		dispatcher.DispatchEvents<KeyTypedEvent>(_UGE_BIND_CALLBACK(ImguiLayer::_CharCallBack));
+		dispatcher.DispatchEvents<KeyPressedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_KeyPressedCallBack));
+		dispatcher.DispatchEvents<KeyReleasedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_KeyReleasedCallBack));
+		dispatcher.DispatchEvents<MousePressedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_MousePressedCallBack));
+		dispatcher.DispatchEvents<MouseReleasedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_MouseReleasedCallBack));
+		dispatcher.DispatchEvents<MouseMovedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
+		dispatcher.DispatchEvents<MouseScrolledEvent>(UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
+		dispatcher.DispatchEvents<KeyTypedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CharCallBack));
 
 	}
 

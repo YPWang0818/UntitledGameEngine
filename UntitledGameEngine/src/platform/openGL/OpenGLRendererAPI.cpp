@@ -7,9 +7,8 @@ namespace UGE{
 
 	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray> vertex_array)
 	{
-		_GLCALL(
-			glDrawElements(GL_TRIANGLES, vertex_array->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
-		);
+		GLCALL(
+		glDrawElements(GL_TRIANGLES, vertex_array->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);)
 	}
 
 	void OpenGLRendererAPI::setClearColor(const glm::vec4& color)

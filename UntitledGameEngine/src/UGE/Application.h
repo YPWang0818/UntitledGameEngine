@@ -8,6 +8,8 @@
 #include "renderer/Buffer.h"
 #include "renderer/Shader.h"
 #include "renderer/VertexArray.h"
+#include "renderer/OrthographicCamera.h"
+
 
 namespace UGE {
 
@@ -47,6 +49,8 @@ namespace UGE {
 		std::shared_ptr<VertexArray> m_VAsquare;
 		std::shared_ptr<Shader> m_shader;
 		std::shared_ptr<Shader> m_blue_shader;
+
+		OrthographicCamera m_camera;
 
 	};
 

@@ -1,8 +1,6 @@
 #include "ugepch.h"
 #include "Application.h"
 #include "IO/uge_io.h"
-
-#include "glad/glad.h"
 #include "platform/openGL/gl_debug.h"
 #include "renderer/Renderer.h"
 
@@ -12,23 +10,24 @@ namespace UGE {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application() {
+	Application::Application() 
+		:m_camera{-2.56f, 2.56f, -1.44f, 1.44f}
+	{
 		UGE_CORE_ASSERT(!s_Instance, "Application already exists. ");
 		s_Instance = this;
 
 		m_window = std::unique_ptr<BaseWindow>(WindowsWindow::Create());
-		m_window->setEventCallback(_UGE_BIND_CALLBACK(Application::onEvent));
-
-
+		m_window->setEventCallback(UGE_BIND_CALLBACK(Application::onEvent));
 
 		//Temperay code
 
 
 
+
 		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.9f, 0.1f, 0.1f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.7f, 0.8f, 0.1f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.7f, 0.1f, 1.0f
+			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f
 		};
 
 		float square_vertices[3 * 4] = {
@@ -73,7 +72,6 @@ namespace UGE {
 
 
 		ShaderProgramSource src = Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/testshader.shader");
-
 		ShaderProgramSource blue_src = Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/blueshader.shader");
 
 		m_shader.reset(Shader::Create(src));
@@ -99,7 +97,7 @@ namespace UGE {
 	void Application::onEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 
-		dispatcher.DispatchEvents<WindowCloseEvent>(_UGE_BIND_CALLBACK(Application::_CloseWindow));
+		dispatcher.DispatchEvents<WindowCloseEvent>(UGE_BIND_CALLBACK(Application::_CloseWindow));
 		//UGE_CORE_TRACE("{0}", e);
 
 		for (auto it = m_layer_stack.rbegin(); it != m_layer_stack.rend(); ++it) {
@@ -113,24 +111,15 @@ namespace UGE {
 	void Application::Run() {
 		while (m_running) {
 
-
-
 			RendererCommand::setClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 			RendererCommand::Clear();
 
-			Renderer::BeginScene();
+			Renderer::BeginScene(m_camera);
 
-
-			m_blue_shader->Bind();
-			Renderer::Submit(m_VAsquare);
-
-			m_shader->Bind();
-			Renderer::Submit(m_vertex_array);
-			
+			Renderer::Submit(m_blue_shader,m_VAsquare);
+			Renderer::Submit(m_shader, m_vertex_array);
 
 			Renderer::EndScene();
-	
-
 
 
 			for (Layer* layer : m_layer_stack) {
