@@ -5,10 +5,7 @@
 #include "LayersStack.h"
 #include "platform/windows/WindowsWindow.h"
 #include "events/uge_events.h"
-#include "renderer/Buffer.h"
-#include "renderer/Shader.h"
-#include "renderer/VertexArray.h"
-#include "renderer/OrthographicCamera.h"
+
 
 
 namespace UGE {
@@ -43,6 +40,7 @@ namespace UGE {
 		bool m_running = true;
 		LayersStack m_layer_stack;
 
+		double m_last_frame_time;
 		//temperary test
 		
 

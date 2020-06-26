@@ -8,6 +8,7 @@
 #include "UGE/imgui/ImguiLayer.h"
 #include "UGE/events/uge_events.h"
 #include "UGE/IO/uge_io.h"
+#include "UGE/TimeStep.h"
 
 // Renderer stuff
 #include "UGE/renderer/Buffer.h"

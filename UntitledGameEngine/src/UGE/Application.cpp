@@ -3,6 +3,9 @@
 #include "IO/uge_io.h"
 #include "platform/openGL/gl_debug.h"
 #include "renderer/Renderer.h"
+#include "UGE/TimeStep.h"
+
+#include "GLFW/glfw3.h"
 
 namespace UGE {
 
@@ -17,7 +20,6 @@ namespace UGE {
 
 		m_window = std::unique_ptr<BaseWindow>(WindowsWindow::Create());
 		m_window->setEventCallback(UGE_BIND_CALLBACK(Application::onEvent));
-
 
 		
 	
@@ -53,10 +55,17 @@ namespace UGE {
 	};
 
 	void Application::Run() {
+
+		
+		
 		while (m_running) {
 
+			double  this_frame_time = glfwGetTime();
+			TimeStep ts = (this_frame_time - m_last_frame_time);
+			m_last_frame_time = this_frame_time;
+
 			for (Layer* layer : m_layer_stack) {
-				layer->onUpdate();
+				layer->onUpdate(ts);
 			};
 
 			m_window->onUpdate();

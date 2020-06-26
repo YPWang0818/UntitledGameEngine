@@ -1,6 +1,8 @@
 #pragma once
 #include "ugepch.h"
 #include "events/uge_events.h"
+#include "UGE/TimeStep.h"
+
 namespace UGE {
 	class  Layer
 	{
@@ -9,7 +11,7 @@ namespace UGE {
 		virtual ~Layer() = default;
 		virtual void onAttach() {};
 		virtual void onDetach() {};
-		virtual void onUpdate() {};
+		virtual void onUpdate(TimeStep ts) {};
 		virtual void onEvent(Event& e) {};
 
 		virtual inline std::string getName() const { return m_debug_name; };

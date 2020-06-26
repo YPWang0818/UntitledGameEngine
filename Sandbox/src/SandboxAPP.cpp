@@ -68,34 +68,36 @@ public:
 	
 	};
 
-	void onUpdate() override {
+	void onUpdate(UGE::TimeStep ts) override {
+
+		UGE_INFO("TimeStep: {0}, {1}ms", ts.getSecond(), ts.getMillisecond());
 
 
 		if (handler.isKeyDown(UGE_KEY_UP)) {
 
-			m_camera_position.y += m_camera_speed;
+			m_camera_position.y += m_camera_speed * ts;
 
 		}else if(handler.isKeyDown(UGE_KEY_DOWN)) {
 
-			m_camera_position.y -= m_camera_speed;
+			m_camera_position.y -= m_camera_speed * ts;
 		};
 
 		if (handler.isKeyDown(UGE_KEY_RIGHT)) {
 
-			m_camera_position.x += m_camera_speed;
+			m_camera_position.x += m_camera_speed * ts;
 
 		}else if(handler.isKeyDown(UGE_KEY_LEFT)) {
 
-			m_camera_position.x -= m_camera_speed;
+			m_camera_position.x -= m_camera_speed * ts;
 		};
 
 		if (handler.isKeyDown(UGE_KEY_A)) {
 
-			m_camera_rotation += m_camera_rotation_speed;
+			m_camera_rotation += m_camera_rotation_speed * ts;
 
 		}else if(handler.isKeyDown(UGE_KEY_D)) {
 
-			m_camera_rotation -= m_camera_rotation_speed;
+			m_camera_rotation -= m_camera_rotation_speed * ts;
 		};
 
 
@@ -128,9 +130,9 @@ private:
 	UGE::OrthographicCamera m_camera;
 
 	glm::vec3 m_camera_position = {0, 0, 0};
-	float m_camera_speed = 0.1f;
+	float m_camera_speed = 3.0f;
 	float m_camera_rotation = 0.0f;
-	float m_camera_rotation_speed = 0.1f;
+	float m_camera_rotation_speed = 1.0f;
 };
 
 class Sandbox : public UGE::Application

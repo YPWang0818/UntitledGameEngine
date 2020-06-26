@@ -76,7 +76,7 @@ namespace UGE {
 		ImGui::NewFrame();
 
 		//show demo window
-		bool show_demo_window = true;
+		bool show_demo_window = false;
 		ImGui::ShowDemoWindow(&show_demo_window);
  
 		ImGui::Render();
