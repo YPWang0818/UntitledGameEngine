@@ -17,6 +17,7 @@
 #include "UGE/renderer/Renderer.h"
 #include "UGE/renderer/RendererCommand.h"
 #include "UGE/renderer/OrthographicCamera.h"
+#include "UGE/renderer/Texture.h"
 
 
 //Entry point

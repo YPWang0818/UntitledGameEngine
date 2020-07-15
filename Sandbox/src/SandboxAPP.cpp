@@ -1,5 +1,6 @@
 
 #include "UGE.h"
+#include "glm/gtc/matrix_transform.hpp"
 
 UGE::InputHandler& handler = UGE::InputHandler::getInputHandler();
 
@@ -17,10 +18,10 @@ public:
 		};
 
 		float square_vertices[3 * 4] = {
-			-0.75f, -0.75f, 0,
-			-0.75f,  0.75f, 0,
-			 0.75f,  0.75f, 0,
-			 0.75f, -0.75f, 0
+			-0.5f, -0.5f, 0,
+			-0.5,	0.5f, 0,
+			 0.5f,  0.5f, 0,
+			 0.5f, -0.5f, 0
 		};
 
 
@@ -100,6 +101,8 @@ public:
 			m_camera_rotation -= m_camera_rotation_speed * ts;
 		};
 
+		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+	
 
 		m_camera.setPosition(m_camera_position);
 		m_camera.setRotation(m_camera_rotation);
@@ -108,8 +111,15 @@ public:
 		UGE::RendererCommand::Clear();
 
 		UGE::Renderer::BeginScene(m_camera);
-		UGE::Renderer::Submit(m_blue_shader, m_VAsquare);
-		UGE::Renderer::Submit(m_shader, m_vertex_array);
+
+		for (int y = 0; y < 20; y++) {
+			for (int x = 0; x < 20; x++) {
+				glm::mat4 transform = glm::translate(glm::mat4(1.0), glm::vec3(0.11f * x, 0.11f * y, 0.0f)) * scale;
+				UGE::Renderer::Submit(m_blue_shader, m_VAsquare, transform);
+			}
+		}
+		
+		//UGE::Renderer::Submit(m_shader, m_vertex_array);
 
 		UGE::Renderer::EndScene();
 

@@ -17,6 +17,7 @@ workspace "UntitledGameEngine"
 	IncludeDir["glad"] = "UntitledGameEngine/vendor/glad/include"
 	IncludeDir["ImGui"] = "UntitledGameEngine/vendor/ImGui"
 	IncludeDir["glm"] = "UntitledGameEngine/vendor/glm"
+	IncludeDir["stb_image"] = "UntitledGameEngine/vendor/stb_image"
 	
 	startproject "Sandbox"
 	
@@ -42,8 +43,9 @@ workspace "UntitledGameEngine"
 			"%{prj.name}/src/**.c",
 			"%{prj.name}/vendor/spdlog/include/**.h",
 			"%{prj.name}/vendor/glm/glm/**.hpp",
-			"%{prj.name}/vendor/glm/glm/**.inl"
-		
+			"%{prj.name}/vendor/glm/glm/**.inl",
+			"%{prj.name}/vendor/stb_image/**.h",
+			"%{prj.name}/vendor/stb_image/**.cpp",
 		}
 		
 		includedirs {
@@ -53,7 +55,8 @@ workspace "UntitledGameEngine"
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.glad}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.glm}"
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.stb_image}"
 		}
 		
 		links

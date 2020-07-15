@@ -21,7 +21,7 @@ namespace UGE {
 		m_window = std::unique_ptr<BaseWindow>(WindowsWindow::Create());
 		m_window->setEventCallback(UGE_BIND_CALLBACK(Application::onEvent));
 
-		
+		m_window->setVSync(false);
 	
 
 	};
@@ -60,7 +60,8 @@ namespace UGE {
 		
 		while (m_running) {
 
-			double  this_frame_time = glfwGetTime();
+			double  this_frame_time = glfwGetTime();// Moved to Plaform::getTime() eventually.
+
 			TimeStep ts = (this_frame_time - m_last_frame_time);
 			m_last_frame_time = this_frame_time;
 
