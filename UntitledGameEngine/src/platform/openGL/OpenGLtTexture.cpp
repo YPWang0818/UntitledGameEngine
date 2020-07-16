@@ -56,13 +56,11 @@ namespace UGE {
 			UGE_CORE_ERROR("No support for {0} channels.", channels);
 		};
 
-		GLCALL(
-		glGenTextures(1, &m_rendererID);
-		glBindTexture(GL_TEXTURE_2D, m_rendererID);
-		)
+		GLCALL(glCreateTextures(GL_TEXTURE_2D, 1,  &m_rendererID));
+	
 
 		GLCALL(
-		glTextureStorage2D(m_rendererID, 0, m_interal_format, m_width, m_hight);
+		glTextureStorage2D(m_rendererID, 1, m_interal_format, m_width, m_hight);
 		)
 
 		GLCALL(
@@ -73,7 +71,7 @@ namespace UGE {
 		)
 
 		GLCALL(
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_hight, m_data_format, GL_UNSIGNED_BYTE, (void*)data);
+		glTextureSubImage2D(m_rendererID, 0, 0, 0,  m_width, m_hight, m_data_format, GL_UNSIGNED_BYTE, (void*)data);
 		)
 
 		stbi_image_free(data);

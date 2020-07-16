@@ -58,6 +58,12 @@ namespace UGE {
 
 	}
 
+	void OpenGLShader::setUniformInt(const std::string& name, int value)
+	{
+		GLint location = glGetUniformLocation(m_rendererID, name.c_str());
+		glUniform1i(location, value);
+	}
+
 	void OpenGLShader::_Init(const ShaderProgramSource& shadersrc)
 	{
 

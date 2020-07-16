@@ -20,6 +20,7 @@ namespace UGE {
 		virtual void UnBind() const override;
 
 		virtual void setUniformMat4(const std::string& name, const glm::mat4& mat) override;
+		virtual void setUniformInt(const std::string& name, int value) override;
 	private:
 		GLuint m_rendererID;
 		virtual void _Init(const ShaderProgramSource& shadersrc) override;

@@ -17,11 +17,11 @@ public:
 				 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f
 		};
 
-		float square_vertices[3 * 4] = {
-			-0.5f, -0.5f, 0,
-			-0.5,	0.5f, 0,
-			 0.5f,  0.5f, 0,
-			 0.5f, -0.5f, 0
+		float square_vertices[5 * 4] = {
+			-0.5f, -0.5f, 0, 0.0f, 0.0f,
+			-0.5f,	0.5f, 0, 0.0f, 1.0f,
+			 0.5f,  0.5f, 0, 1.0f, 1.0f, 
+			 0.5f, -0.5f, 0, 1.0f, 0.0f
 		};
 
 
@@ -36,6 +36,7 @@ public:
 
 		UGE::BufferLayout square_layout = {
 				{UGE::ShaderDataType::Float3, "a_position" },
+				{UGE::ShaderDataType::Float2, "a_texcoord" }
 		};
 
 		vertex_buffer->setBufferLayout(layout);
@@ -59,11 +60,17 @@ public:
 
 
 		UGE::ShaderProgramSource src = UGE::Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/testshader.shader");
-		UGE::ShaderProgramSource blue_src = UGE::Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/blueshader.shader");
+		UGE::ShaderProgramSource texture_src = UGE::Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/TextureShader.glsl");
 
 		m_shader.reset(UGE::Shader::Create(src));
-		m_blue_shader.reset(UGE::Shader::Create(blue_src));
-	
+		m_texture_shader.reset(UGE::Shader::Create(texture_src));
+
+		m_texture_shader->Bind();
+		m_texture_shader->setUniformInt("u_texture", 0);
+
+		m_texture = UGE::Texture2D::Create("C:/Dev/UntitledGameEngine/Sandbox/Assets/Textures/thecherno.png");
+		m_texture->Bind();
+
 	
 	
 	
@@ -71,7 +78,7 @@ public:
 
 	void onUpdate(UGE::TimeStep ts) override {
 
-		UGE_INFO("TimeStep: {0}, {1}ms", ts.getSecond(), ts.getMillisecond());
+		//UGE_INFO("TimeStep: {0}, {1}ms", ts.getSecond(), ts.getMillisecond());
 
 
 		if (handler.isKeyDown(UGE_KEY_UP)) {
@@ -101,7 +108,7 @@ public:
 			m_camera_rotation -= m_camera_rotation_speed * ts;
 		};
 
-		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 	
 
 		m_camera.setPosition(m_camera_position);
@@ -112,10 +119,10 @@ public:
 
 		UGE::Renderer::BeginScene(m_camera);
 
-		for (int y = 0; y < 20; y++) {
-			for (int x = 0; x < 20; x++) {
-				glm::mat4 transform = glm::translate(glm::mat4(1.0), glm::vec3(0.11f * x, 0.11f * y, 0.0f)) * scale;
-				UGE::Renderer::Submit(m_blue_shader, m_VAsquare, transform);
+		for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++) {
+				glm::mat4 transform = glm::translate(glm::mat4(1.0), glm::vec3(0.55f * x, 0.55f * y, 0.0f)) * scale;
+				UGE::Renderer::Submit(m_texture_shader, m_VAsquare, transform);
 			}
 		}
 		
@@ -135,7 +142,8 @@ private:
 	std::shared_ptr<UGE::VertexArray> m_vertex_array;
 	std::shared_ptr<UGE::VertexArray> m_VAsquare;
 	std::shared_ptr<UGE::Shader> m_shader;
-	std::shared_ptr<UGE::Shader> m_blue_shader;
+	std::shared_ptr<UGE::Shader> m_texture_shader;
+	UGE::Ref<UGE::Texture2D> m_texture;
 
 	UGE::OrthographicCamera m_camera;
 

@@ -35,6 +35,7 @@ namespace UGE {
 
 
 		virtual void setUniformMat4(const std::string& name, const glm::mat4& mat) = 0;
+		virtual void setUniformInt(const std::string& name, int value) = 0;
 	private:
 		virtual void _Init(const ShaderProgramSource& shadersrc) = 0;
 

@@ -21,7 +21,7 @@ namespace UGE {
 		m_window = std::unique_ptr<BaseWindow>(WindowsWindow::Create());
 		m_window->setEventCallback(UGE_BIND_CALLBACK(Application::onEvent));
 
-		m_window->setVSync(false);
+		
 	
 
 	};
