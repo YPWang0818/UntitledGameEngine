@@ -50,7 +50,7 @@ namespace UGE {
 		}
 
 		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, nullptr);
-		m_contex = std::make_unique<OpenGLContex>(m_window);
+		m_contex = CreateScope<OpenGLContex>(m_window);
 
 		m_contex->Init();
 		glfwSetWindowUserPointer(m_window, &m_data);

@@ -5,13 +5,13 @@
 
 namespace UGE {
 
-	VertexArray* VertexArray::Create() {
+	Ref<VertexArray> VertexArray::Create() {
 
 
 		switch (RendererAPI::getAPI())
 		{
 		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::API::OpenGL:	return new OpenGLVertexArray();
+		case RendererAPI::API::OpenGL:	return  CreateRef<OpenGLVertexArray>();
 
 		}
 

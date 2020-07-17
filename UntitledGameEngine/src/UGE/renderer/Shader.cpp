@@ -8,12 +8,12 @@ namespace UGE {
 
 
 
-	Shader* Shader::Create(const ShaderProgramSource& shadersrc)
+	Ref<Shader> Shader::Create(const ShaderProgramSource& shadersrc)
 	{
 		switch (RendererAPI::getAPI())
 		{
 		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::API::OpenGL:	return new OpenGLShader(shadersrc);
+		case RendererAPI::API::OpenGL:	return CreateRef<OpenGLShader>(shadersrc);
 
 		}
 

@@ -84,18 +84,6 @@
     <ClInclude Include="src\UGE.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\UGE\Application.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\BaseWindow.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\Core.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\EntryPoint.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
     <ClInclude Include="src\UGE\IO\InputHandler.h">
       <Filter>src\UGE\IO</Filter>
     </ClInclude>
@@ -107,18 +95,6 @@
     </ClInclude>
     <ClInclude Include="src\UGE\IO\uge_io.h">
       <Filter>src\UGE\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\Layer.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\LayersStack.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\Log.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\TimeStep.h">
-      <Filter>src\UGE</Filter>
     </ClInclude>
     <ClInclude Include="src\UGE\events\ApplicationEvents.h">
       <Filter>src\UGE\events</Filter>
@@ -1542,20 +1518,32 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\core\Application.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\BaseWindow.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\Core.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\EntryPoint.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\Layer.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\LayersStack.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\Log.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\TimeStep.h">
+      <Filter>src\UGE</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\UGE\Application.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\Layer.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\LayersStack.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\Log.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp">
       <Filter>src\UGE\imgui</Filter>
     </ClCompile>
@@ -1615,6 +1603,18 @@
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\Application.cpp">
+      <Filter>src\UGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\Layer.cpp">
+      <Filter>src\UGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\LayersStack.cpp">
+      <Filter>src\UGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\Log.cpp">
+      <Filter>src\UGE</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

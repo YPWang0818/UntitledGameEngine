@@ -25,8 +25,8 @@ public:
 		};
 
 
-		UGE::VertexBuffer* vertex_buffer = UGE::VertexBuffer::Create(vertices, sizeof(vertices));
-		UGE::VertexBuffer* square_vb = UGE::VertexBuffer::Create(square_vertices, sizeof(square_vertices));;
+		UGE::Ref<UGE::VertexBuffer> vertex_buffer = UGE::VertexBuffer::Create(vertices, sizeof(vertices));
+		UGE::Ref<UGE::VertexBuffer> square_vb = UGE::VertexBuffer::Create(square_vertices, sizeof(square_vertices));;
 
 
 		UGE::BufferLayout layout = {
@@ -45,32 +45,34 @@ public:
 		int indices[3] = { 0, 1, 2 };
 		int square_indices[6] = { 0, 1, 2, 2, 3, 0 };
 
-		UGE::IndexBuffer* index_buffer = UGE::IndexBuffer::Create(indices, 3);
-		UGE::IndexBuffer* square_ib = UGE::IndexBuffer::Create(square_indices, 6);
+		UGE::Ref<UGE::IndexBuffer> index_buffer = UGE::IndexBuffer::Create(indices, 3);
+		UGE::Ref<UGE::IndexBuffer> square_ib = UGE::IndexBuffer::Create(square_indices, 6);
 
 
-		m_vertex_array.reset(UGE::VertexArray::Create());
-		m_vertex_array->AddVertexBuffer(std::shared_ptr<UGE::VertexBuffer>(vertex_buffer));
-		m_vertex_array->SetIndexBuffer(std::shared_ptr<UGE::IndexBuffer>(index_buffer));
+		m_vertex_array = UGE::VertexArray::Create();
+		m_vertex_array->AddVertexBuffer(UGE::Ref<UGE::VertexBuffer>(vertex_buffer));
+		m_vertex_array->SetIndexBuffer(UGE::Ref<UGE::IndexBuffer>(index_buffer));
 
 
-		m_VAsquare.reset(UGE::VertexArray::Create());
-		m_VAsquare->AddVertexBuffer(std::shared_ptr<UGE::VertexBuffer>(square_vb));
-		m_VAsquare->SetIndexBuffer(std::shared_ptr<UGE::IndexBuffer>(square_ib));
+		m_VAsquare = UGE::VertexArray::Create();
+		m_VAsquare->AddVertexBuffer(square_vb);
+		m_VAsquare->SetIndexBuffer(square_ib);
 
 
 		UGE::ShaderProgramSource src = UGE::Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/testshader.shader");
 		UGE::ShaderProgramSource texture_src = UGE::Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/TextureShader.glsl");
 
-		m_shader.reset(UGE::Shader::Create(src));
-		m_texture_shader.reset(UGE::Shader::Create(texture_src));
+		m_shader = UGE::Shader::Create(src);
+		m_texture_shader = UGE::Shader::Create(texture_src);
 
 		m_texture_shader->Bind();
 		m_texture_shader->setUniformInt("u_texture", 0);
 
-		m_texture = UGE::Texture2D::Create("C:/Dev/UntitledGameEngine/Sandbox/Assets/Textures/thecherno.png");
+		m_texture = UGE::Texture2D::Create("C:/Dev/UntitledGameEngine/Sandbox/Assets/Textures/hazel.png");
 		m_texture->Bind();
 
+		m_cboard_texture = UGE::Texture2D::Create("C:/Dev/UntitledGameEngine/Sandbox/Assets/Textures/checkerboard.png");
+		m_cboard_texture->Bind();
 	
 	
 	
@@ -122,6 +124,9 @@ public:
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
 				glm::mat4 transform = glm::translate(glm::mat4(1.0), glm::vec3(0.55f * x, 0.55f * y, 0.0f)) * scale;
+				m_cboard_texture->Bind();
+				UGE::Renderer::Submit(m_texture_shader, m_VAsquare, transform);
+				m_texture->Bind();
 				UGE::Renderer::Submit(m_texture_shader, m_VAsquare, transform);
 			}
 		}
@@ -139,12 +144,12 @@ public:
 
 private:
 
-	std::shared_ptr<UGE::VertexArray> m_vertex_array;
-	std::shared_ptr<UGE::VertexArray> m_VAsquare;
-	std::shared_ptr<UGE::Shader> m_shader;
-	std::shared_ptr<UGE::Shader> m_texture_shader;
+	UGE::Ref<UGE::VertexArray> m_vertex_array;
+	UGE::Ref<UGE::VertexArray> m_VAsquare;
+	UGE::Ref<UGE::Shader> m_shader;
+	UGE::Ref<UGE::Shader> m_texture_shader;
 	UGE::Ref<UGE::Texture2D> m_texture;
-
+	UGE::Ref<UGE::Texture2D> m_cboard_texture;
 	UGE::OrthographicCamera m_camera;
 
 	glm::vec3 m_camera_position = {0, 0, 0};

@@ -1,7 +1,7 @@
 #pragma once
 #include "ugepch.h"
 #include "events/uge_events.h"
-#include "UGE/TimeStep.h"
+#include "UGE/core/TimeStep.h"
 
 namespace UGE {
 	class  Layer

@@ -29,7 +29,7 @@ namespace UGE {
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertex_buffer)
+	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer> vertex_buffer)
 	{
 
 		UGE_CORE_ASSERT(vertex_buffer->getBufferLayout().getLayoutElements().size(), "No Buffer Layout.");
@@ -59,7 +59,7 @@ namespace UGE {
 		m_vertex_buffers.push_back(vertex_buffer);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& index_buffer)
+	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer> index_buffer)
 	{
 		GLCALL(
 		glBindVertexArray(m_rendererID);

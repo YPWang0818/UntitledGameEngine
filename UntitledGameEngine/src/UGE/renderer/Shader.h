@@ -26,7 +26,7 @@ namespace UGE {
 	class Shader {
 
 	public:
-		static Shader* Create(const ShaderProgramSource& shadersrc);
+		static Ref<Shader> Create(const ShaderProgramSource& shadersrc);
 		static ShaderProgramSource ParseFile(const std::string& filepath);
 
 		~Shader() = default;

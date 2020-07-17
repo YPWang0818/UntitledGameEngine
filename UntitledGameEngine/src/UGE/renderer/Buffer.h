@@ -64,7 +64,7 @@ namespace UGE {
 
 
 		//only float will be supported for now.
-		static VertexBuffer* Create(float* vertices, unsigned int size);
+		static Ref<VertexBuffer> Create(float* vertices, unsigned int size);
 
 
 
@@ -79,7 +79,7 @@ namespace UGE {
 		virtual unsigned int getCount() const = 0;
 
 		//only float will be supported for now.
-		static IndexBuffer* Create(int* indices, unsigned int size);
+		static Ref<IndexBuffer> Create(int* indices, unsigned int size);
 
 
 

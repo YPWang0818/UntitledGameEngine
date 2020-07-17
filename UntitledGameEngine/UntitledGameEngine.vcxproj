@@ -141,18 +141,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\UGE.h" />
-    <ClInclude Include="src\UGE\Application.h" />
-    <ClInclude Include="src\UGE\BaseWindow.h" />
-    <ClInclude Include="src\UGE\Core.h" />
-    <ClInclude Include="src\UGE\EntryPoint.h" />
+    <ClInclude Include="src\UGE\core\Application.h" />
+    <ClInclude Include="src\UGE\core\BaseWindow.h" />
+    <ClInclude Include="src\UGE\core\Core.h" />
+    <ClInclude Include="src\UGE\core\EntryPoint.h" />
     <ClInclude Include="src\UGE\IO\InputHandler.h" />
     <ClInclude Include="src\UGE\IO\KeyCodes.h" />
     <ClInclude Include="src\UGE\IO\MouseButtonCodes.h" />
     <ClInclude Include="src\UGE\IO\uge_io.h" />
-    <ClInclude Include="src\UGE\Layer.h" />
-    <ClInclude Include="src\UGE\LayersStack.h" />
-    <ClInclude Include="src\UGE\Log.h" />
-    <ClInclude Include="src\UGE\TimeStep.h" />
+    <ClInclude Include="src\UGE\core\Layer.h" />
+    <ClInclude Include="src\UGE\core\LayersStack.h" />
+    <ClInclude Include="src\UGE\core\Log.h" />
+    <ClInclude Include="src\UGE\core\TimeStep.h" />
     <ClInclude Include="src\UGE\events\ApplicationEvents.h" />
     <ClInclude Include="src\UGE\events\Event.h" />
     <ClInclude Include="src\UGE\events\KeyEvents.h" />
@@ -629,10 +629,10 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\UGE\Application.cpp" />
-    <ClCompile Include="src\UGE\Layer.cpp" />
-    <ClCompile Include="src\UGE\LayersStack.cpp" />
-    <ClCompile Include="src\UGE\Log.cpp" />
+    <ClCompile Include="src\UGE\core\Application.cpp" />
+    <ClCompile Include="src\UGE\core\Layer.cpp" />
+    <ClCompile Include="src\UGE\core\LayersStack.cpp" />
+    <ClCompile Include="src\UGE\core\Log.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
     <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />

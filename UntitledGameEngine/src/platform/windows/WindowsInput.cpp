@@ -1,11 +1,11 @@
 #include "ugepch.h"
 #include "WindowsInput.h"
-#include "Application.h"
+#include "core/Application.h"
 #include "GLFW/glfw3.h"
 
 namespace UGE {
 
-	std::shared_ptr<InputHandler> InputHandler::s_instance = std::make_shared<WindowsInput>(); 
+	std::shared_ptr<InputHandler> InputHandler::s_instance = std::make_shared<WindowsInput>();
 
 	bool WindowsInput::_impel_is_key_down(int key)
 	{

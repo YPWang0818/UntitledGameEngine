@@ -1,5 +1,5 @@
 #pragma once
-#include "Log.h"
+#include "core/Log.h"
 #include "glad/glad.h"
 
 #define GLCALL(x) _glClearError();\

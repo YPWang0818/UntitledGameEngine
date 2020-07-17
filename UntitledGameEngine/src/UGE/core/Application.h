@@ -36,7 +36,7 @@ namespace UGE {
 	private:
 		static Application* s_Instance;
 
-		std::unique_ptr<BaseWindow> m_window;
+		Scope<BaseWindow> m_window;
 		bool m_running = true;
 		LayersStack m_layer_stack;
 

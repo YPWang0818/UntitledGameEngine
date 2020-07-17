@@ -8,7 +8,7 @@ namespace UGE {
 	class RendererCommand {
 
 	public:
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array)
+		inline static void DrawIndexed(const Ref<VertexArray>& vertex_array)
 		{		
 			s_API->DrawIndexed(vertex_array);
 		};
@@ -20,6 +20,11 @@ namespace UGE {
 		static inline void Clear() {
 			s_API->Clear();
 		};
+
+		static void Init() {
+
+			s_API->Init();
+		}
 
 
 	private:

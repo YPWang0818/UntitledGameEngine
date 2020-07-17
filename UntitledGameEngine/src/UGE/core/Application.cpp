@@ -3,7 +3,7 @@
 #include "IO/uge_io.h"
 #include "platform/openGL/gl_debug.h"
 #include "renderer/Renderer.h"
-#include "UGE/TimeStep.h"
+#include "UGE/core/TimeStep.h"
 
 #include "GLFW/glfw3.h"
 
@@ -18,10 +18,10 @@ namespace UGE {
 		UGE_CORE_ASSERT(!s_Instance, "Application already exists. ");
 		s_Instance = this;
 
-		m_window = std::unique_ptr<BaseWindow>(WindowsWindow::Create());
+		m_window = Scope<BaseWindow>(WindowsWindow::Create());
 		m_window->setEventCallback(UGE_BIND_CALLBACK(Application::onEvent));
 
-		
+		Renderer::Init();
 	
 
 	};

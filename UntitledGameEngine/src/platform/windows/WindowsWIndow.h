@@ -2,7 +2,7 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "BaseWindow.h"
+#include "core/BaseWindow.h"
 #include "renderer/GraphicsContex.h"
 
 namespace UGE {
@@ -43,7 +43,7 @@ namespace UGE {
 		WindowData m_data;
 		GLFWwindow* m_window;
 
-		std::unique_ptr<GraphicsContex> m_contex;
+		Scope<GraphicsContex> m_contex;
 
 	};
 

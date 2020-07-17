@@ -1,5 +1,5 @@
 #pragma once
-#include "Log.h"
+#include "core/Log.h"
 
 
 /*Ripoff form glfw mousecodes. */
