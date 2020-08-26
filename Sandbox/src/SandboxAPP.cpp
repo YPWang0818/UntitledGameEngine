@@ -59,11 +59,8 @@ public:
 		m_VAsquare->SetIndexBuffer(square_ib);
 
 
-		UGE::ShaderProgramSource src = UGE::Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/testshader.shader");
-		UGE::ShaderProgramSource texture_src = UGE::Shader::ParseFile("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/TextureShader.glsl");
-
-		m_shader = UGE::Shader::Create(src);
-		m_texture_shader = UGE::Shader::Create(texture_src);
+		m_shader = m_shader_library.Load("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/testshader.shader");
+		m_texture_shader = m_shader_library.Load("C:/Dev/UntitledGameEngine/UntitledGameEngine/Resources/Shaders/TextureShader.glsl");
 
 		m_texture_shader->Bind();
 		m_texture_shader->setUniformInt("u_texture", 0);
@@ -112,6 +109,8 @@ public:
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 	
+		m_texture_shader = m_shader_library.Get("TextureShader.glsl");
+
 
 		m_camera.setPosition(m_camera_position);
 		m_camera.setRotation(m_camera_rotation);
@@ -151,6 +150,7 @@ private:
 	UGE::Ref<UGE::Texture2D> m_texture;
 	UGE::Ref<UGE::Texture2D> m_cboard_texture;
 	UGE::OrthographicCamera m_camera;
+	UGE::ShaderLibrary m_shader_library;
 
 	glm::vec3 m_camera_position = {0, 0, 0};
 	float m_camera_speed = 3.0f;

@@ -50,7 +50,7 @@ workspace "UntitledGameEngine"
 		
 		includedirs {
 			"%{prj.name}/src/UGE", -- core.h directory
-			"%{prj.name}/src", -- ugepch.h directory
+			"%{prj.name}/src/", -- ugepch.h directory
 			"%{IncludeDir.GLFW}", 
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.glad}",

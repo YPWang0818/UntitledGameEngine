@@ -13,7 +13,7 @@ namespace UGE {
 	class OpenGLShader : public Shader {
 
 	public:
-		OpenGLShader(const ShaderProgramSource& shadersrc);
+		OpenGLShader(const std::string& name, ShaderProgramSource shadersrc);
 		~OpenGLShader();
 
 		virtual void Bind() const override;
@@ -21,9 +21,11 @@ namespace UGE {
 
 		virtual void setUniformMat4(const std::string& name, const glm::mat4& mat) override;
 		virtual void setUniformInt(const std::string& name, int value) override;
+		inline virtual const std::string& getName() override { return m_name; };
 	private:
 		GLuint m_rendererID;
-		virtual void _Init(const ShaderProgramSource& shadersrc) override;
+		std::string m_name;
+		virtual void _Init(ShaderProgramSource shadersrc) override;
 	};
 
 

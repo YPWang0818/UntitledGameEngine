@@ -29,7 +29,8 @@ namespace UGE {
 	};
 
 
-	OpenGLShader::OpenGLShader(const ShaderProgramSource& shadersrc)
+	OpenGLShader::OpenGLShader(const std::string& name, ShaderProgramSource shadersrc)
+		:m_name(name)
 	{
 		_Init(shadersrc);
 	}
@@ -64,16 +65,15 @@ namespace UGE {
 		glUniform1i(location, value);
 	}
 
-	void OpenGLShader::_Init(const ShaderProgramSource& shadersrc)
+	void OpenGLShader::_Init( ShaderProgramSource shadersrc)
 	{
-
-		//glEnable(GL_DEBUG_OUTPUT);
-		//glDebugMessageCallback(MessageCallback, 0);
+		
+		// TODO: make this loop over all shader types, and use const reference to pass shadersrc?
 
 		GLCALL( GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER) );
 
 	
-		const GLchar* source = shadersrc.vertex_shader.c_str();
+		const GLchar* source = (shadersrc[ShaderType::VERTEX]).c_str();
 
 		GLCALL(
 		glShaderSource(vertexShader, 1, &source, 0);
@@ -102,7 +102,7 @@ namespace UGE {
 		GLCALL( GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER) );
 
 
-		source = shadersrc.fragment_shader.c_str();
+		source = (shadersrc[ShaderType::FRAGMENT]).c_str();
 
 		GLCALL(
 		glShaderSource(fragmentShader, 1, &source, 0);

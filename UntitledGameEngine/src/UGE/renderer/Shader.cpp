@@ -8,12 +8,12 @@ namespace UGE {
 
 
 
-	Ref<Shader> Shader::Create(const ShaderProgramSource& shadersrc)
+	Ref<Shader> Shader::Create(const std::string& name, ShaderProgramSource shadersrc)
 	{
 		switch (RendererAPI::getAPI())
 		{
 		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::API::OpenGL:	return CreateRef<OpenGLShader>(shadersrc);
+		case RendererAPI::API::OpenGL:	return CreateRef<OpenGLShader>(name, shadersrc);
 
 		}
 
@@ -21,19 +21,23 @@ namespace UGE {
 		
 	}
 
+	Ref<Shader> Shader::Create(const std::string& name, const std::string& filepath)
+	{
+		ShaderProgramSource src = Shader::ParseFile(filepath);
+		return Shader::Create(name, src);
+	}
+
+	
 	ShaderProgramSource Shader::ParseFile(const std::string& filepath)
 	{
 		std::ifstream stream(filepath);
-
-		enum class ShaderType {
-			NONE = -1, VERTEX = 0, FRAGMENT = 1
-		};
 
 		std::string line;
 		std::stringstream ss[2];
 		ShaderType type = ShaderType::NONE;
 
 		while (std::getline(stream, line)) {
+
 			if (line.find("#shader vertex") != std::string::npos)
 			{
 				type = ShaderType::VERTEX;
@@ -44,12 +48,14 @@ namespace UGE {
 			}
 			else
 			{
+				if (type == ShaderType::NONE) continue;
 				ss[(int)type] << line << '\n';
 			}
 
 		}
 
-		return { ss[0].str(), ss[1].str() };
+		return { {ShaderType::VERTEX, ss[0].str()},
+				 {ShaderType::FRAGMENT, ss[1].str()} };
 
 	}
 
@@ -100,5 +106,58 @@ namespace UGE {
 	};
 
 
+
+
+	void ShaderLibrary::Add(const Ref<Shader> shader)
+	{
+		auto& name = shader->getName();
+		Add(name, shader);
+	}
+
+	void ShaderLibrary::Add(const std::string& name, const Ref<Shader> shader)
+	{
+		UGE_CORE_ASSERT(!Exists(name), "The shader already exists.");
+		m_shaders[name] = shader;
+	}
+
+	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
+	{
+
+		auto& name = _strip_path_name(filepath);
+		Ref<Shader> shader = Shader::Create(name, filepath);
+		Add(name, shader);
+
+		return shader;
+	}
+
+	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
+	{
+
+		Ref<Shader> shader = Shader::Create(name, filepath);
+		Add(name, shader);
+
+		return shader;
+	}
+
+	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	{
+		auto res = m_shaders.find(name);
+		if (res == m_shaders.end()) { UGE_CORE_ERROR("Shader {0} not found.", name); return nullptr; }
+		return (res->second);
+	}
+
+	bool ShaderLibrary::Exists(const std::string& name)
+	{
+
+		return (m_shaders.find(name) != m_shaders.end());
+	}
+
+	std::string ShaderLibrary::_strip_path_name(const std::string& pathname)
+	{
+		std::size_t found = pathname.find_last_of("/\\");
+		std::size_t lastslash = (found == std::string::npos) ? 0 : found + 1;
+
+		return pathname.substr(lastslash);
+	}
 
 }
