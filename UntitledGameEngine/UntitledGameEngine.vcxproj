@@ -140,15 +140,18 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h" />
+    <ClInclude Include="src\platform\openGL\imgui_impl_opengl3.h" />
     <ClInclude Include="src\UGE.h" />
-    <ClInclude Include="src\UGE\core\Application.h" />
-    <ClInclude Include="src\UGE\core\BaseWindow.h" />
-    <ClInclude Include="src\UGE\core\Core.h" />
-    <ClInclude Include="src\UGE\core\EntryPoint.h" />
+    <ClInclude Include="src\UGE\imgui\imgui_glfw_opengl_renderer.h" />
     <ClInclude Include="src\UGE\IO\InputHandler.h" />
     <ClInclude Include="src\UGE\IO\KeyCodes.h" />
     <ClInclude Include="src\UGE\IO\MouseButtonCodes.h" />
     <ClInclude Include="src\UGE\IO\uge_io.h" />
+    <ClInclude Include="src\UGE\core\Application.h" />
+    <ClInclude Include="src\UGE\core\BaseWindow.h" />
+    <ClInclude Include="src\UGE\core\Core.h" />
+    <ClInclude Include="src\UGE\core\EntryPoint.h" />
     <ClInclude Include="src\UGE\core\Layer.h" />
     <ClInclude Include="src\UGE\core\LayersStack.h" />
     <ClInclude Include="src\UGE\core\Log.h" />
@@ -176,7 +179,6 @@
     <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\platform\openGL\OpenGLtTexture.h" />
     <ClInclude Include="src\platform\openGL\gl_debug.h" />
-    <ClInclude Include="src\platform\openGL\imgui_opengl_renderer.h" />
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\ugepch.h" />
@@ -629,6 +631,8 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\platform\openGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\UGE\core\Application.cpp" />
     <ClCompile Include="src\UGE\core\Layer.cpp" />
     <ClCompile Include="src\UGE\core\LayersStack.cpp" />
@@ -648,7 +652,6 @@
     <ClCompile Include="src\platform\openGL\OpenGLShader.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLtTexture.cpp" />
-    <ClCompile Include="src\platform\openGL\imgui_oepngl_renderer.cpp" />
     <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ugepch.cpp">

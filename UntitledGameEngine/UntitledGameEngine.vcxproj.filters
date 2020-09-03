@@ -10,6 +10,9 @@
     <Filter Include="src\UGE\IO">
       <UniqueIdentifier>{04CFAF30-F086-F17D-598E-CAD945658C6E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\UGE\core">
+      <UniqueIdentifier>{1579EE1B-01DC-7DC0-AA61-B67696A34943}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\UGE\events">
       <UniqueIdentifier>{E12393D6-CDF1-86DC-B685-F702A2F26241}</UniqueIdentifier>
     </Filter>
@@ -96,6 +99,30 @@
     <ClInclude Include="src\UGE\IO\uge_io.h">
       <Filter>src\UGE\IO</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\core\Application.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\BaseWindow.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\Core.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\EntryPoint.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\Layer.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\LayersStack.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\Log.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\core\TimeStep.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
     <ClInclude Include="src\UGE\events\ApplicationEvents.h">
       <Filter>src\UGE\events</Filter>
     </ClInclude>
@@ -163,9 +190,6 @@
       <Filter>src\platform\openGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\openGL\gl_debug.h">
-      <Filter>src\platform\openGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\platform\openGL\imgui_opengl_renderer.h">
       <Filter>src\platform\openGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\windows\WindowsInput.h">
@@ -1518,32 +1542,23 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\UGE\core\Application.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\core\BaseWindow.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\core\Core.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\core\EntryPoint.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\core\Layer.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\core\LayersStack.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\core\Log.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\core\TimeStep.h">
-      <Filter>src\UGE</Filter>
-    </ClInclude>
+    <ClInclude Include="src\platform\openGL\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h" />
+    <ClInclude Include="src\UGE\imgui\imgui_glfw_opengl_renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\UGE\core\Application.cpp">
+      <Filter>src\UGE\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\Layer.cpp">
+      <Filter>src\UGE\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\LayersStack.cpp">
+      <Filter>src\UGE\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\Log.cpp">
+      <Filter>src\UGE\core</Filter>
+    </ClCompile>
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp">
       <Filter>src\UGE\imgui</Filter>
     </ClCompile>
@@ -1589,9 +1604,6 @@
     <ClCompile Include="src\platform\openGL\OpenGLtTexture.cpp">
       <Filter>src\platform\openGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\openGL\imgui_oepngl_renderer.cpp">
-      <Filter>src\platform\openGL</Filter>
-    </ClCompile>
     <ClCompile Include="src\platform\windows\WindowsInput.cpp">
       <Filter>src\platform\windows</Filter>
     </ClCompile>
@@ -1604,17 +1616,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\UGE\core\Application.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\core\Layer.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\core\LayersStack.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\core\Log.cpp">
-      <Filter>src\UGE</Filter>
-    </ClCompile>
+    <ClCompile Include="src\platform\openGL\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
   </ItemGroup>
 </Project>

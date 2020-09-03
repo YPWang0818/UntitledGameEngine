@@ -3,7 +3,8 @@
 #include "Imgui.h"
 #include "core/Application.h"
 #include "IO/uge_io.h"
-#include "platform/openGL/imgui_opengl_renderer.h"
+#include "platform/openGL/imgui_impl_opengl3.h"
+#include "platform/openGL/imgui_impl_glfw.h"
 
 namespace UGE {
 	ImguiLayer::ImguiLayer()
@@ -18,6 +19,11 @@ namespace UGE {
 
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+		//io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+		//io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 		// Set temperary key code mapping
 		io.KeyMap[ImGuiKey_Tab] = UGE_KEY_TAB;
@@ -44,8 +50,14 @@ namespace UGE {
 		io.KeyMap[ImGuiKey_Z] = UGE_KEY_Z;
 
 
-		ImGui::StyleColorsDark();
+		Application& app = Application::getInstance();
+		GLFWwindow* window = static_cast<GLFWwindow*>(app.getWindowHandle().getNativeWindow());
+
+		// Setup Platform/Renderer bindings
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
+
+		ImGui::StyleColorsDark();
 
 	}
 
@@ -55,37 +67,24 @@ namespace UGE {
 		ImGui::DestroyContext();
 	}
 
-	void ImguiLayer::onUpdate()
+	void ImguiLayer::onUpdate(TimeStep ts)
 	{
-		// setup display size
+
+		Begin();
+
 		ImGuiIO& io = ImGui::GetIO();
-		Application& app = Application::getInstance();
-		int w = app.getWindowHandle().getWidth();
-		int h = app.getWindowHandle().getHight();
-
-		io.DisplaySize = ImVec2((float)w, (float)h);
-
-		// Setup time step
-		float current_time = glfwGetTime();
-		io.DeltaTime = m_time > 0.0 ? (current_time - m_time) : (1.0f / 60.0f);
-		m_time = current_time;
-
-
-		// update
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui::NewFrame();
-
-		//show demo window
-		bool show_demo_window = false;
+		io.DeltaTime = (float)ts;
+		bool show_demo_window = true;
 		ImGui::ShowDemoWindow(&show_demo_window);
- 
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		End();
+
 
 	}
 
 	void ImguiLayer::onEvent(Event& e)
 	{
+		/*
 		EventDispatcher dispatcher(e);
 
 		dispatcher.DispatchEvents<KeyPressedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_KeyPressedCallBack));
@@ -95,11 +94,43 @@ namespace UGE {
 		dispatcher.DispatchEvents<MouseMovedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
 		dispatcher.DispatchEvents<MouseScrolledEvent>(UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
 		dispatcher.DispatchEvents<KeyTypedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CharCallBack));
+		*/
+	}
+
+	void ImguiLayer::Begin()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		Application& app = Application::getInstance();
+		int w = app.getWindowHandle().getWidth();
+		int h = app.getWindowHandle().getHight();
+
+		io.DisplaySize = ImVec2((float)w, (float)h);
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+	}
+
+	void ImguiLayer::End()
+	{
+
+		ImGuiIO& io = ImGui::GetIO();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 
 	}
 
+	/*
 	static inline void  _update_control_keys(ImGuiIO& io) {
-
 
 
 		//TODO: repace costum keycode.
@@ -186,8 +217,7 @@ namespace UGE {
 	}
 
 
-
-
-
 	//bool ImguiLayer::_CharCallBack(Event& e){}
+
+	*/
 }

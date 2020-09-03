@@ -11,14 +11,17 @@ namespace UGE{
 
 		ImguiLayer();
 
-		void onAttach();
-		void onDetach();
-		void onUpdate();
-		void onEvent(Event & e);
+		void onAttach() override;
+		void onDetach() override;
+		void onUpdate(TimeStep ts) override;
+		void onEvent(Event & e) override;
+
+		static void Begin();
+		static void End();
 
 	private:
-		float m_time;
 
+		/*
 		bool _KeyPressedCallBack(KeyPressedEvent& e);
 		bool _KeyReleasedCallBack(KeyReleasedEvent& e);
 		bool _MousePressedCallBack(MousePressedEvent& e);
@@ -26,6 +29,7 @@ namespace UGE{
 		bool _CursorPosCallBack(MouseMovedEvent& e);
 		bool _ScrollCallBack(MouseScrolledEvent& e);
 		bool _CharCallBack(KeyTypedEvent& e);
+		*/
 	};
 
 };
