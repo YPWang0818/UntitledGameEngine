@@ -638,6 +638,7 @@
     <ClCompile Include="src\UGE\core\LayersStack.cpp" />
     <ClCompile Include="src\UGE\core\Log.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
+    <ClCompile Include="src\UGE\imgui\imgui_opengl_glfw_renderer.cpp" />
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
     <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\UGE\renderer\Renderer.cpp" />

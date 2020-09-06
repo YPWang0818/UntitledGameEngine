@@ -1,8 +1,8 @@
 #pragma once
-#include "glfw/glfw3.h" 
 #include "glad/glad.h"
+#include "glfw/glfw3.h" 
 #include "imgui.h"
-#include "Platform/openGL/gl_debug.h"
+
 
 
 namespace UGE {
@@ -16,7 +16,7 @@ namespace UGE {
 	static int _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight);
 	static int _draw_render_data(ImDrawData* drawdata);
 	static int _shutdown();
-	
+
 
 
 	static GLuint imgui_vertex_shader = 0;
@@ -41,13 +41,23 @@ namespace UGE {
 
 	static int _init_renderer(GLFWwindow* window) {
 
+		ImGuiIO& io = ImGui::GetIO();
+		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+		io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+		io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
 		_init_opengl();
 		_init_glfw(window);
 
 		return 0;
 	};
 
-	static int _init_opengl() { 
+	static int _init_opengl() {
 
 		// Initial Setup
 		glEnable(GL_BLEND);
@@ -57,16 +67,16 @@ namespace UGE {
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_SCISSOR_TEST);
 		#ifdef GL_POLYGON_MODE
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		#endif
 
 		glGenBuffers(1, &imgui_vertex_buffer);
 		glGenBuffers(1, &imgui_index_buffer);
-		glGenVertexArrays(1, imgui_vertex_array);
+		glGenVertexArrays(1, &imgui_vertex_array);
 		glGenTextures(1, &imgui_font_texture);
 
 		// Set Up can Compile Shaders.
-		const GLchar* imgui_vertex_shader_src = 
+		const GLchar* imgui_vertex_shader_src =
 			"#version 410 core \n"
 			"layout (location = 0) in vec2 Position;\n"
 			"layout (location = 1) in vec2 UV;\n"
@@ -81,7 +91,7 @@ namespace UGE {
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
-		const GLchar* imgui_fragment_shader_src = 
+		const GLchar* imgui_fragment_shader_src =
 			"#version 410 core \n"
 			"in vec2 Frag_UV;\n"
 			"in vec4 Frag_Color;\n"
@@ -94,7 +104,7 @@ namespace UGE {
 
 		_compile_shader(imgui_vertex_shader_src, imgui_fragment_shader_src);
 
-		
+
 		// Set Up textures
 		glBindTexture(GL_TEXTURE_2D, imgui_font_texture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -104,9 +114,8 @@ namespace UGE {
 
 		// Get Unifrom Locations.
 		imgui_uniforms.texture = glGetUniformLocation(imgui_shader_program, "Texture");
-		imgui_uniforms.projection_mtx = glGetUniformLocation(g_ShaderHandle, "ProjMtx");
+		imgui_uniforms.projection_mtx = glGetUniformLocation(imgui_shader_program, "ProjMtx");
 		glUniform1i(imgui_uniforms.texture, 0);
-		
 
 
 		// SetUp vertex buffer layout
@@ -117,7 +126,7 @@ namespace UGE {
 		glBindVertexArray(imgui_vertex_array);
 		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
-		
+
 		glEnableVertexAttribArray(imgui_attributes.Position);
 		glEnableVertexAttribArray(imgui_attributes.UV);
 		glEnableVertexAttribArray(imgui_attributes.Color);
@@ -137,11 +146,11 @@ namespace UGE {
 	};
 
 	static int _compile_shader(const GLchar* vertex_src, const GLchar* frag_src) {
-	
-		
-		
+
+
+
 		imgui_vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(imgui_vertex_shader, 1, vertex_src, nullptr);
+		glShaderSource(imgui_vertex_shader, 1, &vertex_src, nullptr);
 		glCompileShader(imgui_vertex_shader);
 
 		GLint is_compiled = 0;
@@ -163,9 +172,9 @@ namespace UGE {
 			return 1;
 		}
 
-	
+
 		imgui_fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(imgui_fragment_shader, 1, frag_src, nullptr);
+		glShaderSource(imgui_fragment_shader, 1, &frag_src, nullptr);
 		glCompileShader(imgui_fragment_shader);
 
 
@@ -186,22 +195,22 @@ namespace UGE {
 
 			return 1;
 		}
-	
+
 
 		imgui_shader_program = glCreateProgram();
 		glAttachShader(imgui_vertex_shader, imgui_shader_program);
-		glAttachShader(imgui_fragment_shader, gimgui_shader_program);
+		glAttachShader(imgui_fragment_shader, imgui_shader_program);
 		glLinkProgram(imgui_shader_program);
-		
-		GLint is_linked= 0;
-		glGetProgramiv(imgui_shader_program , GL_LINK_STATUS, (int*)&is_linked);
+
+		GLint is_linked = 0;
+		glGetProgramiv(imgui_shader_program, GL_LINK_STATUS, (int*)&is_linked);
 		if (is_linked == GL_FALSE)
 		{
 			GLint max_length = 0;
 			glGetProgramiv(imgui_shader_program, GL_INFO_LOG_LENGTH, &max_length);
 
 			std::vector<GLchar> log(max_length);
-			glGetProgramInfoLog(imgui_shader_program, max_length, &max_length, &[0]);
+			glGetProgramInfoLog(imgui_shader_program, max_length, &max_length, &log[0]);
 
 
 			glDeleteProgram(imgui_shader_program);
@@ -220,48 +229,48 @@ namespace UGE {
 	}
 
 
-	static int _load_font_texture() 
+	static int _load_font_texture()
 	{
 		unsigned char* data;
 		int width, hight;
 		ImGuiIO& io = ImGui::GetIO();
 
-		io.Fonts->GetTexDataAsRGBA32((&data, &width, &hight);
+		io.Fonts->GetTexDataAsRGBA32(&data, &width, &hight);
 		glBindTexture(GL_TEXTURE_2D, imgui_font_texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, hight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		io.Fonts->TexID = (ImTextureID)(intptr_t)imgui_font_texture;
 
 		return 0;
 	}
 
 	static int _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight) {
-	
+
 		// Bind everything
 		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
 		glBindVertexArray(imgui_vertex_array);
-		glBindTexture(GL_TEXTURE_2D, imgui_font_texture);
-		glUseProgram(imgui_shader_program;
+		glUseProgram(imgui_shader_program);
 
 
-		glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
+		glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_hight);
 
 		// SetUp Projection matrix
-		float L = draw_data->DisplayPos.x;
-		float R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
-		float T = draw_data->DisplayPos.y;
-		float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
+		float L = drawdata->DisplayPos.x;
+		float R = drawdata->DisplayPos.x + drawdata->DisplaySize.x;
+		float T = drawdata->DisplayPos.y;
+		float B = drawdata->DisplayPos.y + drawdata->DisplaySize.y;
 		const float ortho_projection[4][4] =
 		{
-			{ 2.0f / (R - L),   0.0f,         0.0f,   0.0f },
-			{ 0.0f,         2.0f / (T - B),   0.0f,   0.0f },
-			{ 0.0f,         0.0f,        -1.0f,   0.0f },
-			{ (R + L) / (L - R),  (T + B) / (B - T),  0.0f,   1.0f },
+			{ 2.0f / (R - L),	0.0f,			0.0f,		0.0f},
+			{ 0.0f,			2.0f / (T - B),		0.0f,		0.0f },
+			{ 0.0f,         0.0f,			-1.0f,		0.0f },
+			{ (R + L) / (L - R),  (T + B) / (B - T),	0.0f,		1.0f },
 		};
 
+		glUniformMatrix4fv(imgui_uniforms.projection_mtx, 1, GL_FALSE, &ortho_projection[0][0]);
+		glBindSampler(0, 0);
 
-
-		return 0
+		return 0;
 	}
 
 	static int _init_glfw(GLFWwindow* window)
@@ -269,18 +278,72 @@ namespace UGE {
 		return 0;
 	};
 
-	static int _new_frame() 
+	static int _new_frame()
 	{
+
+
 		return 0;
 	};
 
 	static int _draw_render_data(ImDrawData* drawdata)
 	{
-		
+
+		int fb_width = (int)(drawdata->DisplaySize.x * drawdata->FramebufferScale.x);
+		int fb_hight = (int)(drawdata->DisplaySize.y * drawdata->FramebufferScale.y);
+		if (fb_width <= 0 || fb_hight <= 0) return 1;
+		_setup_render_states(drawdata, fb_width, fb_hight);
+
+		ImVec2 clip_offset = drawdata->DisplayPos;
+		ImVec2 clip_scale = drawdata->FramebufferScale;
+
+
+		for (int i = 0; i < drawdata->CmdListsCount; i++) {
+
+			const ImDrawList* cmd_list = drawdata->CmdLists[i];
+
+			// Fill in the buffers;
+			glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
+
+
+			for (int i_cmd = 0; i_cmd < cmd_list->CmdBuffer.Size; i_cmd++) {
+
+				const ImDrawCmd* cmd = &cmd_list->CmdBuffer[i_cmd];
+
+
+				if (cmd->UserCallback != nullptr) {
+
+					if (cmd->UserCallback == ImDrawCallback_ResetRenderState)
+						_setup_render_states(drawdata, fb_width, fb_hight);
+					else
+						cmd->UserCallback(cmd_list, cmd);
+					continue;
+				}
+
+				ImVec4 clip_rect;
+				clip_rect.x = (cmd->ClipRect.x - clip_offset.x) * clip_scale.x;
+				clip_rect.y = (cmd->ClipRect.y - clip_offset.y) * clip_scale.y;
+				clip_rect.z = (cmd->ClipRect.z - clip_offset.x) * clip_scale.x;
+				clip_rect.w = (cmd->ClipRect.w - clip_offset.y) * clip_scale.y;
+
+				if (clip_rect.x < fb_width && clip_rect.y < fb_hight && clip_rect.z >= 0.0f && clip_rect.w >= 0.0f)
+				{
+					glScissor((int)clip_rect.x, (int)(fb_hight - clip_rect.w), (int)(clip_rect.z - clip_rect.x), (int)(clip_rect.w - clip_rect.y));
+
+					glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)cmd->TextureId);
+					glDrawElementsBaseVertex(GL_TRIANGLES, (GLsizei)cmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (void*)(intptr_t)(cmd->IdxOffset * sizeof(ImDrawIdx)), (GLint)cmd->VtxOffset);
+
+
+
+				}
+			}
+		}
+
 		return 0;
 	}
-	
+
 	static int _shutdown() {
-	
-	
+
+		return 0;
 	}
+}
