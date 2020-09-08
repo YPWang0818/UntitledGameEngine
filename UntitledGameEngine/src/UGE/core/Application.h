@@ -36,7 +36,7 @@ namespace UGE {
 	private:
 		static Application* s_Instance;
 
-		Scope<BaseWindow> m_window;
+		Ref<BaseWindow> m_window;
 		bool m_running = true;
 		LayersStack m_layer_stack;
 

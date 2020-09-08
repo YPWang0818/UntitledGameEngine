@@ -24,7 +24,14 @@ namespace UGE {
 		inline virtual void* getNativeWindow() const override {
 			return m_window;
 		};
-		//static WindowsWindow* Create(const WindowProps& props = WindowProps());
+		
+		virtual void setVisbility(bool isVisible) override; // Specify if the window is visible to the user or not. 
+		virtual void setDecorated(bool isDecorated) override; // Specify if the window has decorations such as a border, a close widget, etc. 
+		virtual void setFocused(bool isFocused) override; // Specify if the window is focused.
+		virtual void setFocusedOnShow(bool isFocusedOnShow) override; // Specify if the window will be focused initially when it is set to visible. 
+		virtual void setTopMost(bool isFloating) override; // Specify if the window will always be on top.
+
+		virtual const WindowProps& getWindowProps() override;
 
 	private:
 		virtual void Init(const WindowProps& props);
@@ -38,6 +45,14 @@ namespace UGE {
 			unsigned int hight;
 			bool VSync;
 			EventCallbackFn callback_fun;
+
+			bool VSync;
+			bool isVisble;
+			bool isDecorated;
+			bool isFocused;
+			bool isFocusedOnShow;
+			bool isFloating;
+
 		};
 
 		WindowData m_data;

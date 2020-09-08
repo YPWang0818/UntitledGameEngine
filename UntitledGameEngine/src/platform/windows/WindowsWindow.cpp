@@ -11,9 +11,7 @@ namespace UGE {
 		UGE_CORE_ERROR("GLFW error ({0}) {1}", error_code, description);
 	};
 
-	 BaseWindow* BaseWindow::Create(const WindowProps& props) {
-		return new WindowsWindow(props);
-	};
+
 
 
 
@@ -33,10 +31,17 @@ namespace UGE {
 		m_data.title = props.Title;
 		m_data.hight = props.Hight;
 		m_data.width = props.Width;
-		
+
+		m_data.isVisble = props.isVisble;
+		m_data.isDecorated = props.isDecorated;
+		m_data.isFocused = props.isFocused;
+		m_data.isFloating = props.isFloating;
+		m_data.isFocusedOnShow= props.isFocusedOnShow;
+		m_data.VSync = props.isVync;
+
 		UGE_CORE_INFO("Creating Window: {0} {1} {2}", props.Title, props.Hight, props.Width);
 
-		setVSync(true);
+		setVSync(m_data.VSync);
 
 		
 
@@ -187,5 +192,27 @@ namespace UGE {
 
 	 bool WindowsWindow::isVSync() const {
 		return m_data.VSync;
-	};
+	}
+
+
+	 void WindowsWindow::setVisbility(bool isVisible)
+	 {
+	 }
+	 void WindowsWindow::setDecorated(bool isDecorated)
+	 {
+	 }
+	 void WindowsWindow::setFocused(bool isFocused)
+	 {
+	 }
+	 void WindowsWindow::setFocusedOnShow(bool isFocusedOnShow)
+	 {
+	 }
+	 void WindowsWindow::setTopMost(bool isFloating)
+	 {
+	 }
+	 const WindowProps& WindowsWindow::getWindowProps()
+	 {
+		 // TODO: insert return statement here
+	 }
+	 ;
 }

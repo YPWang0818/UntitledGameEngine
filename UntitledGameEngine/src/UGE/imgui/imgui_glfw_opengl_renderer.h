@@ -1,21 +1,39 @@
 #pragma once
 #include "glad/glad.h"
 #include "glfw/glfw3.h" 
+#include "glfw/glfw3native.h""
 #include "imgui.h"
+#include "core/BaseWindow.h"
+#include "core/Application.h"
 
 
 
 namespace UGE {
 
-	static int _init_renderer(GLFWwindow* window);
-	static int _init_opengl();
-	static int _compile_shader(const GLchar* vertex_src, const GLchar* frag_src);
-	static int _load_font_texture();
-	static int _init_glfw(GLFWwindow* window);
-	static int _new_frame();
-	static int _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight);
-	static int _draw_render_data(ImDrawData* drawdata);
-	static int _shutdown();
+	
+	static void _init_opengl();
+	static void _init_glfw();
+	static void _compile_shader(const GLchar* vertex_src, const GLchar* frag_src);
+	static void _load_font_texture();
+	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight);
+	static void _draw_render_data(ImDrawData* drawdata);
+	static void _shutdown();
+
+	static void _init_platform_interface();
+	static void _imgui_create_window(ImGuiViewport* viewport);
+	static void _imgui_distory_window(ImGuiViewport* viewport);
+	static void _imgui_show_window(ImGuiViewport* viewport);
+	static void _imgui_set_window_pos(ImGuiViewport* viewport, ImVec2 pos);
+	static ImVec2 _imgui_get_window_pos(ImGuiViewport* viewport);
+	static void  _imgui_set_window_size(ImGuiViewport* viewport, ImVec2 size);
+	static ImVec2 _imgui_get_window_size(ImGuiViewport* viewport);
+	static void _imgui_set_window_focus(ImGuiViewport* viewport);
+	static bool _imgui_get_window_focus(ImGuiViewport* viewport);
+	static bool _imgui_get_window_minimized(ImGuiViewport* viewport);
+	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title);
+	static void _imgui_render_window(ImGuiViewport* viewport);
+	static void _imgui_swap_buffer(ImGuiViewport* viewport);
+
 
 
 
@@ -39,25 +57,29 @@ namespace UGE {
 	} imgui_attributes;
 
 
-	static int _init_renderer(GLFWwindow* window) {
+
+
+	static void _init_glfw() {
+
+		GLFWwindow* window = Application::getInstance().getWindowHandle().getNativeWindow();
+		ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+
+		main_viewport->PlatformHandle = (void*)window;
+		#ifdef _WIN32
+		main_viewport->PlatformHandleRaw = glfwGetWin32Window(window);
+		#endif
 
 		ImGuiIO& io = ImGui::GetIO();
-		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
-		io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
-		io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
 
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {	
+			_init_platform_interface();
+		}
 
-		_init_opengl();
-		_init_glfw(window);
 
 		return 0;
 	};
 
-	static int _init_opengl() {
+	static void _init_opengl() {
 
 		// Initial Setup
 		glEnable(GL_BLEND);
@@ -142,10 +164,10 @@ namespace UGE {
 		glBindVertexArray(0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		return 0;
+		
 	};
 
-	static int _compile_shader(const GLchar* vertex_src, const GLchar* frag_src) {
+	static void _compile_shader(const GLchar* vertex_src, const GLchar* frag_src) {
 
 
 
@@ -169,7 +191,6 @@ namespace UGE {
 			UGE_CORE_ERROR("{0}", log.data());
 			UGE_CORE_ASSERT(false, "Vertex Shader Compile Failure.");
 
-			return 1;
 		}
 
 
@@ -192,8 +213,6 @@ namespace UGE {
 
 			UGE_CORE_ERROR("{0}", log.data());
 			UGE_CORE_ASSERT(false, "Fragment Shader Compile Failure.");
-
-			return 1;
 		}
 
 
@@ -220,16 +239,12 @@ namespace UGE {
 
 			UGE_CORE_ERROR("{0}", log.data());
 			UGE_CORE_ASSERT(false, "Program Linking Error.");
-
-			return 1;
 		}
 
-
-		return 0;
 	}
 
 
-	static int _load_font_texture()
+	static void _load_font_texture()
 	{
 		unsigned char* data;
 		int width, hight;
@@ -269,23 +284,9 @@ namespace UGE {
 
 		glUniformMatrix4fv(imgui_uniforms.projection_mtx, 1, GL_FALSE, &ortho_projection[0][0]);
 		glBindSampler(0, 0);
-
-		return 0;
 	}
 
-	static int _init_glfw(GLFWwindow* window)
-	{
-		return 0;
-	};
-
-	static int _new_frame()
-	{
-
-
-		return 0;
-	};
-
-	static int _draw_render_data(ImDrawData* drawdata)
+	static void _draw_render_data(ImDrawData* drawdata)
 	{
 
 		int fb_width = (int)(drawdata->DisplaySize.x * drawdata->FramebufferScale.x);
@@ -339,11 +340,79 @@ namespace UGE {
 			}
 		}
 
-		return 0;
 	}
 
-	static int _shutdown() {
+	static void _shutdown() {
 
-		return 0;
 	}
+
+
+
+	static int _init_platform_interface() {
+
+		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+
+		platform_io.Platform_CreateWindow = _imgui_create_window;
+		platform_io.Platform_DestroyWindow = _imgui_distory_window;
+		platform_io.Platform_ShowWindow = _imgui_show_window;
+		platform_io.Platform_SetWindowPos = _imgui_set_window_pos;
+		platform_io.Platform_GetWindowPos = _imgui_get_window_pos;
+		platform_io.Platform_SetWindowSize = _imgui_set_window_size;
+		platform_io.Platform_GetWindowSize = _imgui_get_window_size;
+		platform_io.Platform_SetWindowFocus = _imgui_set_window_focus;
+		platform_io.Platform_GetWindowFocus = _imgui_get_window_focus;
+		platform_io.Platform_GetWindowMinimized = _imgui_get_window_minimized;
+		platform_io.Platform_SetWindowTitle = _imgui_set_window_title;
+		platform_io.Platform_RenderWindow = _imgui_render_window;
+		platform_io.Platform_SwapBuffers = _imgui_swap_buffer;
+
+		#if GLFW_HAS_WINDOW_ALPHA
+		platform_io.Platform_SetWindowAlpha = ImGui_ImplGlfw_SetWindowAlpha;
+		#endif
+
+
+
+
+	};
+
+
+	static BaseWindow* _get_app_main_window() { return &(Application::getInstance().getWindowHandle()); };
+
+	static struct ImguiViewPortData {
+		BaseWindow* window = nullptr;
+		bool        window_owned = false;
+		int			ignore_window_post_event_frame = -1;
+		int         ignore_window_size_event_frame = -1;
+		
+	};
+
+	static void _imgui_create_window(ImGuiViewport* viewport)
+	{
+
+		ImguiViewPortData* data = new ImguiViewPortData;
+		//data->window = _get_app_main_window();
+
+		glfwWindowHint(GLFW_VISIBLE, false);
+		glfwWindowHint(GLFW_FOCUSED, false);
+		glfwWindowHint(GLFW_FOCUS_ON_SHOW, false);
+
+		viewport->PlatformUserData = static_cast<void*>data;
+	
+	};
+
+
+	static void _imgui_distory_window(ImGuiViewport* viewport) {};
+	static void _imgui_show_window(ImGuiViewport* viewport) {};
+	static void _imgui_set_window_pos(ImGuiViewport* viewport, ImVec2 pos) {};
+	static ImVec2 _imgui_get_window_pos(ImGuiViewport* viewport) {};
+	static void  _imgui_set_window_size(ImGuiViewport* viewport, ImVec2 size) {};
+	static ImVec2 _imgui_get_window_size(ImGuiViewport* viewport) {};
+	static void _imgui_set_window_focus(ImGuiViewport* viewport) {};
+	static bool _imgui_get_window_focus(ImGuiViewport* viewport) {};
+	static bool _imgui_get_window_minimized(ImGuiViewport* viewport) {};
+	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title) {};
+	static void _imgui_render_window(ImGuiViewport* viewport) {};
+	static void _imgui_swap_buffer(ImGuiViewport* viewport) {};
+
+
 }

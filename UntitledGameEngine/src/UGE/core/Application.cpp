@@ -18,7 +18,7 @@ namespace UGE {
 		UGE_CORE_ASSERT(!s_Instance, "Application already exists. ");
 		s_Instance = this;
 
-		m_window = Scope<BaseWindow>(WindowsWindow::Create());
+		m_window = WindowsWindow::Create();
 		m_window->setEventCallback(UGE_BIND_CALLBACK(Application::onEvent));
 
 		Renderer::Init();

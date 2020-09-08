@@ -19,13 +19,13 @@ namespace UGE {
 
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-		//io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
-		//io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+		io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+		io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
 
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-		// Set temperary key code mapping
 		io.KeyMap[ImGuiKey_Tab] = UGE_KEY_TAB;
 		io.KeyMap[ImGuiKey_LeftArrow] = UGE_KEY_LEFT;
 		io.KeyMap[ImGuiKey_RightArrow] = UGE_KEY_RIGHT;
@@ -50,10 +50,13 @@ namespace UGE {
 		io.KeyMap[ImGuiKey_Z] = UGE_KEY_Z;
 
 
+
+
+
 		Application& app = Application::getInstance();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.getWindowHandle().getNativeWindow());
 
-		// Setup Platform/Renderer bindings
+		
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 
@@ -129,11 +132,10 @@ namespace UGE {
 
 	}
 
-	/*
+	
 	static inline void  _update_control_keys(ImGuiIO& io) {
 
 
-		//TODO: repace costum keycode.
 		io.KeyCtrl = io.KeysDown[UGE_KEY_LEFT_CONTROL] || io.KeysDown[UGE_KEY_RIGHT_CONTROL];
 		io.KeyShift = io.KeysDown[UGE_KEY_LEFT_SHIFT] || io.KeysDown[UGE_KEY_RIGHT_SHIFT];
 		io.KeyAlt = io.KeysDown[UGE_KEY_LEFT_ALT] || io.KeysDown[UGE_KEY_RIGHT_ALT];
@@ -219,5 +221,5 @@ namespace UGE {
 
 	//bool ImguiLayer::_CharCallBack(Event& e){}
 
-	*/
+
 }
