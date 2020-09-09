@@ -21,7 +21,7 @@ namespace UGE{
 
 	private:
 
-		/*
+	
 		bool _KeyPressedCallBack(KeyPressedEvent& e);
 		bool _KeyReleasedCallBack(KeyReleasedEvent& e);
 		bool _MousePressedCallBack(MousePressedEvent& e);
@@ -29,7 +29,7 @@ namespace UGE{
 		bool _CursorPosCallBack(MouseMovedEvent& e);
 		bool _ScrollCallBack(MouseScrolledEvent& e);
 		bool _CharCallBack(KeyTypedEvent& e);
-		*/
+		
 	};
 
 };

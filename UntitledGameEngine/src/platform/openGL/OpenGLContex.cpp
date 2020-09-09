@@ -21,6 +21,10 @@ namespace UGE {
 		UGE_CORE_INFO("OpenGL Version: {0}", glGetString(GL_VERSION));
 	}
 
+	void* OpenGLContex::getContexWindow() {
+		return (void*)m_window;
+	}
+
 	void OpenGLContex::SwapBuffers()
 	{
 		glfwSwapBuffers(m_window);

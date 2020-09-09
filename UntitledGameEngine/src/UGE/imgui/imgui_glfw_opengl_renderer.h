@@ -1,12 +1,13 @@
 #pragma once
+
 #include "glad/glad.h"
 #include "glfw/glfw3.h" 
-#include "glfw/glfw3native.h""
 #include "imgui.h"
 #include "core/BaseWindow.h"
 #include "core/Application.h"
 
-
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include "glfw/glfw3native.h"
 
 namespace UGE {
 
@@ -31,8 +32,8 @@ namespace UGE {
 	static bool _imgui_get_window_focus(ImGuiViewport* viewport);
 	static bool _imgui_get_window_minimized(ImGuiViewport* viewport);
 	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title);
-	static void _imgui_render_window(ImGuiViewport* viewport);
-	static void _imgui_swap_buffer(ImGuiViewport* viewport);
+	static void _imgui_render_window(ImGuiViewport* viewport, void* render_arg);
+	static void _imgui_swap_buffer(ImGuiViewport* viewport, void* render_arg);
 
 
 
@@ -61,7 +62,8 @@ namespace UGE {
 
 	static void _init_glfw() {
 
-		GLFWwindow* window = Application::getInstance().getWindowHandle().getNativeWindow();
+		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle().getNativeWindow());
+
 		ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 
 		main_viewport->PlatformHandle = (void*)window;
@@ -76,7 +78,7 @@ namespace UGE {
 		}
 
 
-		return 0;
+		
 	};
 
 	static void _init_opengl() {
@@ -255,10 +257,9 @@ namespace UGE {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, hight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		io.Fonts->TexID = (ImTextureID)(intptr_t)imgui_font_texture;
 
-		return 0;
 	}
 
-	static int _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight) {
+	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight) {
 
 		// Bind everything
 		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
@@ -291,7 +292,8 @@ namespace UGE {
 
 		int fb_width = (int)(drawdata->DisplaySize.x * drawdata->FramebufferScale.x);
 		int fb_hight = (int)(drawdata->DisplaySize.y * drawdata->FramebufferScale.y);
-		if (fb_width <= 0 || fb_hight <= 0) return 1;
+		if (fb_width <= 0 || fb_hight <= 0) return;
+
 		_setup_render_states(drawdata, fb_width, fb_hight);
 
 		ImVec2 clip_offset = drawdata->DisplayPos;
@@ -348,7 +350,7 @@ namespace UGE {
 
 
 
-	static int _init_platform_interface() {
+	static void _init_platform_interface() {
 
 		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
 
@@ -379,7 +381,7 @@ namespace UGE {
 	static BaseWindow* _get_app_main_window() { return &(Application::getInstance().getWindowHandle()); };
 
 	static struct ImguiViewPortData {
-		BaseWindow* window = nullptr;
+		Ref<BaseWindow> window ;
 		bool        window_owned = false;
 		int			ignore_window_post_event_frame = -1;
 		int         ignore_window_size_event_frame = -1;
@@ -390,13 +392,29 @@ namespace UGE {
 	{
 
 		ImguiViewPortData* data = new ImguiViewPortData;
-		//data->window = _get_app_main_window();
+		WindowProps props;
 
-		glfwWindowHint(GLFW_VISIBLE, false);
-		glfwWindowHint(GLFW_FOCUSED, false);
-		glfwWindowHint(GLFW_FOCUS_ON_SHOW, false);
 
-		viewport->PlatformUserData = static_cast<void*>data;
+		props.Title = "New Viewport.";
+		props.Width = viewport->Size.x;
+		props.Hight = viewport->Size.y;
+		props.isVisble = false;
+		props.isFocused = false;
+		props.isFocusedOnShow = false;
+		props.isDecorated = (viewport->Flags & ImGuiViewportFlags_NoDecoration) ? false : true ;
+		props.isFloating = (viewport->Flags & ImGuiViewportFlags_TopMost) ? true : false;
+		props.isVync = false;
+
+		data->window = BaseWindow::Create(props, _get_app_main_window()->getGraphicsContex());
+		data->window_owned = true;
+
+		GLFWwindow* native_window = static_cast<GLFWwindow*>(data->window->getNativeWindow());
+		viewport->PlatformUserData = static_cast<void*>(data);
+		viewport->PlatformHandle = native_window;
+
+		#ifdef _WIN32
+			viewport->PlatformHandleRaw = glfwGetWin32Window(native_window);
+		#endif
 	
 	};
 
@@ -411,8 +429,8 @@ namespace UGE {
 	static bool _imgui_get_window_focus(ImGuiViewport* viewport) {};
 	static bool _imgui_get_window_minimized(ImGuiViewport* viewport) {};
 	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title) {};
-	static void _imgui_render_window(ImGuiViewport* viewport) {};
-	static void _imgui_swap_buffer(ImGuiViewport* viewport) {};
+	static void _imgui_render_window(ImGuiViewport* viewpor, void* render_arg) {};
+	static void _imgui_swap_buffer(ImGuiViewport* viewport, void* rander_arg) {};
 
 
 }

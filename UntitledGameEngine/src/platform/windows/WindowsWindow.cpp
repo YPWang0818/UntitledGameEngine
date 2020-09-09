@@ -17,7 +17,12 @@ namespace UGE {
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		Init(props);
+		Init(props, nullptr);
+	};
+
+	WindowsWindow::WindowsWindow(const WindowProps& props, Ref<GraphicsContex> shared_contex)
+	{
+		Init(props, shared_contex);
 	};
 
 	WindowsWindow::~WindowsWindow()
@@ -26,24 +31,18 @@ namespace UGE {
 	};
 
 
-	 void WindowsWindow::Init(const WindowProps& props) {
+	 void WindowsWindow::Init(const WindowProps& props, Ref<GraphicsContex> shared_contex) {
 
-		m_data.title = props.Title;
-		m_data.hight = props.Hight;
-		m_data.width = props.Width;
-
-		m_data.isVisble = props.isVisble;
-		m_data.isDecorated = props.isDecorated;
-		m_data.isFocused = props.isFocused;
-		m_data.isFloating = props.isFloating;
-		m_data.isFocusedOnShow= props.isFocusedOnShow;
-		m_data.VSync = props.isVync;
+		 m_data = props;
 
 		UGE_CORE_INFO("Creating Window: {0} {1} {2}", props.Title, props.Hight, props.Width);
 
-		setVSync(m_data.VSync);
-
-		
+		setVSync(m_data.isVync);
+		glfwInitHint(GLFW_VISIBLE, (m_data.isVisble ? GLFW_TRUE : GLFW_FALSE ));
+		glfwInitHint(GLFW_DECORATED, (m_data.isDecorated ? GLFW_TRUE : GLFW_FALSE));
+		glfwInitHint(GLFW_FOCUSED, (m_data.isFocused ? GLFW_TRUE : GLFW_FALSE));
+		glfwInitHint(GLFW_FLOATING, (m_data.isFloating ? GLFW_TRUE : GLFW_FALSE));
+		glfwInitHint(GLFW_FOCUS_ON_SHOW, (m_data.isFocusedOnShow ? GLFW_TRUE : GLFW_FALSE));
 
 		if (!(_glfw_initialized))
 		{
@@ -54,10 +53,14 @@ namespace UGE {
 
 		}
 
-		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, nullptr);
-		m_contex = CreateScope<OpenGLContex>(m_window);
+		GLFWwindow* shared_window = nullptr;
+		if (!shared_contex) shared_window = (GLFWwindow*)shared_contex->getContexWindow();
 
+		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, shared_window);
+
+		m_contex = CreateRef<OpenGLContex>(m_window);
 		m_contex->Init();
+
 		glfwSetWindowUserPointer(m_window, &m_data);
 	
 
@@ -65,9 +68,9 @@ namespace UGE {
 
 		glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int hight)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-				data.width = width;
-				data.hight = hight;
+				WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
+				data.Width = width;
+				data.Hight = hight;
 
 				WindowResizeEvent event(width, hight);
 				data.callback_fun(event);
@@ -75,7 +78,7 @@ namespace UGE {
 			});
 		
 		glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window) {
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			WindowCloseEvent event;
 			data.callback_fun(event);
@@ -84,7 +87,7 @@ namespace UGE {
 		
 		glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scan_code, int action, int mods)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 				switch (action) {
 
@@ -112,14 +115,14 @@ namespace UGE {
 
 		glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int c) {
 
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 			KeyTypedEvent event(c);
 			data.callback_fun(event);
 			});
 
 		glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods ){
 
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 			
 			switch(action){
 
@@ -143,7 +146,7 @@ namespace UGE {
 
 		glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x_pos, double y_pos) {
 
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			MouseMovedEvent event((float)x_pos, (float)y_pos);
 			data.callback_fun(event);
@@ -151,7 +154,7 @@ namespace UGE {
 			});
 
 		glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xoffset, double yoffset) {
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			MouseScrolledEvent event((float)xoffset, (float)yoffset);
 			data.callback_fun(event);
@@ -187,11 +190,11 @@ namespace UGE {
 		else {
 			glfwSwapInterval(0);
 		}
-		m_data.VSync = enabled;
+		m_data.isVync = enabled;
 	};
 
 	 bool WindowsWindow::isVSync() const {
-		return m_data.VSync;
+		return m_data.isVync;
 	}
 
 
@@ -211,8 +214,7 @@ namespace UGE {
 	 {
 	 }
 	 const WindowProps& WindowsWindow::getWindowProps()
-	 {
-		 // TODO: insert return statement here
-	 }
-	 ;
+	 {	
+		 return m_data;
+	 };
 }

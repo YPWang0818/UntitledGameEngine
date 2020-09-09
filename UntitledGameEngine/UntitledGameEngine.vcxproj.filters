@@ -1619,5 +1619,6 @@
     <ClCompile Include="src\platform\openGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\UGE\imgui\imgui_opengl_glfw_renderer.cpp" />
+    <ClCompile Include="src\UGE\core\BaseWindow.cpp" />
   </ItemGroup>
 </Project>

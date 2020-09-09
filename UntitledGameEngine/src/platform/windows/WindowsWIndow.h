@@ -11,10 +11,12 @@ namespace UGE {
 	{
 	public:
 		WindowsWindow(const WindowProps& props);
+		WindowsWindow(const WindowProps& props, Ref<GraphicsContex> shared_contex);
+
 		virtual ~WindowsWindow();
 
-		inline unsigned int getWidth() const override { return m_data.width; };
-		inline unsigned int getHight() const override { return m_data.hight; };
+		inline unsigned int getWidth() const override { return m_data.Width; };
+		inline unsigned int getHight() const override { return m_data.Hight; };
 		inline void setEventCallback(const EventCallbackFn& callback) override { m_data.callback_fun = callback; };
 
 		virtual void onUpdate() override;
@@ -34,31 +36,17 @@ namespace UGE {
 		virtual const WindowProps& getWindowProps() override;
 
 	private:
-		virtual void Init(const WindowProps& props);
+		virtual void Init(const WindowProps& props, Ref<GraphicsContex> shared_contex);
 		virtual void ShutDown();
+
+		virtual Ref<GraphicsContex> getGraphicsContex() override { return m_contex; };
 
 	private:
 
-		struct WindowData {
-			std::string title;
-			unsigned int width;
-			unsigned int hight;
-			bool VSync;
-			EventCallbackFn callback_fun;
-
-			bool VSync;
-			bool isVisble;
-			bool isDecorated;
-			bool isFocused;
-			bool isFocusedOnShow;
-			bool isFloating;
-
-		};
-
-		WindowData m_data;
+		WindowProps m_data;
 		GLFWwindow* m_window;
 
-		Scope<GraphicsContex> m_contex;
+		Ref<GraphicsContex> m_contex;
 
 	};
 
