@@ -383,7 +383,7 @@ namespace UGE {
 	static struct ImguiViewPortData {
 		Ref<BaseWindow> window ;
 		bool        window_owned = false;
-		int			ignore_window_post_event_frame = -1;
+		int			ignore_window_pos_event_frame = -1;
 		int         ignore_window_size_event_frame = -1;
 		
 	};
@@ -399,7 +399,7 @@ namespace UGE {
 		props.Width = viewport->Size.x;
 		props.Hight = viewport->Size.y;
 		props.isVisble = false;
-		props.isFocused = false;
+		props.isFocusedOnCreate = false;
 		props.isFocusedOnShow = false;
 		props.isDecorated = (viewport->Flags & ImGuiViewportFlags_NoDecoration) ? false : true ;
 		props.isFloating = (viewport->Flags & ImGuiViewportFlags_TopMost) ? true : false;
@@ -419,18 +419,112 @@ namespace UGE {
 	};
 
 
-	static void _imgui_distory_window(ImGuiViewport* viewport) {};
-	static void _imgui_show_window(ImGuiViewport* viewport) {};
-	static void _imgui_set_window_pos(ImGuiViewport* viewport, ImVec2 pos) {};
-	static ImVec2 _imgui_get_window_pos(ImGuiViewport* viewport) {};
-	static void  _imgui_set_window_size(ImGuiViewport* viewport, ImVec2 size) {};
-	static ImVec2 _imgui_get_window_size(ImGuiViewport* viewport) {};
-	static void _imgui_set_window_focus(ImGuiViewport* viewport) {};
-	static bool _imgui_get_window_focus(ImGuiViewport* viewport) {};
-	static bool _imgui_get_window_minimized(ImGuiViewport* viewport) {};
-	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title) {};
-	static void _imgui_render_window(ImGuiViewport* viewpor, void* render_arg) {};
-	static void _imgui_swap_buffer(ImGuiViewport* viewport, void* rander_arg) {};
+	static void _imgui_distory_window(ImGuiViewport* viewport) 
+	{
+	
+		if (ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData) {
+
+			if (data->window_owned) {
+				data->window.reset();
+			};
+			delete data;
+		};
+		
+		viewport->PlatformHandle = nullptr;
+		viewport->PlatformUserData = nullptr;
+		viewport->PlatformHandleRaw = nullptr;
+	};
+
+
+
+
+	static void _imgui_show_window(ImGuiViewport* viewport) {
+
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+	#if defined(_WIN32)
+		// GLFW hack: Hide icon from task bar
+		HWND hwnd = (HWND)viewport->PlatformHandleRaw;
+		if (viewport->Flags & ImGuiViewportFlags_NoTaskBarIcon)
+		{
+			LONG ex_style = ::GetWindowLong(hwnd, GWL_EXSTYLE);
+			ex_style &= ~WS_EX_APPWINDOW;
+			ex_style |= WS_EX_TOOLWINDOW;
+			::SetWindowLong(hwnd, GWL_EXSTYLE, ex_style);
+		}
+	#endif
+		data->window->setVisbility(true);
+		
+	};
+
+
+	static void _imgui_set_window_pos(ImGuiViewport* viewport, ImVec2 pos) {
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->setPos(glm::ivec2(pos.x, pos.y));
+	};
+
+
+	static ImVec2 _imgui_get_window_pos(ImGuiViewport* viewport) {
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+
+		int x_pos = data->window->getPos().x;
+		int y_pos = data->window->getPos().y;
+
+		data->ignore_window_pos_event_frame = ImGui::GetFrameCount();
+		return ImVec2(x_pos, y_pos);
+	
+	};
+
+
+	static void  _imgui_set_window_size(ImGuiViewport* viewport, ImVec2 size) 
+	{
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->setSize(size.x, size.y);
+		data->ignore_window_size_event_frame = ImGui::GetFrameCount();
+
+	};
+
+	static ImVec2 _imgui_get_window_size(ImGuiViewport* viewport) {
+	
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+
+		unsigned int x = data->window->getWidth();
+		unsigned int y = data->window->getHight();
+
+		return ImVec2((float)x, (float)y);
+	};
+
+	static void _imgui_set_window_focus(ImGuiViewport* viewport) {
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->FocusWindow();
+	};
+	static bool _imgui_get_window_focus(ImGuiViewport* viewport) 
+	{
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->isFocused();
+	};
+
+	static bool _imgui_get_window_minimized(ImGuiViewport* viewport)
+	{
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->isMinimized();
+	};
+
+	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title) {
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->setTitle(title);
+	};
+
+	static void _imgui_render_window(ImGuiViewport* viewport, void* render_arg) 
+	{
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->getGraphicsContex()->makeContexCurrent();
+	
+	};
+	static void _imgui_swap_buffer(ImGuiViewport* viewport, void* rander_arg) {
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		data->window->getGraphicsContex()->makeContexCurrent();
+		data->window->getGraphicsContex()->SwapBuffers();
+	};
 
 
 }

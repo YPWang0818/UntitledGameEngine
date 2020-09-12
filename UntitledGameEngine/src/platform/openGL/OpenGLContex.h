@@ -15,6 +15,7 @@ namespace UGE {
 		virtual void Init() override;
 		virtual void SwapBuffers() override;
 		virtual void* getContexWindow() override;
+		virtual void makeContexCurrent() override ;
 
 	private:
 		GLFWwindow* m_window;

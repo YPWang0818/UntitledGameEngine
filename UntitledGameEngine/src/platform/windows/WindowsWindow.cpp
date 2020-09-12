@@ -13,8 +13,6 @@ namespace UGE {
 
 
 
-
-
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
 		Init(props, nullptr);
@@ -28,21 +26,34 @@ namespace UGE {
 	WindowsWindow::~WindowsWindow()
 	{
 		ShutDown();
+	}
+
+	void WindowsWindow::setSize(unsigned int width, unsigned hight)
+	{
+		glfwSetWindowSize(m_window, width, hight);
+
+	}
+	void WindowsWindow::setPos(const glm::ivec2 pos)
+	{
+		glfwSetWindowPos(m_window, pos.x, pos.y);
+
 	};
 
 
-	 void WindowsWindow::Init(const WindowProps& props, Ref<GraphicsContex> shared_contex) {
 
-		 m_data = props;
+
+	void WindowsWindow::Init(const WindowProps& props, Ref<GraphicsContex> shared_contex) {
+
+		m_settings = props;
 
 		UGE_CORE_INFO("Creating Window: {0} {1} {2}", props.Title, props.Hight, props.Width);
 
-		setVSync(m_data.isVync);
-		glfwInitHint(GLFW_VISIBLE, (m_data.isVisble ? GLFW_TRUE : GLFW_FALSE ));
-		glfwInitHint(GLFW_DECORATED, (m_data.isDecorated ? GLFW_TRUE : GLFW_FALSE));
-		glfwInitHint(GLFW_FOCUSED, (m_data.isFocused ? GLFW_TRUE : GLFW_FALSE));
-		glfwInitHint(GLFW_FLOATING, (m_data.isFloating ? GLFW_TRUE : GLFW_FALSE));
-		glfwInitHint(GLFW_FOCUS_ON_SHOW, (m_data.isFocusedOnShow ? GLFW_TRUE : GLFW_FALSE));
+		setVSync(m_settings.isVync);
+		glfwInitHint(GLFW_VISIBLE, (m_settings.isVisble ? GLFW_TRUE : GLFW_FALSE));
+		glfwInitHint(GLFW_DECORATED, (m_settings.isDecorated ? GLFW_TRUE : GLFW_FALSE));
+		glfwInitHint(GLFW_FOCUSED, (m_settings.isFocusedOnCreate ? GLFW_TRUE : GLFW_FALSE));
+		glfwInitHint(GLFW_FLOATING, (m_settings.isFloating ? GLFW_TRUE : GLFW_FALSE));
+		glfwInitHint(GLFW_FOCUS_ON_SHOW, (m_settings.isFocusedOnShow ? GLFW_TRUE : GLFW_FALSE));
 
 		if (!(_glfw_initialized))
 		{
@@ -57,12 +68,14 @@ namespace UGE {
 		if (!shared_contex) shared_window = (GLFWwindow*)shared_contex->getContexWindow();
 
 		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, shared_window);
+		setPos(props.Position);
 
 		m_contex = CreateRef<OpenGLContex>(m_window);
 		m_contex->Init();
 
-		glfwSetWindowUserPointer(m_window, &m_data);
-	
+
+		glfwSetWindowUserPointer(m_window, &m_settings);
+
 
 		//set glfw callbacks.
 
@@ -76,7 +89,17 @@ namespace UGE {
 				data.callback_fun(event);
 
 			});
-		
+
+		glfwSetWindowPosCallback(m_window, [](GLFWwindow* window, int xpos, int ypos) {
+
+			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
+			data.Position = glm::ivec2(xpos, ypos);
+
+			WindowMovedEvent event(xpos, ypos);
+			data.callback_fun(event);
+
+			});
+
 		glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window) {
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
@@ -84,31 +107,31 @@ namespace UGE {
 			data.callback_fun(event);
 
 			});
-		
+
 		glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scan_code, int action, int mods)
 			{
 				WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 				switch (action) {
 
-					case GLFW_PRESS:
-					{
-						KeyPressedEvent event(key, 0);
-						data.callback_fun(event);
-						break;
-					}
-					case GLFW_RELEASE:
-					{
-						KeyReleasedEvent event(key);
-						data.callback_fun(event);
-						break;
-					}
-					case GLFW_REPEAT:
-					{
-						KeyPressedEvent event(key, 1); //TODO: retrive repeat count.  
-						data.callback_fun(event);
-						break;
-					}
+				case GLFW_PRESS:
+				{
+					KeyPressedEvent event(key, 0);
+					data.callback_fun(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					KeyReleasedEvent event(key);
+					data.callback_fun(event);
+					break;
+				}
+				case GLFW_REPEAT:
+				{
+					KeyPressedEvent event(key, 1); //TODO: retrive repeat count.  
+					data.callback_fun(event);
+					break;
+				}
 				};
 
 			});
@@ -120,25 +143,25 @@ namespace UGE {
 			data.callback_fun(event);
 			});
 
-		glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods ){
+		glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
 
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
-			
-			switch(action){
 
-				case GLFW_PRESS:
-				{	
-					MousePressedEvent event(button);
-					data.callback_fun(event);
-					break;
+			switch (action) {
 
-				}
-				case GLFW_RELEASE:
-				{
-					MouseReleasedEvent event(button);
-					data.callback_fun(event);
-					break;
-				}
+			case GLFW_PRESS:
+			{
+				MousePressedEvent event(button);
+				data.callback_fun(event);
+				break;
+
+			}
+			case GLFW_RELEASE:
+			{
+				MouseReleasedEvent event(button);
+				data.callback_fun(event);
+				break;
+			}
 
 			};
 
@@ -163,7 +186,7 @@ namespace UGE {
 
 	};
 
-	 void WindowsWindow::ShutDown()
+	void WindowsWindow::ShutDown()
 	{
 		glfwDestroyWindow(m_window);
 	};
@@ -171,18 +194,13 @@ namespace UGE {
 
 	void WindowsWindow::onUpdate()
 	{
-		
 
 		glfwPollEvents();
-
 		m_contex->SwapBuffers();
-
-	
-		
 
 	};
 
-	 void WindowsWindow::setVSync(bool enabled) {
+	void WindowsWindow::setVSync(bool enabled) {
 
 		if (enabled) {
 			glfwSwapInterval(1);
@@ -190,31 +208,56 @@ namespace UGE {
 		else {
 			glfwSwapInterval(0);
 		}
-		m_data.isVync = enabled;
+		m_settings.isVync = enabled;
 	};
 
-	 bool WindowsWindow::isVSync() const {
-		return m_data.isVync;
+	bool WindowsWindow::isVSync() const {
+		return m_settings.isVync;
 	}
 
+	void WindowsWindow::setVisbility(bool isVisible)
+	{
+		isVisible ? glfwShowWindow(m_window) : glfwHideWindow(m_window);
+		m_settings.isVisble = isVisible;
+	};
 
-	 void WindowsWindow::setVisbility(bool isVisible)
-	 {
-	 }
-	 void WindowsWindow::setDecorated(bool isDecorated)
-	 {
-	 }
-	 void WindowsWindow::setFocused(bool isFocused)
-	 {
-	 }
-	 void WindowsWindow::setFocusedOnShow(bool isFocusedOnShow)
-	 {
-	 }
-	 void WindowsWindow::setTopMost(bool isFloating)
-	 {
-	 }
-	 const WindowProps& WindowsWindow::getWindowProps()
-	 {	
-		 return m_data;
-	 };
+	void WindowsWindow::setDecorated(bool isDecorated)
+	{
+		isDecorated ? glfwSetWindowAttrib(m_window, GLFW_DECORATED, GL_TRUE) : glfwSetWindowAttrib(m_window, GLFW_DECORATED, GL_FALSE);
+		m_settings.isDecorated = isDecorated;
+	}
+
+	bool WindowsWindow::isFocused()
+	{
+		return (bool)glfwGetWindowAttrib(m_window, GLFW_FOCUSED);
+	}
+
+	bool WindowsWindow::isMinimized()
+	{
+		return (bool)glfwGetWindowAttrib(m_window, GLFW_ICONIFIED);
+	}
+
+	void WindowsWindow::FocusWindow()
+	{
+		glfwFocusWindow(m_window);
+	}
+
+	void WindowsWindow::setFocusedOnShow(bool isFocusedOnShow)
+	{
+		isFocusedOnShow ? glfwSetWindowAttrib(m_window, GLFW_FOCUS_ON_SHOW, GL_TRUE) : glfwSetWindowAttrib(m_window, GLFW_FOCUS_ON_SHOW, GL_FALSE);
+		m_settings.isFocusedOnShow = isFocusedOnShow;
+	}
+
+	void WindowsWindow::setTopMost(bool isFloating)
+	{
+		isFloating ? glfwSetWindowAttrib(m_window, GLFW_FLOATING, GL_TRUE) : glfwSetWindowAttrib(m_window, GLFW_FLOATING, GL_FALSE);
+		m_settings.isFloating = isFloating;
+	}
+
+	void WindowsWindow::setTitle(const std::string& title)
+	{
+		m_settings.Title = title;
+		glfwSetWindowTitle(m_window, title.c_str());
+	}
+
 }

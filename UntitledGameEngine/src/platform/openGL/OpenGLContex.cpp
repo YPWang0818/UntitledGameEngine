@@ -25,6 +25,11 @@ namespace UGE {
 		return (void*)m_window;
 	}
 
+	void OpenGLContex::makeContexCurrent()
+	{
+		glfwMakeContextCurrent(m_window);
+	}
+
 	void OpenGLContex::SwapBuffers()
 	{
 		glfwSwapBuffers(m_window);

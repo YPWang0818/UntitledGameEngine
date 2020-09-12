@@ -67,8 +67,26 @@ namespace UGE {
 	class  WindowMovedEvent : public Event
 	{
 	public:
+
+		WindowMovedEvent(int xpos, int ypos)
+			:m_xpos(xpos), m_ypos(ypos)
+		{}
+
 		_EVENT_TYPE_DECORATION(windowMoved)
 		_EVENT_CATEGORY_DECORATION(windowEvents)
+
+		inline unsigned int getxPos() const { return m_xpos; };
+		inline unsigned int getyPos() const { return m_ypos; };
+
+		std::string toString() const override {
+			std::stringstream ss;
+			ss << "WindowMoved Event: Position ( " << m_xpos << " , " << m_ypos << ")";
+
+			return ss.str();
+		}
+	
+	private:
+		int m_xpos, m_ypos;
 
 	};
 }
