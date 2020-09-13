@@ -65,7 +65,7 @@ namespace UGE {
 		}
 
 		GLFWwindow* shared_window = nullptr;
-		if (!shared_contex) shared_window = (GLFWwindow*)shared_contex->getContexWindow();
+		if (shared_contex) shared_window = (GLFWwindow*)shared_contex->getContexWindow();
 
 		m_window = glfwCreateWindow((int)props.Width, (int)props.Hight, props.Title.c_str(), nullptr, shared_window);
 		setPos(props.Position);
@@ -86,6 +86,9 @@ namespace UGE {
 				data.Hight = hight;
 
 				WindowResizeEvent event(width, hight);
+
+				event.WindowHandle.reset((void*)window);
+
 				data.callback_fun(event);
 
 			});
@@ -96,6 +99,7 @@ namespace UGE {
 			data.Position = glm::ivec2(xpos, ypos);
 
 			WindowMovedEvent event(xpos, ypos);
+			event.WindowHandle.reset((void*)window);
 			data.callback_fun(event);
 
 			});
@@ -104,8 +108,28 @@ namespace UGE {
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			WindowCloseEvent event;
+			event.WindowHandle.reset((void*)window);
 			data.callback_fun(event);
 
+			});
+
+		glfwSetWindowFocusCallback(m_window, [](GLFWwindow* window, int focused) {
+
+			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
+
+			if (focused)
+			{
+				WindowFocusEvent event;
+				event.WindowHandle.reset((void*)window);
+				data.callback_fun(event);
+			}
+			else
+			{
+				WindowLostFocusEvent event;
+				event.WindowHandle.reset((void*)window);
+				data.callback_fun(event);
+			};
+			
 			});
 
 		glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scan_code, int action, int mods)
@@ -117,18 +141,21 @@ namespace UGE {
 				case GLFW_PRESS:
 				{
 					KeyPressedEvent event(key, 0);
+					event.WindowHandle.reset((void*)window);
 					data.callback_fun(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
 					KeyReleasedEvent event(key);
+					event.WindowHandle.reset((void*)window);
 					data.callback_fun(event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
 					KeyPressedEvent event(key, 1); //TODO: retrive repeat count.  
+					event.WindowHandle.reset((void*)window);
 					data.callback_fun(event);
 					break;
 				}
@@ -140,6 +167,7 @@ namespace UGE {
 
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 			KeyTypedEvent event(c);
+			event.WindowHandle.reset((void*)window);
 			data.callback_fun(event);
 			});
 
@@ -152,6 +180,7 @@ namespace UGE {
 			case GLFW_PRESS:
 			{
 				MousePressedEvent event(button);
+				event.WindowHandle.reset((void*)window);
 				data.callback_fun(event);
 				break;
 
@@ -159,6 +188,7 @@ namespace UGE {
 			case GLFW_RELEASE:
 			{
 				MouseReleasedEvent event(button);
+				event.WindowHandle.reset((void*)window);
 				data.callback_fun(event);
 				break;
 			}
@@ -172,6 +202,7 @@ namespace UGE {
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			MouseMovedEvent event((float)x_pos, (float)y_pos);
+			event.WindowHandle.reset((void*)window);
 			data.callback_fun(event);
 
 			});
@@ -180,6 +211,8 @@ namespace UGE {
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			MouseScrolledEvent event((float)xoffset, (float)yoffset);
+			event.WindowHandle.reset((void*)window);
+
 			data.callback_fun(event);
 
 			});

@@ -2,6 +2,7 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "core/Core.h"
 #include "core/BaseWindow.h"
 #include "renderer/GraphicsContex.h"
 

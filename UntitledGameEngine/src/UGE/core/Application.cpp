@@ -65,6 +65,8 @@ namespace UGE {
 			TimeStep ts = (this_frame_time - m_last_frame_time);
 			m_last_frame_time = this_frame_time;
 
+
+
 			for (Layer* layer : m_layer_stack) {
 				layer->onUpdate(ts);
 			};

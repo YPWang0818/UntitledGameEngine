@@ -1,8 +1,6 @@
 #pragma once
 #include "ugepch.h"
-#include "Core.h"
-
-
+#include "core/Core.h"
 
 namespace UGE {
 
@@ -69,9 +67,13 @@ namespace UGE {
 			return m_handled;
 		}
 
+	public:
+
+		Ref<void> WindowHandle = nullptr; 
 
 	protected:
 		bool m_handled = false;
+
 	};
 
 

@@ -8,6 +8,9 @@
 
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include "glfw/glfw3native.h"
+#include "platform/openGL/gl_debug.h"
+
+
 
 namespace UGE {
 
@@ -16,9 +19,13 @@ namespace UGE {
 	static void _init_glfw();
 	static void _compile_shader(const GLchar* vertex_src, const GLchar* frag_src);
 	static void _load_font_texture();
+	static void _glfw_update_monitor();
+	static void _glfw_monitor_callback(GLFWmonitor* monitor, int code);
+	static void _glfw_new_frame();
 	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight);
 	static void _draw_render_data(ImDrawData* drawdata);
 	static void _shutdown();
+	//static void _glfw_update_cursor();
 
 	static void _init_platform_interface();
 	static void _imgui_create_window(ImGuiViewport* viewport);
@@ -35,9 +42,6 @@ namespace UGE {
 	static void _imgui_render_window(ImGuiViewport* viewport, void* render_arg);
 	static void _imgui_swap_buffer(ImGuiViewport* viewport, void* render_arg);
 
-
-
-
 	static GLuint imgui_vertex_shader = 0;
 	static GLuint imgui_fragment_shader = 0;
 	static GLuint imgui_shader_program = 0;
@@ -45,6 +49,9 @@ namespace UGE {
 	static GLuint imgui_index_buffer = 0;
 	static GLuint imgui_font_texture = 0;
 	static GLuint imgui_vertex_array = 0;
+
+	static bool need_update_monitor = true;
+	
 
 	static struct uniform_location {
 		GLint texture;
@@ -58,18 +65,39 @@ namespace UGE {
 	} imgui_attributes;
 
 
+	static BaseWindow* _get_app_main_window() { return &(Application::getInstance().getWindowHandle()); };
 
+	static struct ImguiViewPortData {
+		Ref<BaseWindow> window;
+		bool        window_owned = false;
+		int			ignore_window_pos_event_frame = -1;
+		int         ignore_window_size_event_frame = -1;
+
+	};
 
 	static void _init_glfw() {
 
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle().getNativeWindow());
+		 ImguiViewPortData* imgui_viewport_data = IM_NEW(ImguiViewPortData);
+
+		 Ref<BaseWindow> window;
+		 window.reset(_get_app_main_window());
+
+		void* native_window = window->getNativeWindow();
+
 
 		ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+		main_viewport->PlatformHandle = native_window;
 
-		main_viewport->PlatformHandle = (void*)window;
-		#ifdef _WIN32
-		main_viewport->PlatformHandleRaw = glfwGetWin32Window(window);
-		#endif
+		imgui_viewport_data->window = window;
+		imgui_viewport_data->window_owned = true;
+		imgui_viewport_data->ignore_window_pos_event_frame = -1;
+		imgui_viewport_data->ignore_window_size_event_frame = -1;
+
+		main_viewport->PlatformUserData = (void*)imgui_viewport_data;
+
+	#ifdef _WIN32
+		main_viewport->PlatformHandleRaw = glfwGetWin32Window((GLFWwindow*)native_window);
+	#endif
 
 		ImGuiIO& io = ImGui::GetIO();
 
@@ -77,13 +105,16 @@ namespace UGE {
 			_init_platform_interface();
 		}
 
+		
 
+		glfwSetMonitorCallback(_glfw_monitor_callback);
 		
 	};
 
 	static void _init_opengl() {
 
-		// Initial Setup
+	
+			// Initial Setup
 		glEnable(GL_BLEND);
 		glBlendEquation(GL_FUNC_ADD);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -94,10 +125,14 @@ namespace UGE {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		#endif
 
+		GLCALL(
+
 		glGenBuffers(1, &imgui_vertex_buffer);
 		glGenBuffers(1, &imgui_index_buffer);
 		glGenVertexArrays(1, &imgui_vertex_array);
 		glGenTextures(1, &imgui_font_texture);
+
+		);
 
 		// Set Up can Compile Shaders.
 		const GLchar* imgui_vertex_shader_src =
@@ -130,22 +165,31 @@ namespace UGE {
 
 
 		// Set Up textures
+
+		GLCALL(
 		glBindTexture(GL_TEXTURE_2D, imgui_font_texture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
+		);
 
 		// Get Unifrom Locations.
+		GLCALL(
+
 		imgui_uniforms.texture = glGetUniformLocation(imgui_shader_program, "Texture");
 		imgui_uniforms.projection_mtx = glGetUniformLocation(imgui_shader_program, "ProjMtx");
-		glUniform1i(imgui_uniforms.texture, 0);
+		);
+
 
 
 		// SetUp vertex buffer layout
+
+		GLCALL(
 		imgui_attributes.Position = glGetAttribLocation(imgui_shader_program, "Position");
 		imgui_attributes.UV = glGetAttribLocation(imgui_shader_program, "UV");
 		imgui_attributes.Color = glGetAttribLocation(imgui_shader_program, "Color");
+
 
 		glBindVertexArray(imgui_vertex_array);
 		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
@@ -159,6 +203,7 @@ namespace UGE {
 		glVertexAttribPointer(imgui_attributes.UV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
 		glVertexAttribPointer(imgui_attributes.Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
 
+		);
 
 		// Unbind Eveything
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -217,11 +262,14 @@ namespace UGE {
 			UGE_CORE_ASSERT(false, "Fragment Shader Compile Failure.");
 		}
 
+		GLCALL(
 
 		imgui_shader_program = glCreateProgram();
-		glAttachShader(imgui_vertex_shader, imgui_shader_program);
-		glAttachShader(imgui_fragment_shader, imgui_shader_program);
+		glAttachShader(imgui_shader_program, imgui_vertex_shader);
+		glAttachShader(imgui_shader_program, imgui_fragment_shader);
 		glLinkProgram(imgui_shader_program);
+
+		);
 
 		GLint is_linked = 0;
 		glGetProgramiv(imgui_shader_program, GL_LINK_STATUS, (int*)&is_linked);
@@ -243,6 +291,7 @@ namespace UGE {
 			UGE_CORE_ASSERT(false, "Program Linking Error.");
 		}
 
+		glValidateProgram(imgui_shader_program);
 	}
 
 
@@ -253,20 +302,74 @@ namespace UGE {
 		ImGuiIO& io = ImGui::GetIO();
 
 		io.Fonts->GetTexDataAsRGBA32(&data, &width, &hight);
+
+		GLCALL(
 		glBindTexture(GL_TEXTURE_2D, imgui_font_texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, hight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		);
+
 		io.Fonts->TexID = (ImTextureID)(intptr_t)imgui_font_texture;
 
+	}
+
+	void _glfw_update_monitor()
+	{
+
+		// TODO Abstract this in the future.
+
+		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+		int monitors_count = 0;
+
+		GLFWmonitor** glfw_monitors = glfwGetMonitors(&monitors_count);
+		platform_io.Monitors.resize(0);
+		for (int n = 0; n < monitors_count; n++)
+		{
+			ImGuiPlatformMonitor monitor;
+			int x, y;
+			glfwGetMonitorPos(glfw_monitors[n], &x, &y);
+
+			const GLFWvidmode* vid_mode = glfwGetVideoMode(glfw_monitors[n]);
+
+			monitor.MainPos = ImVec2((float)x, (float)y);
+			monitor.MainSize = ImVec2((float)vid_mode->width, (float)vid_mode->height);
+			int w, h;
+
+			glfwGetMonitorWorkarea(glfw_monitors[n], &x, &y, &w, &h);
+			monitor.WorkPos = ImVec2((float)x, (float)y);
+			monitor.WorkSize = ImVec2((float)w, (float)h);
+			monitor.MainPos = monitor.WorkPos = ImVec2((float)x, (float)y);
+			monitor.MainSize = monitor.WorkSize = ImVec2((float)vid_mode->width, (float)vid_mode->height);
+			// Warning: the validity of monitor DPI information on Windows depends on the application DPI awareness settings, which generally needs to be set in the manifest or at runtime.
+
+			float x_scale, y_scale;
+			glfwGetMonitorContentScale(glfw_monitors[n], &x_scale, &y_scale);
+			monitor.DpiScale = x_scale;
+			platform_io.Monitors.push_back(monitor);
+		}
+
+		need_update_monitor = false;
+
+	}
+
+	void _glfw_monitor_callback(GLFWmonitor* monitor, int code) {
+		need_update_monitor = true;
+	};
+
+	void _glfw_new_frame()
+	{
+		if (need_update_monitor) _glfw_update_monitor();
+		_load_font_texture();
 	}
 
 	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight) {
 
 		// Bind everything
+		GLCALL(
 		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
 		glBindVertexArray(imgui_vertex_array);
 		glUseProgram(imgui_shader_program);
-
+		);
 
 		glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_hight);
 
@@ -282,9 +385,12 @@ namespace UGE {
 			{ 0.0f,         0.0f,			-1.0f,		0.0f },
 			{ (R + L) / (L - R),  (T + B) / (B - T),	0.0f,		1.0f },
 		};
-
+		GLCALL(
 		glUniformMatrix4fv(imgui_uniforms.projection_mtx, 1, GL_FALSE, &ortho_projection[0][0]);
 		glBindSampler(0, 0);
+		);
+
+
 	}
 
 	static void _draw_render_data(ImDrawData* drawdata)
@@ -293,6 +399,7 @@ namespace UGE {
 		int fb_width = (int)(drawdata->DisplaySize.x * drawdata->FramebufferScale.x);
 		int fb_hight = (int)(drawdata->DisplaySize.y * drawdata->FramebufferScale.y);
 		if (fb_width <= 0 || fb_hight <= 0) return;
+
 
 		_setup_render_states(drawdata, fb_width, fb_hight);
 
@@ -305,9 +412,11 @@ namespace UGE {
 			const ImDrawList* cmd_list = drawdata->CmdLists[i];
 
 			// Fill in the buffers;
+			GLCALL(
+
 			glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
-
+			);
 
 			for (int i_cmd = 0; i_cmd < cmd_list->CmdBuffer.Size; i_cmd++) {
 
@@ -331,11 +440,16 @@ namespace UGE {
 
 				if (clip_rect.x < fb_width && clip_rect.y < fb_hight && clip_rect.z >= 0.0f && clip_rect.w >= 0.0f)
 				{
+					GLCALL(
 					glScissor((int)clip_rect.x, (int)(fb_hight - clip_rect.w), (int)(clip_rect.z - clip_rect.x), (int)(clip_rect.w - clip_rect.y));
 
-					glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)cmd->TextureId);
-					glDrawElementsBaseVertex(GL_TRIANGLES, (GLsizei)cmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (void*)(intptr_t)(cmd->IdxOffset * sizeof(ImDrawIdx)), (GLint)cmd->VtxOffset);
+					);
 
+					GLCALL(glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)cmd->TextureId));
+
+					GLCALL(
+					glDrawElementsBaseVertex(GL_TRIANGLES, (GLsizei)cmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (void*)(intptr_t)(cmd->IdxOffset * sizeof(ImDrawIdx)), (GLint)cmd->VtxOffset);
+					);
 
 
 				}
@@ -346,8 +460,74 @@ namespace UGE {
 
 	static void _shutdown() {
 
+		ImGui::DestroyPlatformWindows();
+
+	GLCALL(
+
+		if (imgui_vertex_buffer) glDeleteBuffers(1, &imgui_vertex_buffer);
+		if (imgui_index_buffer)  glDeleteBuffers(1, &imgui_index_buffer);
+		if (imgui_vertex_array) glDeleteVertexArrays(1, &imgui_vertex_array);
+		if (imgui_shader_program && imgui_vertex_shader) glDetachShader(imgui_shader_program, imgui_vertex_shader);
+		if (imgui_shader_program && imgui_fragment_shader) glDetachShader(imgui_shader_program, imgui_fragment_shader);
+		if (imgui_vertex_shader) glDeleteShader(imgui_vertex_shader);
+		if (imgui_fragment_shader) glDeleteShader(imgui_fragment_shader);
+		if (imgui_shader_program) glDeleteProgram(imgui_shader_program);
+
+		if (imgui_font_texture)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			glDeleteTextures(1, &imgui_font_texture);
+			io.Fonts->TexID = 0;
+			imgui_font_texture = 0;
+		};
+		
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+
+		if (data) {
+			if (data->window_owned) {
+				data->window.reset();
+			};
+			IM_DELETE(data);
+		};
+
+
+	);
+
+	
 	}
 
+	/**
+	TODO need a cursor class to make this work.
+
+	void _glfw_update_cursor()
+	{
+
+		ImGuiIO& io = ImGui::GetIO();
+		GLFWwindow* main_window = _get_app_main_window()->getNativeWindow();
+		if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || glfwGetInputMode(main_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
+			return;
+
+		ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
+		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+		for (int n = 0; n < platform_io.Viewports.Size; n++)
+		{
+			GLFWwindow* window = (GLFWwindow*)platform_io.Viewports[n]->PlatformHandle;
+			if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
+			{
+				// Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			}
+			else
+			{
+				// Show OS mouse cursor
+				// FIXME-PLATFORM: Unfocused windows seems to fail changing the mouse cursor with GLFW 3.2, but 3.3 works here.
+				glfwSetCursor(window, g_MouseCursors[imgui_cursor] ? g_MouseCursors[imgui_cursor] : g_MouseCursors[ImGuiMouseCursor_Arrow]);
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			}
+		}
+	}
+	**/
 
 
 	static void _init_platform_interface() {
@@ -374,24 +554,14 @@ namespace UGE {
 
 
 
-
 	};
 
 
-	static BaseWindow* _get_app_main_window() { return &(Application::getInstance().getWindowHandle()); };
-
-	static struct ImguiViewPortData {
-		Ref<BaseWindow> window ;
-		bool        window_owned = false;
-		int			ignore_window_pos_event_frame = -1;
-		int         ignore_window_size_event_frame = -1;
-		
-	};
 
 	static void _imgui_create_window(ImGuiViewport* viewport)
 	{
 
-		ImguiViewPortData* data = new ImguiViewPortData;
+		ImguiViewPortData* data = IM_NEW(ImguiViewPortData);
 		WindowProps props;
 
 
@@ -427,7 +597,8 @@ namespace UGE {
 			if (data->window_owned) {
 				data->window.reset();
 			};
-			delete data;
+
+			IM_DELETE(data);
 		};
 		
 		viewport->PlatformHandle = nullptr;
@@ -500,13 +671,13 @@ namespace UGE {
 	static bool _imgui_get_window_focus(ImGuiViewport* viewport) 
 	{
 		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
-		data->window->isFocused();
+		return data->window->isFocused();
 	};
 
 	static bool _imgui_get_window_minimized(ImGuiViewport* viewport)
 	{
 		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
-		data->window->isMinimized();
+		return data->window->isMinimized();
 	};
 
 	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title) {

@@ -1,10 +1,15 @@
 #include "ugepch.h"
 #include "ImguiLayer.h"
 #include "Imgui.h"
-#include "core/Application.h"
 #include "IO/uge_io.h"
+#include "imgui_glfw_opengl_renderer.h"
+#include "core/Application.h"
+
+
+/*
 #include "platform/openGL/imgui_impl_opengl3.h"
 #include "platform/openGL/imgui_impl_glfw.h"
+*/
 
 namespace UGE {
 	ImguiLayer::ImguiLayer()
@@ -57,8 +62,8 @@ namespace UGE {
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.getWindowHandle().getNativeWindow());
 
 		
-		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 410");
+		_init_glfw();
+		_init_opengl();
 
 		ImGui::StyleColorsDark();
 
@@ -66,7 +71,7 @@ namespace UGE {
 
 	void ImguiLayer::onDetach()
 	{
-		ImGui_ImplOpenGL3_Shutdown();
+		_shutdown();
 		ImGui::DestroyContext();
 	}
 
@@ -87,7 +92,7 @@ namespace UGE {
 
 	void ImguiLayer::onEvent(Event& e)
 	{
-		/*
+		
 		EventDispatcher dispatcher(e);
 
 		dispatcher.DispatchEvents<KeyPressedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_KeyPressedCallBack));
@@ -97,7 +102,7 @@ namespace UGE {
 		dispatcher.DispatchEvents<MouseMovedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
 		dispatcher.DispatchEvents<MouseScrolledEvent>(UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
 		dispatcher.DispatchEvents<KeyTypedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CharCallBack));
-		*/
+		
 	}
 
 	void ImguiLayer::Begin()
@@ -109,8 +114,9 @@ namespace UGE {
 
 		io.DisplaySize = ImVec2((float)w, (float)h);
 
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
+		// TODO Handle monitors stuff. 
+
+		_glfw_new_frame();
 		ImGui::NewFrame();
 	}
 
@@ -120,7 +126,7 @@ namespace UGE {
 		ImGuiIO& io = ImGui::GetIO();
 
 		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		_draw_render_data(ImGui::GetDrawData());
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
@@ -175,6 +181,35 @@ namespace UGE {
 		return true;
 	}
 
+	bool ImguiLayer::_WindowResizeCallBack(WindowResizeEvent& e)
+	{
+		ImGuiViewport* viewport = ImGui::FindViewportByPlatformHandle(e.WindowHandle.get());
+		UGE_CORE_ASSERT(viewport, "Cannot find viewport given the window handle.");
+
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		UGE_CORE_ASSERT(data, "No User data in viewport handle.");
+
+		bool ignore_event = (ImGui::GetFrameCount() <= data->ignore_window_size_event_frame+ 1);
+		if (ignore_event) viewport->PlatformRequestResize = true;
+
+		return true;
+	}
+
+	bool ImguiLayer::_WindowMovedCallBack(WindowMovedEvent& e)
+	{
+		ImGuiViewport* viewport = ImGui::FindViewportByPlatformHandle(e.WindowHandle.get());
+		UGE_CORE_ASSERT(viewport, "Cannot find viewport given the window handle.");
+
+		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
+		UGE_CORE_ASSERT(data, "No User data in viewport handle.");
+
+		bool ignore_event = (ImGui::GetFrameCount() <= data->ignore_window_pos_event_frame + 1);
+		if (ignore_event) viewport->PlatformRequestMove = true;
+
+
+		return true;
+	}
+
 	bool ImguiLayer::_MousePressedCallBack(MousePressedEvent& e)
 	{
 		UGE_CORE_ASSERT((e.getEventType() == EventType::mousePressed), "Incorrect event handling");
@@ -199,8 +234,37 @@ namespace UGE {
 	{
 		UGE_CORE_ASSERT((e.getEventType() == EventType::mouseMoved), "Incorrect event handling");
 
+
 		ImGuiIO& io = ImGui::GetIO();
-		io.MousePos = ImVec2((float)e.getXPos(), (float)e.getYPos());
+		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+
+		for (int i = 0; i < platform_io.Viewports.Size; i++) {
+
+			ImGuiViewport* viewport = platform_io.Viewports[i];
+			ImguiViewPortData* data =  (ImguiViewPortData*)viewport->PlatformUserData;
+			UGE_CORE_ASSERT(data, "PlatformUserData is uninitiallized.");
+			
+			if (data->window->isFocused()) {
+			
+				int mouse_x = e.getXPos();
+				int mouse_y = e.getYPos();
+
+				if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+				
+					int window_x = data->window->getPos().x;
+					int window_y = data->window->getPos().y;
+					
+					io.MousePos = ImVec2((float)mouse_x + window_x, (float)mouse_y + window_y);
+
+				}
+				else {
+					io.MousePos = ImVec2((float)mouse_x, (float)mouse_y);
+				}
+			
+			}
+		
+		}
+		
 		return true;
 	}
 
