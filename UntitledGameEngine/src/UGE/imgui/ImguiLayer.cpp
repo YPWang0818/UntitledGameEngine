@@ -102,7 +102,8 @@ namespace UGE {
 		dispatcher.DispatchEvents<MouseMovedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CursorPosCallBack));
 		dispatcher.DispatchEvents<MouseScrolledEvent>(UGE_BIND_CALLBACK(ImguiLayer::_ScrollCallBack));
 		dispatcher.DispatchEvents<KeyTypedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CharCallBack));
-		
+		dispatcher.DispatchEvents<WindowResizeEvent>(UGE_BIND_CALLBACK(ImguiLayer::_WindowResizeCallBack));
+		dispatcher.DispatchEvents<WindowMovedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_WindowMovedCallBack));
 	}
 
 	void ImguiLayer::Begin()
@@ -139,94 +140,54 @@ namespace UGE {
 	}
 
 	
-	static inline void  _update_control_keys(ImGuiIO& io) {
-
-
-		io.KeyCtrl = io.KeysDown[UGE_KEY_LEFT_CONTROL] || io.KeysDown[UGE_KEY_RIGHT_CONTROL];
-		io.KeyShift = io.KeysDown[UGE_KEY_LEFT_SHIFT] || io.KeysDown[UGE_KEY_RIGHT_SHIFT];
-		io.KeyAlt = io.KeysDown[UGE_KEY_LEFT_ALT] || io.KeysDown[UGE_KEY_RIGHT_ALT];
-	};
 
 
 	bool ImguiLayer::_KeyPressedCallBack(KeyPressedEvent& e)
 	{	
 		UGE_CORE_ASSERT((e.getEventType() == EventType::keyPressed), "Incorrect event handling");
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[e.getKeyCode()] = true;
-		_update_control_keys(io);
-
-		return true;
+		return imgui_key_pressed_callback(e);
 	}
 
 	bool ImguiLayer::_KeyReleasedCallBack(KeyReleasedEvent& e) {
 
 		UGE_CORE_ASSERT((e.getEventType() == EventType::keyReleased), "Incorrect event handling");
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[e.getKeyCode()] = false;
-		_update_control_keys(io);
-
-		return true;
+		return imgui_key_released_callback(e);
 	}
 
 	bool ImguiLayer::_CharCallBack(KeyTypedEvent& e) {
 
 		UGE_CORE_ASSERT((e.getEventType() == EventType::keyTyped), "Incorrect event handling");
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddInputCharacter(e.getKeyCode());
-		_update_control_keys(io);
-
-		return true;
+		return imgui_char_callback(e);
 	}
 
 	bool ImguiLayer::_WindowResizeCallBack(WindowResizeEvent& e)
 	{
-		ImGuiViewport* viewport = ImGui::FindViewportByPlatformHandle(e.WindowHandle.get());
-		UGE_CORE_ASSERT(viewport, "Cannot find viewport given the window handle.");
-
-		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
-		UGE_CORE_ASSERT(data, "No User data in viewport handle.");
-
-		bool ignore_event = (ImGui::GetFrameCount() <= data->ignore_window_size_event_frame+ 1);
-		if (ignore_event) viewport->PlatformRequestResize = true;
-
-		return true;
+		UGE_CORE_ASSERT((e.getEventType() == EventType::windowResize), "Incorrect event handling");
+		return imgui_window_resize_callback(e);
 	}
 
 	bool ImguiLayer::_WindowMovedCallBack(WindowMovedEvent& e)
 	{
-		ImGuiViewport* viewport = ImGui::FindViewportByPlatformHandle(e.WindowHandle.get());
-		UGE_CORE_ASSERT(viewport, "Cannot find viewport given the window handle.");
+		UGE_CORE_ASSERT((e.getEventType() == EventType::windowMoved), "Incorrect event handling");
 
-		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
-		UGE_CORE_ASSERT(data, "No User data in viewport handle.");
-
-		bool ignore_event = (ImGui::GetFrameCount() <= data->ignore_window_pos_event_frame + 1);
-		if (ignore_event) viewport->PlatformRequestMove = true;
-
-
-		return true;
+		return imgui_window_moved_callback(e);
 	}
 
 	bool ImguiLayer::_MousePressedCallBack(MousePressedEvent& e)
 	{
 		UGE_CORE_ASSERT((e.getEventType() == EventType::mousePressed), "Incorrect event handling");
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.MouseDown[e.getMosueButton()] = true;
-		return true;
+		return imgui_mouse_pressed_callback(e);
 	};
 
 
 	bool ImguiLayer::_MouseReleasedCallBack(MouseReleasedEvent& e) {
 
 		UGE_CORE_ASSERT((e.getEventType() == EventType::mouseReleased), "Incorrect event handling");
-		
-		ImGuiIO& io = ImGui::GetIO();
-		io.MouseDown[e.getMosueButton()] = false;
-		return true;
+		return imgui_mouse_released_callback(e);
 	}
 
 
@@ -234,38 +195,7 @@ namespace UGE {
 	{
 		UGE_CORE_ASSERT((e.getEventType() == EventType::mouseMoved), "Incorrect event handling");
 
-
-		ImGuiIO& io = ImGui::GetIO();
-		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
-
-		for (int i = 0; i < platform_io.Viewports.Size; i++) {
-
-			ImGuiViewport* viewport = platform_io.Viewports[i];
-			ImguiViewPortData* data =  (ImguiViewPortData*)viewport->PlatformUserData;
-			UGE_CORE_ASSERT(data, "PlatformUserData is uninitiallized.");
-			
-			if (data->window->isFocused()) {
-			
-				int mouse_x = e.getXPos();
-				int mouse_y = e.getYPos();
-
-				if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-				
-					int window_x = data->window->getPos().x;
-					int window_y = data->window->getPos().y;
-					
-					io.MousePos = ImVec2((float)mouse_x + window_x, (float)mouse_y + window_y);
-
-				}
-				else {
-					io.MousePos = ImVec2((float)mouse_x, (float)mouse_y);
-				}
-			
-			}
-		
-		}
-		
-		return true;
+		return imgui_cursor_pos_callback(e);
 	}
 
 
@@ -274,12 +204,7 @@ namespace UGE {
 
 		UGE_CORE_ASSERT((e.getEventType() == EventType::mouseScrolled), "Incorrect event handling");
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.MouseWheelH += (float)e.getxOffset();
-		io.MouseWheel += (float)e.getyOffset();
-
-
-		return true;
+		return imgui_scroll_callback(e);
 	}
 
 

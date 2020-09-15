@@ -17,7 +17,7 @@ namespace UGE {
 		virtual void AddVertexBuffer(const Ref<VertexBuffer> vertex_buffer) override;
 		virtual void SetIndexBuffer(const Ref<IndexBuffer> index_buffer) override ;
 
-		virtual Ref<VertexBuffer>* getVertexBuffers() override { return m_vertex_buffers.data(); };
+		virtual std::vector<Ref<VertexBuffer>> getVertexBuffers() override { return m_vertex_buffers; };
 		virtual IndexBuffer* getIndexBuffer() override { return m_index_buffer.get(); };
 
 	private:

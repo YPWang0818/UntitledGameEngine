@@ -14,7 +14,7 @@ namespace UGE {
 		virtual void UnBind() const = 0;
 		virtual void AddVertexBuffer(const Ref<VertexBuffer> vertex_buffer ) = 0;
 		virtual void SetIndexBuffer(const Ref<IndexBuffer> index_buffer) = 0;
-		virtual Ref<VertexBuffer>* getVertexBuffers() = 0;
+		virtual std::vector<Ref<VertexBuffer>> getVertexBuffers() = 0;
 		virtual IndexBuffer* getIndexBuffer() = 0;
 
 		static Ref<VertexArray> Create();

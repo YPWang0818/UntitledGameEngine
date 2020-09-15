@@ -10,7 +10,7 @@
 
 
 #define UGE_BIND_CALLBACK(func) std::bind(&func, this , std::placeholders::_1)
-
+#define UGE_BIND_STATIC_CALLBACK(func) std::bind(&func, std::placeholders::_1)
 
 namespace UGE {
 

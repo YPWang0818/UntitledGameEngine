@@ -7,6 +7,13 @@ namespace UGE{
 
 	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray> vertex_array)
 	{
+
+		vertex_array->getIndexBuffer()->Bind();
+		for (auto& vt : vertex_array->getVertexBuffers())
+		{
+			vt->Bind();
+		}
+
 		GLCALL(
 		glDrawElements(GL_TRIANGLES, vertex_array->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);)
 	}

@@ -69,7 +69,7 @@ namespace UGE {
 
 	public:
 
-		Ref<void> WindowHandle = nullptr; 
+		void* WindowHandle = nullptr; 
 
 	protected:
 		bool m_handled = false;

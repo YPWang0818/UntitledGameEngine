@@ -49,11 +49,13 @@ namespace UGE {
 		UGE_CORE_INFO("Creating Window: {0} {1} {2}", props.Title, props.Hight, props.Width);
 
 		setVSync(m_settings.isVync);
-		glfwInitHint(GLFW_VISIBLE, (m_settings.isVisble ? GLFW_TRUE : GLFW_FALSE));
-		glfwInitHint(GLFW_DECORATED, (m_settings.isDecorated ? GLFW_TRUE : GLFW_FALSE));
-		glfwInitHint(GLFW_FOCUSED, (m_settings.isFocusedOnCreate ? GLFW_TRUE : GLFW_FALSE));
-		glfwInitHint(GLFW_FLOATING, (m_settings.isFloating ? GLFW_TRUE : GLFW_FALSE));
-		glfwInitHint(GLFW_FOCUS_ON_SHOW, (m_settings.isFocusedOnShow ? GLFW_TRUE : GLFW_FALSE));
+
+
+		glfwWindowHint(GLFW_VISIBLE, m_settings.isVisble);
+		glfwWindowHint(GLFW_DECORATED, m_settings.isDecorated);
+		glfwWindowHint(GLFW_FOCUSED, m_settings.isFocusedOnCreate);
+		glfwWindowHint(GLFW_FLOATING, m_settings.isFloating);
+		glfwWindowHint(GLFW_FOCUS_ON_SHOW, m_settings.isFocusedOnShow);
 
 		if (!(_glfw_initialized))
 		{
@@ -87,7 +89,7 @@ namespace UGE {
 
 				WindowResizeEvent event(width, hight);
 
-				event.WindowHandle.reset((void*)window);
+				event.WindowHandle = (void*)window;
 
 				data.callback_fun(event);
 
@@ -99,7 +101,7 @@ namespace UGE {
 			data.Position = glm::ivec2(xpos, ypos);
 
 			WindowMovedEvent event(xpos, ypos);
-			event.WindowHandle.reset((void*)window);
+			event.WindowHandle = (void*)window;
 			data.callback_fun(event);
 
 			});
@@ -108,7 +110,7 @@ namespace UGE {
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			WindowCloseEvent event;
-			event.WindowHandle.reset((void*)window);
+			event.WindowHandle = (void*)window;
 			data.callback_fun(event);
 
 			});
@@ -120,13 +122,13 @@ namespace UGE {
 			if (focused)
 			{
 				WindowFocusEvent event;
-				event.WindowHandle.reset((void*)window);
+				event.WindowHandle = (void*)window;
 				data.callback_fun(event);
 			}
 			else
 			{
 				WindowLostFocusEvent event;
-				event.WindowHandle.reset((void*)window);
+				event.WindowHandle = (void*)window;
 				data.callback_fun(event);
 			};
 			
@@ -141,21 +143,21 @@ namespace UGE {
 				case GLFW_PRESS:
 				{
 					KeyPressedEvent event(key, 0);
-					event.WindowHandle.reset((void*)window);
+					event.WindowHandle = (void*)window;
 					data.callback_fun(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
 					KeyReleasedEvent event(key);
-					event.WindowHandle.reset((void*)window);
+					event.WindowHandle = (void*)window;
 					data.callback_fun(event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
 					KeyPressedEvent event(key, 1); //TODO: retrive repeat count.  
-					event.WindowHandle.reset((void*)window);
+					event.WindowHandle = (void*)window;
 					data.callback_fun(event);
 					break;
 				}
@@ -167,7 +169,7 @@ namespace UGE {
 
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 			KeyTypedEvent event(c);
-			event.WindowHandle.reset((void*)window);
+			event.WindowHandle = (void*)window;
 			data.callback_fun(event);
 			});
 
@@ -180,7 +182,7 @@ namespace UGE {
 			case GLFW_PRESS:
 			{
 				MousePressedEvent event(button);
-				event.WindowHandle.reset((void*)window);
+				event.WindowHandle = (void*)window;
 				data.callback_fun(event);
 				break;
 
@@ -188,7 +190,7 @@ namespace UGE {
 			case GLFW_RELEASE:
 			{
 				MouseReleasedEvent event(button);
-				event.WindowHandle.reset((void*)window);
+				event.WindowHandle = (void*)window;
 				data.callback_fun(event);
 				break;
 			}
@@ -202,7 +204,7 @@ namespace UGE {
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			MouseMovedEvent event((float)x_pos, (float)y_pos);
-			event.WindowHandle.reset((void*)window);
+			event.WindowHandle = (void*)window;
 			data.callback_fun(event);
 
 			});
@@ -211,7 +213,7 @@ namespace UGE {
 			WindowProps& data = *(WindowProps*)glfwGetWindowUserPointer(window);
 
 			MouseScrolledEvent event((float)xoffset, (float)yoffset);
-			event.WindowHandle.reset((void*)window);
+			event.WindowHandle = (void*)window;
 
 			data.callback_fun(event);
 
@@ -227,8 +229,9 @@ namespace UGE {
 
 	void WindowsWindow::onUpdate()
 	{
-
+		m_contex->makeContexCurrent();
 		glfwPollEvents();
+	
 		m_contex->SwapBuffers();
 
 	};

@@ -17,10 +17,9 @@ namespace UGE{
 
 		static void Begin();
 		static void End();
+	
 
 	private:
-
-	
 		bool _KeyPressedCallBack(KeyPressedEvent& e);
 		bool _KeyReleasedCallBack(KeyReleasedEvent& e);
 		bool _MousePressedCallBack(MousePressedEvent& e);
