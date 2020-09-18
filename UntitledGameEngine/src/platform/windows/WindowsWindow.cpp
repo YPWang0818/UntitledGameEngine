@@ -223,6 +223,7 @@ namespace UGE {
 
 	void WindowsWindow::ShutDown()
 	{
+		
 		glfwDestroyWindow(m_window);
 	};
 
@@ -231,7 +232,6 @@ namespace UGE {
 	{
 		m_contex->makeContexCurrent();
 		glfwPollEvents();
-	
 		m_contex->SwapBuffers();
 
 	};

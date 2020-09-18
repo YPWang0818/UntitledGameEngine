@@ -44,6 +44,7 @@ namespace UGE {
 		EventDispatcher dispatcher(e);
 
 		dispatcher.DispatchEvents<WindowCloseEvent>(UGE_BIND_CALLBACK(Application::_CloseWindow));
+
 		//UGE_CORE_TRACE("{0}", e);
 
 		for (auto it = m_layer_stack.rbegin(); it != m_layer_stack.rend(); ++it) {
@@ -60,18 +61,20 @@ namespace UGE {
 		
 		while (m_running) {
 
-			double  this_frame_time = glfwGetTime();// Moved to Plaform::getTime() eventually.
+			float  this_frame_time = glfwGetTime();// Moved to Plaform::getTime() eventually.
 
-			TimeStep ts = (this_frame_time - m_last_frame_time);
+			TimeStep ts = this_frame_time - m_last_frame_time;
+
 			m_last_frame_time = this_frame_time;
 
 
+			m_window->onUpdate();
 
 			for (Layer* layer : m_layer_stack) {
 				layer->onUpdate(ts);
 			};
 
-			m_window->onUpdate();
+		
 			
 		};
 	};

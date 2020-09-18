@@ -40,7 +40,7 @@ namespace UGE {
 		bool m_running = true;
 		LayersStack m_layer_stack;
 
-		double m_last_frame_time;
+		float m_last_frame_time = 0;
 		//temperary test
 		
 

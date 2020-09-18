@@ -29,6 +29,8 @@ namespace UGE{
 		bool _CharCallBack(KeyTypedEvent& e);
 		bool _WindowResizeCallBack(WindowResizeEvent& e);
 		bool _WindowMovedCallBack(WindowMovedEvent& e);
+		//bool _WindowFocusedCallBack(WindowFocusEvent& e);
+		//bool _WindowUnFocusedCallBack(WindowLostFocusEvent& e);
 		
 	};
 

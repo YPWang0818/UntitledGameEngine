@@ -23,12 +23,11 @@ namespace UGE {
 	static void _glfw_update_monitor();
 	static void _glfw_monitor_callback(GLFWmonitor* monitor, int code);
 	static void _glfw_new_frame();
-	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight);
+	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight, GLuint vertex_array);
 	static void _draw_render_data(ImDrawData* drawdata);
 	static void _shutdown();
 	static void _imgui_on_event(Event& e);
 	static void _imgui_update_contrl_keys();
-	//static void _glfw_update_cursor();
 
 	static void _init_platform_interface();
 	static void _imgui_create_window(ImGuiViewport* viewport);
@@ -44,6 +43,7 @@ namespace UGE {
 	static void _imgui_set_window_title(ImGuiViewport* viewport, const char* title);
 	static void _imgui_render_window(ImGuiViewport* viewport, void* render_arg);
 	static void _imgui_swap_buffer(ImGuiViewport* viewport, void* render_arg);
+	static void _imgui_render_viewports(ImGuiViewport* viewport, void* render_args);
 
 	static bool imgui_key_pressed_callback(KeyPressedEvent& e);
 	static bool imgui_key_released_callback(KeyReleasedEvent& e);
@@ -61,7 +61,7 @@ namespace UGE {
 	static GLuint imgui_vertex_buffer = 0;
 	static GLuint imgui_index_buffer = 0;
 	static GLuint imgui_font_texture = 0;
-	static GLuint imgui_vertex_array = 0;
+	//static GLuint imgui_vertex_array = 0;
 
 	static bool need_update_monitor = true;
 	
@@ -85,6 +85,8 @@ namespace UGE {
 		bool        window_owned = false;
 		int			ignore_window_pos_event_frame = -1;
 		int         ignore_window_size_event_frame = -1;
+
+		~ImguiViewPortData() {};
 
 	};
 
@@ -118,8 +120,6 @@ namespace UGE {
 			_init_platform_interface();
 		}
 
-		
-
 		glfwSetMonitorCallback(_glfw_monitor_callback);
 		
 	};
@@ -127,22 +127,23 @@ namespace UGE {
 	static void _init_opengl() {
 
 	
-			// Initial Setup
+		// Initial Setup Should move to the rendere API side;
+
 		glEnable(GL_BLEND);
 		glBlendEquation(GL_FUNC_ADD);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_CULL_FACE);
 		glDisable(GL_DEPTH_TEST);
-		glEnable(GL_SCISSOR_TEST);
+		//glEnable(GL_SCISSOR_TEST);
 		#ifdef GL_POLYGON_MODE
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		#endif
+		
 
 		GLCALL(
 
 		glGenBuffers(1, &imgui_vertex_buffer);
 		glGenBuffers(1, &imgui_index_buffer);
-		glGenVertexArrays(1, &imgui_vertex_array);
 		glGenTextures(1, &imgui_font_texture);
 
 		);
@@ -198,31 +199,7 @@ namespace UGE {
 
 		// SetUp vertex buffer layout
 
-		GLCALL(
-		imgui_attributes.Position = glGetAttribLocation(imgui_shader_program, "Position");
-		imgui_attributes.UV = glGetAttribLocation(imgui_shader_program, "UV");
-		imgui_attributes.Color = glGetAttribLocation(imgui_shader_program, "Color");
-
-
-		glBindVertexArray(imgui_vertex_array);
-		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
-
-		glEnableVertexAttribArray(imgui_attributes.Position);
-		glEnableVertexAttribArray(imgui_attributes.UV);
-		glEnableVertexAttribArray(imgui_attributes.Color);
-
-		glVertexAttribPointer(imgui_attributes.Position, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, pos));
-		glVertexAttribPointer(imgui_attributes.UV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
-		glVertexAttribPointer(imgui_attributes.Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
-
-		);
-
-		// Unbind Eveything
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+	
 
 		
 	};
@@ -374,15 +351,13 @@ namespace UGE {
 		_load_font_texture();
 	}
 
-	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight) {
+	static void _setup_render_states(ImDrawData* drawdata, int fb_width, int fb_hight, GLuint vertex_array) {
 
-		// Bind everything
-		GLCALL(
-		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
-		glBindVertexArray(imgui_vertex_array);
-		glUseProgram(imgui_shader_program);
-		);
+
+
+		GLCALL(glBindVertexArray(vertex_array));
+		GLCALL(glUseProgram(imgui_shader_program));
+		
 
 		glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_hight);
 
@@ -403,6 +378,25 @@ namespace UGE {
 		glBindSampler(0, 0);
 		);
 
+		GLCALL(
+		imgui_attributes.Position = glGetAttribLocation(imgui_shader_program, "Position");
+		imgui_attributes.UV = glGetAttribLocation(imgui_shader_program, "UV");
+		imgui_attributes.Color = glGetAttribLocation(imgui_shader_program, "Color");
+
+
+
+		glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
+
+		glEnableVertexAttribArray(imgui_attributes.Position);
+		glEnableVertexAttribArray(imgui_attributes.UV);
+		glEnableVertexAttribArray(imgui_attributes.Color);
+
+		glVertexAttribPointer(imgui_attributes.Position, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, pos));
+		glVertexAttribPointer(imgui_attributes.UV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
+		glVertexAttribPointer(imgui_attributes.Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
+
+		);
 
 	}
 
@@ -413,8 +407,12 @@ namespace UGE {
 		int fb_hight = (int)(drawdata->DisplaySize.y * drawdata->FramebufferScale.y);
 		if (fb_width <= 0 || fb_hight <= 0) return;
 
+		GLint backup_vertex_array;  glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &backup_vertex_array);
 
-		_setup_render_states(drawdata, fb_width, fb_hight);
+		GLuint vertex_array = 0;
+		glGenVertexArrays(1, &vertex_array);
+
+		_setup_render_states(drawdata, fb_width, fb_hight, vertex_array);
 
 		ImVec2 clip_offset = drawdata->DisplayPos;
 		ImVec2 clip_scale = drawdata->FramebufferScale;
@@ -426,9 +424,13 @@ namespace UGE {
 
 			// Fill in the buffers;
 			GLCALL(
+				glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
+				glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
+			);
 
-			glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
+			GLCALL(
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 			);
 
 			for (int i_cmd = 0; i_cmd < cmd_list->CmdBuffer.Size; i_cmd++) {
@@ -439,7 +441,7 @@ namespace UGE {
 				if (cmd->UserCallback != nullptr) {
 
 					if (cmd->UserCallback == ImDrawCallback_ResetRenderState)
-						_setup_render_states(drawdata, fb_width, fb_hight);
+						_setup_render_states(drawdata, fb_width, fb_hight, vertex_array);
 					else
 						cmd->UserCallback(cmd_list, cmd);
 					continue;
@@ -458,7 +460,11 @@ namespace UGE {
 
 					);
 
-					GLCALL(glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)cmd->TextureId));
+					GLCALL(
+						glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)cmd->TextureId);
+						glBindBuffer(GL_ARRAY_BUFFER, imgui_vertex_buffer);
+						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, imgui_index_buffer);
+						);
 
 					GLCALL(
 					glDrawElementsBaseVertex(GL_TRIANGLES, (GLsizei)cmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (void*)(intptr_t)(cmd->IdxOffset * sizeof(ImDrawIdx)), (GLint)cmd->VtxOffset);
@@ -469,43 +475,62 @@ namespace UGE {
 			}
 		}
 
+		glDeleteVertexArrays(1, &vertex_array);
+		glBindVertexArray(backup_vertex_array);
+
+
 	}
 
 	static void _shutdown() {
 
-		ImGui::DestroyPlatformWindows();
 
-	GLCALL(
+		GLCALL(
 
 		if (imgui_vertex_buffer) glDeleteBuffers(1, &imgui_vertex_buffer);
 		if (imgui_index_buffer)  glDeleteBuffers(1, &imgui_index_buffer);
-		if (imgui_vertex_array) glDeleteVertexArrays(1, &imgui_vertex_array);
+
+		);
+
+		GLCALL(
 		if (imgui_shader_program && imgui_vertex_shader) glDetachShader(imgui_shader_program, imgui_vertex_shader);
 		if (imgui_shader_program && imgui_fragment_shader) glDetachShader(imgui_shader_program, imgui_fragment_shader);
+		);
+
+		GLCALL(
 		if (imgui_vertex_shader) glDeleteShader(imgui_vertex_shader);
 		if (imgui_fragment_shader) glDeleteShader(imgui_fragment_shader);
 		if (imgui_shader_program) glDeleteProgram(imgui_shader_program);
+		);
 
+	
 		if (imgui_font_texture)
 		{
 			ImGuiIO& io = ImGui::GetIO();
-			glDeleteTextures(1, &imgui_font_texture);
+			GLCALL(glDeleteTextures(1, &imgui_font_texture));
 			io.Fonts->TexID = 0;
 			imgui_font_texture = 0;
 		};
+
 		
 		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
 
+
+		/*  Currently cause memery leak :(
 		if (data) {
-			if (data->window_owned) {
+			if (data->window_owned){
 				data->window.reset();
 			};
+
 			IM_DELETE(data);
 		};
+		*/
 
+		viewport->PlatformHandle = nullptr;
+		viewport->PlatformHandleRaw = nullptr;
+		viewport->PlatformUserData = nullptr;
 
-	);
+		ImGui::DestroyPlatformWindows();
 
 	
 	}
@@ -527,39 +552,6 @@ namespace UGE {
 	}
 
 
-	/**
-	TODO need a cursor class to make this work.
-
-	void _glfw_update_cursor()
-	{
-
-		ImGuiIO& io = ImGui::GetIO();
-		GLFWwindow* main_window = _get_app_main_window()->getNativeWindow();
-		if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || glfwGetInputMode(main_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
-			return;
-
-		ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
-		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
-		for (int n = 0; n < platform_io.Viewports.Size; n++)
-		{
-			GLFWwindow* window = (GLFWwindow*)platform_io.Viewports[n]->PlatformHandle;
-			if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
-			{
-				// Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-			}
-			else
-			{
-				// Show OS mouse cursor
-				// FIXME-PLATFORM: Unfocused windows seems to fail changing the mouse cursor with GLFW 3.2, but 3.3 works here.
-				glfwSetCursor(window, g_MouseCursors[imgui_cursor] ? g_MouseCursors[imgui_cursor] : g_MouseCursors[ImGuiMouseCursor_Arrow]);
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			}
-		}
-	}
-	**/
-
-
 	static void _init_platform_interface() {
 
 		ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
@@ -577,6 +569,7 @@ namespace UGE {
 		platform_io.Platform_SetWindowTitle = _imgui_set_window_title;
 		platform_io.Platform_RenderWindow = _imgui_render_window;
 		platform_io.Platform_SwapBuffers = _imgui_swap_buffer;
+		platform_io.Renderer_RenderWindow = _imgui_render_viewports;
 
 		#if GLFW_HAS_WINDOW_ALPHA
 		platform_io.Platform_SetWindowAlpha = ImGui_ImplGlfw_SetWindowAlpha;
@@ -626,10 +619,10 @@ namespace UGE {
 		if (ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData) {
 
 			if (data->window_owned) {
-				data->window.reset();
+				//data->window.reset();
+				delete data;
 			};
-
-			IM_DELETE(data);
+		
 		};
 		
 		viewport->PlatformHandle = nullptr;
@@ -720,12 +713,34 @@ namespace UGE {
 	{
 		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
 		data->window->getGraphicsContex()->makeContexCurrent();
+
+		glEnable(GL_BLEND);
+		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+		//glEnable(GL_SCISSOR_TEST);
+		#ifdef GL_POLYGON_MODE
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		#endif
 	
 	};
 	static void _imgui_swap_buffer(ImGuiViewport* viewport, void* rander_arg) {
 		ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
 		data->window->getGraphicsContex()->makeContexCurrent();
 		data->window->getGraphicsContex()->SwapBuffers();
+	}
+
+	void _imgui_render_viewports(ImGuiViewport* viewport, void* render_args)
+	{
+		if (!(viewport->Flags & ImGuiViewportFlags_NoRendererClear))
+		{
+			
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+			
+		}
+		_draw_render_data(viewport->DrawData);
 	}
 
 

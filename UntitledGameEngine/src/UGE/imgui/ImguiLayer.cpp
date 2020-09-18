@@ -11,6 +11,7 @@
 #include "platform/openGL/imgui_impl_glfw.h"
 */
 
+
 namespace UGE {
 	ImguiLayer::ImguiLayer()
 		: Layer("ImGui Layer")
@@ -77,13 +78,21 @@ namespace UGE {
 
 	void ImguiLayer::onUpdate(TimeStep ts)
 	{
-
+		
 		Begin();
 
 		ImGuiIO& io = ImGui::GetIO();
-		io.DeltaTime = (float)ts;
+		io.DeltaTime = ts.getSecond();
 		bool show_demo_window = true;
+		bool show_debug = true;
+	
+
+		ImGui::Begin("Hellow World.");
+		ImGui::ShowMetricsWindow(&show_debug);
 		ImGui::ShowDemoWindow(&show_demo_window);
+
+		ImGui::Text("This is some useful text.");
+		ImGui::End();
 
 		End();
 
@@ -104,10 +113,14 @@ namespace UGE {
 		dispatcher.DispatchEvents<KeyTypedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_CharCallBack));
 		dispatcher.DispatchEvents<WindowResizeEvent>(UGE_BIND_CALLBACK(ImguiLayer::_WindowResizeCallBack));
 		dispatcher.DispatchEvents<WindowMovedEvent>(UGE_BIND_CALLBACK(ImguiLayer::_WindowMovedCallBack));
+		//dispatcher.DispatchEvents<WindowFocusEvent>(UGE_BIND_CALLBACK(ImguiLayer::_WindowFocusedCallBack));
+		//dispatcher.DispatchEvents<WindowLostFocusEvent>(UGE_BIND_CALLBACK(ImguiLayer::_WindowUnFocusedCallBack));
+
+
 	}
 
-	void ImguiLayer::Begin()
-	{
+	void ImguiLayer::Begin(){
+
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::getInstance();
 		int w = app.getWindowHandle().getWidth();
@@ -115,7 +128,6 @@ namespace UGE {
 
 		io.DisplaySize = ImVec2((float)w, (float)h);
 
-		// TODO Handle monitors stuff. 
 
 		_glfw_new_frame();
 		ImGui::NewFrame();
@@ -127,8 +139,9 @@ namespace UGE {
 		ImGuiIO& io = ImGui::GetIO();
 
 		ImGui::Render();
-		_draw_render_data(ImGui::GetDrawData());
 
+		_draw_render_data(ImGui::GetDrawData());
+		
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			GLFWwindow* backup_current_context = glfwGetCurrentContext();
@@ -176,6 +189,7 @@ namespace UGE {
 		return imgui_window_moved_callback(e);
 	}
 
+
 	bool ImguiLayer::_MousePressedCallBack(MousePressedEvent& e)
 	{
 		UGE_CORE_ASSERT((e.getEventType() == EventType::mousePressed), "Incorrect event handling");
@@ -208,7 +222,7 @@ namespace UGE {
 	}
 
 
-	//bool ImguiLayer::_CharCallBack(Event& e){}
+
 
 
 }

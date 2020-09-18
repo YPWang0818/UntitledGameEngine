@@ -58,7 +58,7 @@ namespace UGE {
 	class  WindowLostFocusEvent : public Event
 	{
 	public:
-		_EVENT_TYPE_DECORATION(windowClose)
+		_EVENT_TYPE_DECORATION(windowLostFocus)
 		_EVENT_CATEGORY_DECORATION(windowEvents)
 
 
