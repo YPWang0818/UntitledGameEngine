@@ -1544,7 +1544,7 @@
     </ClInclude>
     <ClInclude Include="src\platform\openGL\imgui_impl_opengl3.h" />
     <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h" />
-    <ClInclude Include="src\UGE\imgui\imgui_glfw_opengl_renderer.h" />
+    <ClInclude Include="src\UGE\imgui\ImguiBackend.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\core\Application.cpp">
@@ -1618,7 +1618,7 @@
     </ClCompile>
     <ClCompile Include="src\platform\openGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\UGE\imgui\imgui_opengl_glfw_renderer.cpp" />
     <ClCompile Include="src\UGE\core\BaseWindow.cpp" />
+    <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp" />
   </ItemGroup>
 </Project>
