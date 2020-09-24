@@ -23,7 +23,8 @@ namespace UGE {
 		Application();
 		virtual ~Application();
 
-		inline BaseWindow&  getWindowHandle() const { return *m_window; };
+		//inline BaseWindow&  getWindowHandle() const { return *m_window; };
+		inline Ref<BaseWindow> getWindowHandle() const { return m_window; }; // Use this when you want 
 
 		void onEvent(Event& e);
 		void PushLayer(Layer* layer);

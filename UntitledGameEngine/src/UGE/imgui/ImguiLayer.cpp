@@ -13,11 +13,7 @@ namespace UGE {
 
 	void ImguiLayer::onAttach()
 	{
-		
-		Application& app = Application::getInstance();
-		GLFWwindow* window = static_cast<GLFWwindow*>(app.getWindowHandle().getNativeWindow());
-
-		
+			
 		ImguiBackend::Init();
 		ImGui::StyleColorsDark();
 
@@ -36,7 +32,7 @@ namespace UGE {
 		ImGuiIO& io = ImGui::GetIO();
 		io.DeltaTime = ts.getSecond();
 		bool show_demo_window = true;
-		bool show_debug = true;
+		bool show_debug = false;
 	
 
 		ImGui::Begin("Hellow World.");

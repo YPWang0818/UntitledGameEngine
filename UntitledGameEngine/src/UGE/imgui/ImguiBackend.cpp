@@ -68,7 +68,7 @@ namespace UGE {
 		} imgui_attributes;
 
 
-		static BaseWindow* _get_app_main_window() { return &(Application::getInstance().getWindowHandle()); };
+		static Ref<BaseWindow> _get_app_main_window() { return Application::getInstance().getWindowHandle(); };
 
 		static struct ImguiViewPortData {
 			Ref<BaseWindow> window;
@@ -76,7 +76,12 @@ namespace UGE {
 			int			ignore_window_pos_event_frame = -1;
 			int         ignore_window_size_event_frame = -1;
 
-			~ImguiViewPortData() {};
+			~ImguiViewPortData() 
+			{
+				window_owned = false;
+				window = nullptr;
+				window.reset();
+			};
 
 		};
 		
@@ -132,8 +137,8 @@ namespace UGE {
 
 			ImGuiIO& io = ImGui::GetIO();
 			Application& app = Application::getInstance();
-			int w = app.getWindowHandle().getWidth();
-			int h = app.getWindowHandle().getHight();
+			int w = app.getWindowHandle()->getWidth();
+			int h = app.getWindowHandle()->getHight();
 
 			io.DisplaySize = ImVec2((float)w, (float)h);
 
@@ -185,15 +190,13 @@ namespace UGE {
 			ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData;
 
 
-			/*  Currently cause memery leak :(
 			if (data) {
 				if (data->window_owned){
-					data->window.reset();
-				};
-
-				IM_DELETE(data);
+					data->~ImguiViewPortData();
+					// We don't explicitly delete the data, since it might mess with the shared pointer inside it . 
+				};	
 			};
-			*/
+			
 
 			viewport->PlatformHandle = nullptr;
 			viewport->PlatformHandleRaw = nullptr;
@@ -348,7 +351,7 @@ namespace UGE {
 			ImguiViewPortData* imgui_viewport_data = IM_NEW(ImguiViewPortData);
 
 			Ref<BaseWindow> window;
-			window.reset(_get_app_main_window());
+			window = _get_app_main_window();
 
 			void* native_window = window->getNativeWindow();
 
@@ -793,8 +796,8 @@ namespace UGE {
 			if (ImguiViewPortData* data = (ImguiViewPortData*)viewport->PlatformUserData) {
 
 				if (data->window_owned) {
-					//data->window.reset();
-					delete data;
+					data->window.reset();
+					data->~ImguiViewPortData();
 				};
 
 			};

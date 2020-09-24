@@ -9,7 +9,7 @@ namespace UGE {
 
 	bool WindowsInput::_impel_is_key_down(int key)
 	{
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle().getNativeWindow());
+		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle()->getNativeWindow());
 
 		int status = glfwGetKey(window, key);
 
@@ -18,7 +18,7 @@ namespace UGE {
 
 	bool WindowsInput::_impel_is_mouse_button_down(int button)
 	{
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle().getNativeWindow());
+		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle()->getNativeWindow());
 
 		int status = glfwGetMouseButton(window, button);
 
@@ -27,7 +27,7 @@ namespace UGE {
 
 	glm::vec2 WindowsInput::_impel_get_cursor_pos()
 	{
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle().getNativeWindow());
+		GLFWwindow* window = static_cast<GLFWwindow*>(Application::getInstance().getWindowHandle()->getNativeWindow());
 
 		double x_pos, y_pos;
 		glfwGetCursorPos(window, &x_pos, &y_pos);
