@@ -1,6 +1,6 @@
 #include"ugepch.h"
-#include "OpenGLBuffer.h"
 #include "glad/glad.h"
+#include "OpenGLBuffer.h"
 
 namespace UGE {
 

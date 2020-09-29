@@ -141,8 +141,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h" />
-    <ClInclude Include="src\platform\openGL\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\UGE.h" />
     <ClInclude Include="src\UGE\imgui\ImguiBackend.h" />
     <ClInclude Include="src\UGE\IO\InputHandler.h" />
@@ -165,6 +164,7 @@
     <ClInclude Include="src\UGE\events\uge_events.h" />
     <ClInclude Include="src\UGE\imgui\ImguiLayer.h" />
     <ClInclude Include="src\UGE\renderer\Buffer.h" />
+    <ClInclude Include="src\UGE\renderer\FrameBuffer.h" />
     <ClInclude Include="src\UGE\renderer\GraphicsContex.h" />
     <ClInclude Include="src\UGE\renderer\OrthographicCamera.h" />
     <ClInclude Include="src\UGE\renderer\Renderer.h" />
@@ -632,8 +632,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\platform\openGL\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\UGE\core\Application.cpp" />
     <ClCompile Include="src\UGE\core\BaseWindow.cpp" />
     <ClCompile Include="src\UGE\core\Layer.cpp" />
@@ -642,6 +641,7 @@
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp" />
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
+    <ClCompile Include="src\UGE\renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\UGE\renderer\Renderer.cpp" />
     <ClCompile Include="src\UGE\renderer\RendererAPI.cpp" />

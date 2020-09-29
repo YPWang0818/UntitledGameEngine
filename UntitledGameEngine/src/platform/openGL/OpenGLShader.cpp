@@ -44,6 +44,7 @@ namespace UGE {
 	void OpenGLShader::Bind() const
 	{
 		GLCALL( glUseProgram(m_rendererID) );
+		
 	}
 
 
@@ -158,7 +159,8 @@ namespace UGE {
 			return;
 		}
 
-		GLCALL( glValidateProgram(m_rendererID) );
+		glValidateProgram(m_rendererID) ;
+
 
 
 		GLCALL(

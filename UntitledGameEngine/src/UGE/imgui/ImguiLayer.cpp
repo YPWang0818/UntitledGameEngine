@@ -36,11 +36,12 @@ namespace UGE {
 	
 
 		ImGui::Begin("Hellow World.");
+		ImGui::Text("This is some useful text.");
+		ImGui::End();
+
 		ImGui::ShowMetricsWindow(&show_debug);
 		ImGui::ShowDemoWindow(&show_demo_window);
 
-		ImGui::Text("This is some useful text.");
-		ImGui::End();
 
 		End();
 

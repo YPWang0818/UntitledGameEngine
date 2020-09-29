@@ -8,6 +8,9 @@
 
 namespace UGE {
 
+
+
+
 	class  WindowsWindow : public BaseWindow
 	{
 	public:

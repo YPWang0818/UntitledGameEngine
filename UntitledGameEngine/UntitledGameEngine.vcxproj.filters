@@ -1542,9 +1542,9 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\platform\openGL\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\platform\openGL\imgui_impl_glfw.h" />
     <ClInclude Include="src\UGE\imgui\ImguiBackend.h" />
+    <ClInclude Include="src\UGE\renderer\FrameBuffer.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLFrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\core\Application.cpp">
@@ -1616,9 +1616,9 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\openGL\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="src\platform\openGL\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\UGE\core\BaseWindow.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp" />
+    <ClCompile Include="src\UGE\renderer\FrameBuffer.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLFrameBuffer.cpp" />
   </ItemGroup>
 </Project>
