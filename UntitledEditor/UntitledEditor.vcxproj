@@ -15,10 +15,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}</ProjectGuid>
+    <ProjectGuid>{95161F9E-81E4-12A4-6A78-83CA56E5EE08}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Sandbox</RootNamespace>
+    <RootNamespace>UntitledEditor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -55,23 +55,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Debug_x86_64_windows\Sandbox\</OutDir>
-    <IntDir>..\obj\Debug_x86_64_windows\Sandbox\</IntDir>
-    <TargetName>Sandbox</TargetName>
+    <OutDir>..\bin\Debug_x86_64_windows\UntitledEditor\</OutDir>
+    <IntDir>..\obj\Debug_x86_64_windows\UntitledEditor\</IntDir>
+    <TargetName>UntitledEditor</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Release_x86_64_windows\Sandbox\</OutDir>
-    <IntDir>..\obj\Release_x86_64_windows\Sandbox\</IntDir>
-    <TargetName>Sandbox</TargetName>
+    <OutDir>..\bin\Release_x86_64_windows\UntitledEditor\</OutDir>
+    <IntDir>..\obj\Release_x86_64_windows\UntitledEditor\</IntDir>
+    <TargetName>UntitledEditor</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Dist_x86_64_windows\Sandbox\</OutDir>
-    <IntDir>..\obj\Dist_x86_64_windows\Sandbox\</IntDir>
-    <TargetName>Sandbox</TargetName>
+    <OutDir>..\bin\Dist_x86_64_windows\UntitledEditor\</OutDir>
+    <IntDir>..\obj\Dist_x86_64_windows\UntitledEditor\</IntDir>
+    <TargetName>UntitledEditor</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,10 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\SandboxApp.h" />
+    <ClInclude Include="src\EditorLayer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\SandboxAPP.cpp" />
+    <ClCompile Include="src\EditorLayer.cpp" />
+    <ClCompile Include="src\UntitledEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UntitledGameEngine\UntitledGameEngine.vcxproj">

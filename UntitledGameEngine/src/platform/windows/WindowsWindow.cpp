@@ -11,22 +11,6 @@ namespace UGE {
 		UGE_CORE_ERROR("GLFW error ({0}) {1}", error_code, description);
 	};
 
-	 void APIENTRY _opengl_error_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
-	{
-
-		std::string msg;
-		msg.reserve(length + 1);
-		msg = message;
-
-		switch (severity)
-		{
-		case GL_DEBUG_SEVERITY_HIGH: UGE_CORE_ERROR("OpenGL Error: {0}", msg); UGE_CORE_ASSERT(false, "");
-		case GL_DEBUG_SEVERITY_MEDIUM: UGE_CORE_WARN("OpenGL Warning: {0}", msg);
-		case GL_DEBUG_SEVERITY_LOW: UGE_CORE_INFO("OpenGL Message: {0}", msg);
-		case GL_DEBUG_SEVERITY_NOTIFICATION:UGE_CORE_TRACE("OpenGL Message: {0}", msg);
-
-		}
-	};
 
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -92,7 +76,7 @@ namespace UGE {
 		m_contex = CreateRef<OpenGLContex>(m_window);
 		m_contex->Init();
 
-		glDebugMessageCallback(UGE::_opengl_error_callback, nullptr);
+	
 		glfwSetWindowUserPointer(m_window, &m_settings);
 
 

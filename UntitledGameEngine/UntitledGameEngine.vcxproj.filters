@@ -141,10 +141,16 @@
     <ClInclude Include="src\UGE\events\uge_events.h">
       <Filter>src\UGE\events</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\imgui\ImguiBackend.h">
+      <Filter>src\UGE\imgui</Filter>
+    </ClInclude>
     <ClInclude Include="src\UGE\imgui\ImguiLayer.h">
       <Filter>src\UGE\imgui</Filter>
     </ClInclude>
     <ClInclude Include="src\UGE\renderer\Buffer.h">
+      <Filter>src\UGE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\renderer\FrameBuffer.h">
       <Filter>src\UGE\renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\UGE\renderer\GraphicsContex.h">
@@ -175,6 +181,9 @@
       <Filter>src\platform\openGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\openGL\OpenGLContex.h">
+      <Filter>src\platform\openGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\openGL\OpenGLFrameBuffer.h">
       <Filter>src\platform\openGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h">
@@ -1542,12 +1551,12 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\UGE\imgui\ImguiBackend.h" />
-    <ClInclude Include="src\UGE\renderer\FrameBuffer.h" />
-    <ClInclude Include="src\platform\openGL\OpenGLFrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\core\Application.cpp">
+      <Filter>src\UGE\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\BaseWindow.cpp">
       <Filter>src\UGE\core</Filter>
     </ClCompile>
     <ClCompile Include="src\UGE\core\Layer.cpp">
@@ -1559,10 +1568,16 @@
     <ClCompile Include="src\UGE\core\Log.cpp">
       <Filter>src\UGE\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp">
+      <Filter>src\UGE\imgui</Filter>
+    </ClCompile>
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp">
       <Filter>src\UGE\imgui</Filter>
     </ClCompile>
     <ClCompile Include="src\UGE\renderer\Buffer.cpp">
+      <Filter>src\UGE\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\renderer\FrameBuffer.cpp">
       <Filter>src\UGE\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp">
@@ -1592,6 +1607,9 @@
     <ClCompile Include="src\platform\openGL\OpenGLContex.cpp">
       <Filter>src\platform\openGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\openGL\OpenGLFrameBuffer.cpp">
+      <Filter>src\platform\openGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp">
       <Filter>src\platform\openGL</Filter>
     </ClCompile>
@@ -1616,9 +1634,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\UGE\core\BaseWindow.cpp" />
-    <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp" />
-    <ClCompile Include="src\UGE\renderer\FrameBuffer.cpp" />
-    <ClCompile Include="src\platform\openGL\OpenGLFrameBuffer.cpp" />
   </ItemGroup>
 </Project>

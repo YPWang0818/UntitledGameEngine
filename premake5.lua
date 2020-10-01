@@ -19,7 +19,7 @@ workspace "UntitledGameEngine"
 	IncludeDir["glm"] = "UntitledGameEngine/vendor/glm"
 	IncludeDir["stb_image"] = "UntitledGameEngine/vendor/stb_image"
 	
-	startproject "Sandbox"
+	startproject "UntitledEditor"
 	
 	project "UntitledGameEngine"
 		location "UntitledGameEngine"
@@ -146,7 +146,68 @@ workspace "UntitledGameEngine"
 		filter {"configurations:Dist"}
 			defines{"UGE_DIST"}
 			optimize "speed"
+
+
+project "UntitledEditor"
+			
+			
+	location "UntitledEditor"
+		kind "ConsoleApp"
+		language "C++"
+		cppdialect "C++17"
+		staticruntime "on"
 	
+		targetdir ("bin/" .. outdir .. "/%{prj.name}")
+		objdir ("obj/" .. outdir .. "/%{prj.name}")
+		
+		files {
+			"%{prj.name}/src/**.h",
+			"%{prj.name}/src/**.hpp",
+			"%{prj.name}/src/**.cpp",
+			"%{prj.name}/src/**.c"
+		
+		}
+		
+		includedirs {
+			"UntitledGameEngine/src",
+			"UntitledGameEngine/src/UGE",
+			"%{IncludeDir.spdlog}",
+			"%{IncludeDir.GLFW}",
+			"%{IncludeDir.glad}",
+			"%{IncludeDir.ImGui}",
+			"%{IncludeDir.glm}"
+			
+		}
+		
+		links
+		{	"UntitledGameEngine"
+		}
+		
+		filter {"system:windows"}
+			systemversion "latest"
+			
+			defines{
+			"UGE_PLATFORM_WINDOWS",
+			"UGE_USING_GLFW"
+			}
+			
+			
+		filter {"configurations:Debug"}
+			defines{"UGE_DEBUG"}
+			symbols "on"
+			
+		filter {"configurations:Release"}
+			defines{"UGE_RELEASE"}
+			optimize "on"
+			
+		filter {"configurations:Dist"}
+			defines{"UGE_DIST"}
+			optimize "speed"
+	
+
+
+
+
 group "Dependencies"
 		include "UntitledGameEngine/vendor/glfw"
 		include "UntitledGameEngine/vendor/glad"

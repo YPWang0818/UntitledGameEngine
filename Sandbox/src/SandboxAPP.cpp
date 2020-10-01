@@ -1,5 +1,5 @@
-
 #include "UGE.h"
+#include "UGE/core/EntryPoint.h"
 #include "glm/gtc/matrix_transform.hpp"
 
 UGE::InputHandler& handler = UGE::InputHandler::getInputHandler();

@@ -82,7 +82,6 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,9 +140,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\platform\openGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\UGE.h" />
-    <ClInclude Include="src\UGE\imgui\ImguiBackend.h" />
     <ClInclude Include="src\UGE\IO\InputHandler.h" />
     <ClInclude Include="src\UGE\IO\KeyCodes.h" />
     <ClInclude Include="src\UGE\IO\MouseButtonCodes.h" />
@@ -162,6 +159,7 @@
     <ClInclude Include="src\UGE\events\MouseEvents.h" />
     <ClInclude Include="src\UGE\events\WindowEvents.h" />
     <ClInclude Include="src\UGE\events\uge_events.h" />
+    <ClInclude Include="src\UGE\imgui\ImguiBackend.h" />
     <ClInclude Include="src\UGE\imgui\ImguiLayer.h" />
     <ClInclude Include="src\UGE\renderer\Buffer.h" />
     <ClInclude Include="src\UGE\renderer\FrameBuffer.h" />
@@ -175,6 +173,7 @@
     <ClInclude Include="src\UGE\renderer\VertexArray.h" />
     <ClInclude Include="src\platform\openGL\OpenGLBuffer.h" />
     <ClInclude Include="src\platform\openGL\OpenGLContex.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\platform\openGL\OpenGLShader.h" />
     <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
@@ -632,14 +631,13 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\platform\openGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\UGE\core\Application.cpp" />
     <ClCompile Include="src\UGE\core\BaseWindow.cpp" />
     <ClCompile Include="src\UGE\core\Layer.cpp" />
     <ClCompile Include="src\UGE\core\LayersStack.cpp" />
     <ClCompile Include="src\UGE\core\Log.cpp" />
-    <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp" />
+    <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
     <ClCompile Include="src\UGE\renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />
@@ -651,6 +649,7 @@
     <ClCompile Include="src\UGE\renderer\VertexArray.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLContex.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLShader.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />

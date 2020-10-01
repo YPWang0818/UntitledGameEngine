@@ -1,5 +1,6 @@
 #include"ugepch.h"
 #include "glad/glad.h"
+#include "gl_debug.h"
 #include "OpenGLBuffer.h"
 
 namespace UGE {
@@ -11,6 +12,7 @@ namespace UGE {
 		glGenBuffers(1, &m_rendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+		
 
 	}
 
