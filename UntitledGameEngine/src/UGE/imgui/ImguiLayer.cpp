@@ -7,57 +7,27 @@
 
 
 namespace UGE {
-	ImguiLayer::ImguiLayer()
-		: Layer("ImGui Layer")
-	{};
-
-	void ImguiLayer::onAttach()
+	ImguiLayer::ImguiLayer(const std::string& debug_name)
+		: Layer(debug_name)
 	{
-			
 		ImguiBackend::Init();
 		ImGui::StyleColorsDark();
-
 	}
-
-	void ImguiLayer::onDetach()
+	ImguiLayer::~ImguiLayer()
 	{
 		ImguiBackend::ShutDown();
-	}
-
-	void ImguiLayer::onUpdate(TimeStep ts)
-	{
-		
-		Begin();
-
-		ImGuiIO& io = ImGui::GetIO();
-		io.DeltaTime = ts.getSecond();
-		bool show_demo_window = true;
-		bool show_debug = false;
-	
-
-		ImGui::Begin("Hellow World.");
-		ImGui::Text("This is some useful text.");
-		ImGui::End();
-
-		ImGui::ShowMetricsWindow(&show_debug);
-		ImGui::ShowDemoWindow(&show_demo_window);
-
-
-		End();
-
-
-	}
+	};
 
 	void ImguiLayer::onEvent(Event& e)
 	{
 		ImguiBackend::OnEvent(e);
 	}
 
-	void ImguiLayer::Begin(){
+	void ImguiLayer::BeginUI(){
 		ImguiBackend::NewFrame();	
 	}
 
-	void ImguiLayer::End()
+	void ImguiLayer::EndUI()
 	{
 		ImGui::Render();
 		ImguiBackend::DrawRenderData(ImGui::GetDrawData());

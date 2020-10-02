@@ -164,7 +164,7 @@ public:
 	Sandbox() {
 
 		PushLayer(new ExampleLayer);
-		PushLayer(new UGE::ImguiLayer);
+		PushLayer(new UGE::ImguiLayer("Test Imgui"));
 
 	}
 	~Sandbox() {

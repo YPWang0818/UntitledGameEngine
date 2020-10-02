@@ -8,15 +8,13 @@ namespace UGE{
 	{
 	public:
 
-		ImguiLayer();
+		ImguiLayer(const std::string& debug_name);
+		~ImguiLayer();
 
-		void onAttach() override;
-		void onDetach() override;
-		void onUpdate(TimeStep ts) override;
 		void onEvent(Event & e) override;
 
-		static void Begin();
-		static void End();
+		static void BeginUI();
+		static void EndUI();
 	
 	};
 

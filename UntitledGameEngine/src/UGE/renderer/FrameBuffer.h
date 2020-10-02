@@ -21,7 +21,7 @@ namespace UGE {
 		
 
 		FrameBufferSettings() 
-		:Hight(1280), Width(720), format(FrameBufferFormat::RGBA8), swap_chain_target(false)
+		:Hight(720), Width(1280), format(FrameBufferFormat::RGBA8), swap_chain_target(false)
 		{}
 	};
 
