@@ -18,6 +18,7 @@ workspace "UntitledGameEngine"
 	IncludeDir["ImGui"] = "UntitledGameEngine/vendor/ImGui"
 	IncludeDir["glm"] = "UntitledGameEngine/vendor/glm"
 	IncludeDir["stb_image"] = "UntitledGameEngine/vendor/stb_image"
+	IncludeDir["entt"] = "UntitledGameEngine/vendor/entt"
 	
 	startproject "UntitledEditor"
 	
@@ -46,6 +47,7 @@ workspace "UntitledGameEngine"
 			"%{prj.name}/vendor/glm/glm/**.inl",
 			"%{prj.name}/vendor/stb_image/**.h",
 			"%{prj.name}/vendor/stb_image/**.cpp",
+			"%{prj.name}/vendor/entt/**.hpp"
 		}
 		
 		includedirs {
@@ -56,7 +58,8 @@ workspace "UntitledGameEngine"
 			"%{IncludeDir.glad}",
 			"%{IncludeDir.ImGui}",
 			"%{IncludeDir.glm}",
-			"%{IncludeDir.stb_image}"
+			"%{IncludeDir.stb_image}",
+			"%{IncludeDir.entt}"
 		}
 		
 		links
@@ -118,7 +121,8 @@ workspace "UntitledGameEngine"
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.glad}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.glm}"
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.entt}"
 			
 		}
 		
@@ -175,7 +179,8 @@ project "UntitledEditor"
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.glad}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.glm}"
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.entt}"
 			
 		}
 		

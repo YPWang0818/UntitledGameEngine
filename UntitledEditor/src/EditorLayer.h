@@ -19,15 +19,20 @@ namespace UE {
 
 		void RenderViewport(UGE::TimeStep ts);
 	private:
+
+		/*
 		UGE::Ref<UGE::VertexArray> m_vertex_array;
 		UGE::Ref<UGE::VertexArray> m_VAsquare;
 		UGE::Ref<UGE::Shader> m_shader;
 		UGE::Ref<UGE::Shader> m_texture_shader;
 		UGE::Ref<UGE::Texture2D> m_texture;
 		UGE::Ref<UGE::Texture2D> m_cboard_texture;
-		UGE::Ref<UGE::FrameBuffer> m_frame_buffer;
 
-		UGE::OrthographicCamera m_camera;
+		*/
+
+		UGE::Scene m_EditorScene;
+		UGE::Ref<UGE::FrameBuffer> m_frame_buffer;
+		UGE::OrthographicCamera m_EditorCamera;
 		UGE::ShaderLibrary m_shader_library;
 
 		glm::vec3 m_camera_position = { 0, 0, 0 };

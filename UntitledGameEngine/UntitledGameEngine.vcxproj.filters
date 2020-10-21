@@ -22,6 +22,9 @@
     <Filter Include="src\UGE\renderer">
       <UniqueIdentifier>{E3AEE6BE-CFA7-0511-F8D9-EA95E431E51C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\UGE\scene">
+      <UniqueIdentifier>{7A59D89A-E619-54D1-AF54-9D4E1BD498AD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\platform">
       <UniqueIdentifier>{41663D6D-2DC9-CC11-D64E-05C8C2909894}</UniqueIdentifier>
     </Filter>
@@ -33,6 +36,9 @@
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\entt">
+      <UniqueIdentifier>{DD8078C1-4936-F1B6-D22A-EB8D3EDFE7BA}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\glm">
       <UniqueIdentifier>{829FC5A8-6E57-07F6-D75E-E051C335A2E6}</UniqueIdentifier>
@@ -123,6 +129,9 @@
     <ClInclude Include="src\UGE\core\TimeStep.h">
       <Filter>src\UGE\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\UGE\core\UUID.h">
+      <Filter>src\UGE\core</Filter>
+    </ClInclude>
     <ClInclude Include="src\UGE\events\ApplicationEvents.h">
       <Filter>src\UGE\events</Filter>
     </ClInclude>
@@ -140,6 +149,12 @@
     </ClInclude>
     <ClInclude Include="src\UGE\events\uge_events.h">
       <Filter>src\UGE\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\imgui\ImguiBackend.h">
+      <Filter>src\UGE\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\imgui\ImguiLayer.h">
+      <Filter>src\UGE\imgui</Filter>
     </ClInclude>
     <ClInclude Include="src\UGE\renderer\Buffer.h">
       <Filter>src\UGE\renderer</Filter>
@@ -170,6 +185,15 @@
     </ClInclude>
     <ClInclude Include="src\UGE\renderer\VertexArray.h">
       <Filter>src\UGE\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\scene\Components.h">
+      <Filter>src\UGE\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\scene\Entity.h">
+      <Filter>src\UGE\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UGE\scene\Scene.h">
+      <Filter>src\UGE\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\openGL\OpenGLBuffer.h">
       <Filter>src\platform\openGL</Filter>
@@ -203,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="src\ugepch.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\entt\entt.hpp">
+      <Filter>vendor\entt</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\common.hpp">
       <Filter>vendor\glm\glm</Filter>
@@ -1545,12 +1572,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\UGE\imgui\ImguiBackend.h">
-      <Filter>src\UGE\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UGE\imgui\ImguiLayer.h">
-      <Filter>src\UGE\imgui</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\UGE\core\Application.cpp">
@@ -1567,6 +1588,15 @@
     </ClCompile>
     <ClCompile Include="src\UGE\core\Log.cpp">
       <Filter>src\UGE\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\core\UUID.cpp">
+      <Filter>src\UGE\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp">
+      <Filter>src\UGE\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp">
+      <Filter>src\UGE\imgui</Filter>
     </ClCompile>
     <ClCompile Include="src\UGE\renderer\Buffer.cpp">
       <Filter>src\UGE\renderer</Filter>
@@ -1594,6 +1624,12 @@
     </ClCompile>
     <ClCompile Include="src\UGE\renderer\VertexArray.cpp">
       <Filter>src\UGE\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\scene\Entity.cpp">
+      <Filter>src\UGE\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UGE\scene\Scene.cpp">
+      <Filter>src\UGE\scene</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\openGL\OpenGLBuffer.cpp">
       <Filter>src\platform\openGL</Filter>
@@ -1627,12 +1663,6 @@
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp">
-      <Filter>src\UGE\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp">
-      <Filter>src\UGE\imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_ENABLE_ASSERT;UGE_USING_GLFW;UGE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -97,7 +97,7 @@
       <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_ENABLE_ASSERT;UGE_USING_GLFW;UGE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -121,7 +121,7 @@
       <PrecompiledHeaderFile>ugepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_DLL_BUILD;UGE_ENABLE_ASSERT;UGE_USING_GLFW;UGE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\UGE;src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -153,6 +153,7 @@
     <ClInclude Include="src\UGE\core\LayersStack.h" />
     <ClInclude Include="src\UGE\core\Log.h" />
     <ClInclude Include="src\UGE\core\TimeStep.h" />
+    <ClInclude Include="src\UGE\core\UUID.h" />
     <ClInclude Include="src\UGE\events\ApplicationEvents.h" />
     <ClInclude Include="src\UGE\events\Event.h" />
     <ClInclude Include="src\UGE\events\KeyEvents.h" />
@@ -171,6 +172,9 @@
     <ClInclude Include="src\UGE\renderer\Shader.h" />
     <ClInclude Include="src\UGE\renderer\Texture.h" />
     <ClInclude Include="src\UGE\renderer\VertexArray.h" />
+    <ClInclude Include="src\UGE\scene\Components.h" />
+    <ClInclude Include="src\UGE\scene\Entity.h" />
+    <ClInclude Include="src\UGE\scene\Scene.h" />
     <ClInclude Include="src\platform\openGL\OpenGLBuffer.h" />
     <ClInclude Include="src\platform\openGL\OpenGLContex.h" />
     <ClInclude Include="src\platform\openGL\OpenGLFrameBuffer.h" />
@@ -182,6 +186,7 @@
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="src\ugepch.h" />
+    <ClInclude Include="vendor\entt\entt.hpp" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -636,6 +641,7 @@
     <ClCompile Include="src\UGE\core\Layer.cpp" />
     <ClCompile Include="src\UGE\core\LayersStack.cpp" />
     <ClCompile Include="src\UGE\core\Log.cpp" />
+    <ClCompile Include="src\UGE\core\UUID.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiBackend.cpp" />
     <ClCompile Include="src\UGE\imgui\ImguiLayer.cpp" />
     <ClCompile Include="src\UGE\renderer\Buffer.cpp" />
@@ -647,6 +653,8 @@
     <ClCompile Include="src\UGE\renderer\Shader.cpp" />
     <ClCompile Include="src\UGE\renderer\Texture.cpp" />
     <ClCompile Include="src\UGE\renderer\VertexArray.cpp" />
+    <ClCompile Include="src\UGE\scene\Entity.cpp" />
+    <ClCompile Include="src\UGE\scene\Scene.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLContex.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLFrameBuffer.cpp" />

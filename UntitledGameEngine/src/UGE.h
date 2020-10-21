@@ -21,6 +21,11 @@
 #include "UGE/renderer/FrameBuffer.h"
 
 
+// Scene 
+#include "UGE/scene/Entity.h"
+#include "UGE/scene/Scene.h"
+#include "UGE/scene/Components.h"
+
 //Imgui stuff
 #include "imgui/ImguiLayer.h"
 

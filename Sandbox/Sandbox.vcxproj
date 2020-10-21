@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_USING_GLFW;UGE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\UntitledGameEngine\src;..\UntitledGameEngine\src\UGE;..\UntitledGameEngine\vendor\spdlog\include;..\UntitledGameEngine\vendor\glfw\include;..\UntitledGameEngine\vendor\glad\include;..\UntitledGameEngine\vendor\ImGui;..\UntitledGameEngine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\UntitledGameEngine\src;..\UntitledGameEngine\src\UGE;..\UntitledGameEngine\vendor\spdlog\include;..\UntitledGameEngine\vendor\glfw\include;..\UntitledGameEngine\vendor\glad\include;..\UntitledGameEngine\vendor\ImGui;..\UntitledGameEngine\vendor\glm;..\UntitledGameEngine\vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -95,7 +95,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_USING_GLFW;UGE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\UntitledGameEngine\src;..\UntitledGameEngine\src\UGE;..\UntitledGameEngine\vendor\spdlog\include;..\UntitledGameEngine\vendor\glfw\include;..\UntitledGameEngine\vendor\glad\include;..\UntitledGameEngine\vendor\ImGui;..\UntitledGameEngine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\UntitledGameEngine\src;..\UntitledGameEngine\src\UGE;..\UntitledGameEngine\vendor\spdlog\include;..\UntitledGameEngine\vendor\glfw\include;..\UntitledGameEngine\vendor\glad\include;..\UntitledGameEngine\vendor\ImGui;..\UntitledGameEngine\vendor\glm;..\UntitledGameEngine\vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>UGE_PLATFORM_WINDOWS;UGE_USING_GLFW;UGE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\UntitledGameEngine\src;..\UntitledGameEngine\src\UGE;..\UntitledGameEngine\vendor\spdlog\include;..\UntitledGameEngine\vendor\glfw\include;..\UntitledGameEngine\vendor\glad\include;..\UntitledGameEngine\vendor\ImGui;..\UntitledGameEngine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\UntitledGameEngine\src;..\UntitledGameEngine\src\UGE;..\UntitledGameEngine\vendor\spdlog\include;..\UntitledGameEngine\vendor\glfw\include;..\UntitledGameEngine\vendor\glad\include;..\UntitledGameEngine\vendor\ImGui;..\UntitledGameEngine\vendor\glm;..\UntitledGameEngine\vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
