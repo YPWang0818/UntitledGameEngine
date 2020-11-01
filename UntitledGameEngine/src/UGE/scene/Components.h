@@ -24,6 +24,8 @@ namespace UGE {
 
 
 		glm::mat4 transform = glm::mat4(1.0f);
+
+		operator glm::mat4() { return transform; };
 	};
 
 
@@ -52,6 +54,19 @@ namespace UGE {
 		Ref<Texture2D> Texture;
 	
 
+	};
+
+	struct SpriteRendererComopnent {
+
+		SpriteRendererComopnent() = default;
+		SpriteRendererComopnent(const  SpriteRendererComopnent& other) = default;
+		SpriteRendererComopnent(Ref<Texture2D> texture)
+			:Texture(texture) {};
+		SpriteRendererComopnent(const glm::vec4& bgcolor, Ref<Texture2D> texture)
+			:BackgroundColor(bgcolor), Texture(texture) {};
+
+		glm::vec4 BackgroundColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+		Ref<Texture2D> Texture = nullptr;
 	};
 
 

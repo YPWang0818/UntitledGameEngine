@@ -18,18 +18,10 @@ namespace UE {
 		virtual void onDetach() override;
 
 		void RenderViewport(UGE::TimeStep ts);
+		void RenderUI(UGE::TimeStep ts);
+
 	private:
-
-		/*
-		UGE::Ref<UGE::VertexArray> m_vertex_array;
-		UGE::Ref<UGE::VertexArray> m_VAsquare;
-		UGE::Ref<UGE::Shader> m_shader;
-		UGE::Ref<UGE::Shader> m_texture_shader;
-		UGE::Ref<UGE::Texture2D> m_texture;
-		UGE::Ref<UGE::Texture2D> m_cboard_texture;
-
-		*/
-
+		
 		UGE::Scene m_EditorScene;
 		UGE::Ref<UGE::FrameBuffer> m_frame_buffer;
 		UGE::OrthographicCamera m_EditorCamera;
@@ -39,6 +31,8 @@ namespace UE {
 		float m_camera_speed = 3.0f;
 		float m_camera_rotation = 0.0f;
 		float m_camera_rotation_speed = 1.0f;
+
+		ImVec2 viewportSize;
 
 
 	};

@@ -47,23 +47,25 @@ namespace UGE {
 	};
 
 
+	using ShaderNameMaps = std::unordered_map<std::string, Ref<Shader>>;
 
 	class ShaderLibrary {
 
 	public:
-		void Add(const Ref<Shader> shader);
-		void Add(const std::string& name, Ref<Shader> shader);
 
-		Ref<Shader> Load(const std::string& filepath);
-		Ref<Shader> Load(const std::string& name, const std::string& filepath);
+		static void Add(const Ref<Shader> shader);
+		static void Add(const std::string& name, Ref<Shader> shader);
 
-		Ref<Shader> Get(const std::string& name);
-		bool Exists(const std::string& name);
+		static Ref<Shader> Load(const std::string& filepath);
+		static Ref<Shader> Load(const std::string& name, const std::string& filepath);
+
+		static Ref<Shader> Get(const std::string& name);
+		static bool Exists(const std::string& name);
  	private:
-		std::unordered_map<std::string, Ref<Shader>> m_shaders;
+		static ShaderNameMaps m_shaders;
 
 	private:
-		std::string _strip_path_name(const std::string& pathname);
+		static std::string _strip_path_name(const std::string& pathname);
 	};
 
 }

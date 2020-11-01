@@ -6,31 +6,58 @@
 namespace UGE {
 
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, unsigned int size)
+
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, const VertexBufferSettings& settings)
 	{
-		switch (RendererAPI::getAPI()) 
+		switch (RendererAPI::getAPI())
 		{
 		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::API::OpenGL:	return  CreateRef<OpenGLVertexBuffer>(vertices, size);
+		case RendererAPI::API::OpenGL:	return  CreateRef<OpenGLVertexBuffer>(vertices, settings);
 
 		}
 
 		UGE_CORE_ASSERT(false, "Unknown renderer API.");
-			return nullptr;
+		return nullptr;
 	}
 
 
-	Ref<IndexBuffer> IndexBuffer::Create(int* indices, unsigned int size) {
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	{
+		VertexBufferSettings settings = {BufferUsageHint::Static, size};
+		return VertexBuffer::Create(vertices, settings);
+	}
 
+
+	Ref<VertexBuffer> VertexBuffer::Create(const VertexBufferSettings& settings)
+	{
+		return VertexBuffer::Create(nullptr, settings);
+	}
+
+
+
+	Ref<IndexBuffer> IndexBuffer::Create(int* indices, const IndexBufferSettings& settings)
+	{
 		switch (RendererAPI::getAPI())
 		{
 		case RendererAPI::API::None:		UGE_CORE_ASSERT(false, "RendererAPI::None is not supported.") return nullptr;
-		case RendererAPI::API::OpenGL:	return  CreateRef<OpenGLIndexBuffer>(indices, size);
+		case RendererAPI::API::OpenGL:	return  CreateRef<OpenGLIndexBuffer>(indices, settings);
 
 		}
 
 		UGE_CORE_ASSERT(false, "Unknown renderer API.")
 			return nullptr;
+	}
+
+	Ref<IndexBuffer> IndexBuffer::Create(int* indices, uint32_t count) {
+		IndexBufferSettings settings = { BufferUsageHint::Static, count };
+
+		return IndexBuffer::Create(indices, settings);
+	}
+
+
+	Ref<IndexBuffer> IndexBuffer::Create(const IndexBufferSettings& settings)
+	{
+		return IndexBuffer::Create(nullptr, settings);
 	}
 
 	

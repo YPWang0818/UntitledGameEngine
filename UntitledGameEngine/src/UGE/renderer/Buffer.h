@@ -23,8 +23,8 @@ namespace UGE {
 		LayoutElement() = default;
 	};
 
-	
-	
+
+
 	class BufferLayout {
 
 	public:
@@ -50,8 +50,16 @@ namespace UGE {
 	};
 
 
+	enum class BufferUsageHint {
+		Static = 1,
+		Dyanmic = 2 
+	};
 
-
+	struct VertexBufferSettings 
+	{
+		BufferUsageHint hint = BufferUsageHint::Static;
+		uint32_t bufferSize = 0;
+	};
 
 	class VertexBuffer {
 	public:
@@ -61,13 +69,22 @@ namespace UGE {
 
 		virtual void setBufferLayout(const BufferLayout& layout) = 0;
 		virtual const BufferLayout& getBufferLayout() const = 0 ;
-
+		virtual void setData(void* data, uint32_t size, uint32_t offset = 0) = 0;
+	
 
 		//only float will be supported for now.
-		static Ref<VertexBuffer> Create(float* vertices, unsigned int size);
+		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
+		static Ref<VertexBuffer> Create(float* vertices, const VertexBufferSettings& settings);
+		static Ref<VertexBuffer> Create(const VertexBufferSettings& settings = VertexBufferSettings());
 
 
+	};
 
+
+	struct IndexBufferSettings
+	{
+		BufferUsageHint hint = BufferUsageHint::Static;
+		uint32_t bufferCount = 0;
 	};
 
 
@@ -79,9 +96,9 @@ namespace UGE {
 		virtual unsigned int getCount() const = 0;
 
 		//only float will be supported for now.
-		static Ref<IndexBuffer> Create(int* indices, unsigned int size);
-
-
+		static Ref<IndexBuffer> Create(int* indices, uint32_t count);
+		static Ref<IndexBuffer> Create(int* indices, const IndexBufferSettings& settings);
+		static Ref<IndexBuffer> Create( const IndexBufferSettings& settings = IndexBufferSettings());
 
 	};
 

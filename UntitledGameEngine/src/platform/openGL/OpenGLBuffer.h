@@ -7,7 +7,7 @@ namespace UGE {
 	class OpenGLVertexBuffer : public VertexBuffer {
 
 	public:
-		OpenGLVertexBuffer(float* vertices, unsigned int size);
+		OpenGLVertexBuffer(float* vertices, const VertexBufferSettings& settings);
 		~OpenGLVertexBuffer();
 
 		virtual void Bind() const override;
@@ -15,9 +15,10 @@ namespace UGE {
 
 		virtual void setBufferLayout(const BufferLayout& layout) override { m_layout = layout; };
 		virtual const BufferLayout& getBufferLayout() const override { return m_layout; };
-
+		virtual void setData(void* data, uint32_t size, uint32_t offset = 0) override;
 	private:
 		 uint32_t m_rendererID;
+		 VertexBufferSettings m_settings;
 		 BufferLayout m_layout;
 
 	};
@@ -27,17 +28,17 @@ namespace UGE {
 	{
 
 	public:
-		OpenGLIndexBuffer(int* vertices, unsigned int size);
+		OpenGLIndexBuffer(int* vertices, const IndexBufferSettings& settings);
 		~OpenGLIndexBuffer();
 
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
 
-		virtual unsigned int getCount() const override { return m_count; };
+		virtual unsigned int getCount() const override { return m_settings.bufferCount; };
 
 	private:
 		unsigned int m_rendererID;
-		unsigned int m_count;
+		IndexBufferSettings m_settings;
 
 	};
 

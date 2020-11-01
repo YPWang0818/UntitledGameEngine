@@ -7,11 +7,13 @@ namespace UGE {
 
 
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, unsigned int size)
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, const VertexBufferSettings& settings)
+		:m_settings(settings)
 	{
+
 		glGenBuffers(1, &m_rendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
-		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, settings.bufferSize, vertices,( settings.hint == BufferUsageHint::Static ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW));
 		
 
 	}
@@ -31,15 +33,21 @@ namespace UGE {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	void OpenGLVertexBuffer::setData(void* data, uint32_t size, uint32_t offset)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
+		glBufferSubData(GL_ARRAY_BUFFER, (GLintptr)offset, (GLsizeiptr)size, data);
+	}
 
-	///// Inedx Buffer 
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(int* indices, unsigned int count)
-		:m_count(count)
+	///// Index Buffer 
+
+	OpenGLIndexBuffer::OpenGLIndexBuffer(int* indices, const IndexBufferSettings& settings)
+		:m_settings(settings)
 	{
 		glGenBuffers(1, &m_rendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, settings.bufferCount * sizeof(unsigned int), indices, (settings.hint == BufferUsageHint::Static ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW));
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()

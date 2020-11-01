@@ -107,6 +107,7 @@ namespace UGE {
 
 
 
+	ShaderNameMaps ShaderLibrary::m_shaders;
 
 	void ShaderLibrary::Add(const Ref<Shader> shader)
 	{

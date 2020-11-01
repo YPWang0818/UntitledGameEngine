@@ -3,6 +3,7 @@
 #include "IO/uge_io.h"
 #include "platform/openGL/gl_debug.h"
 #include "renderer/Renderer.h"
+#include "renderer/Renderer2D.h"
 #include "UGE/core/TimeStep.h"
 
 #include "GLFW/glfw3.h"
@@ -22,6 +23,7 @@ namespace UGE {
 		m_window->setEventCallback(UGE_BIND_CALLBACK(Application::onEvent));
 
 		Renderer::Init();
+		Renderer2D::Init();
 	
 
 	};

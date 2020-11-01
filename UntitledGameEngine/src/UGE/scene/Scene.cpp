@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Entity.h"
 #include "Components.h"
+#include"renderer/Renderer2D.h"
 
 namespace UGE {
 
@@ -48,6 +49,26 @@ namespace UGE {
 		return Entity{};
 	}
 	
+
+	void Scene::OnSceneUpdate(SceneCamera camera, TimeStep ts)
+	{
+
+		// render sprites
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComopnent>);
+		for (auto ent : group) {
+			auto [transform, spriteRenderer] = group.get<TransformComponent, SpriteRendererComopnent>(ent);
+
+			Renderer2D::BeginScene(camera.getProjectionViewMatrix());
+			if (spriteRenderer.Texture) {
+				Renderer2D::DrawQuad(transform, spriteRenderer.Texture, spriteRenderer.BackgroundColor);
+			}
+			else {
+				Renderer2D::DrawQuad(transform, spriteRenderer.BackgroundColor);
+			}
+			Renderer2D::EndScene();
+		}
+
+	}
 
 	void Scene::RemoveEntity(const Entity& entity)
 	{

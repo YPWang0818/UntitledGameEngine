@@ -1,7 +1,7 @@
 #include "ugepch.h"
 #include "Texture.h"
 #include "Renderer.h"
-#include "platform/openGL/OpenGLtTexture.h"
+#include "platform/openGL/OpenGLTexture.h"
 
 namespace UGE{
 

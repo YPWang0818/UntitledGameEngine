@@ -167,6 +167,7 @@
     <ClInclude Include="src\UGE\renderer\GraphicsContex.h" />
     <ClInclude Include="src\UGE\renderer\OrthographicCamera.h" />
     <ClInclude Include="src\UGE\renderer\Renderer.h" />
+    <ClInclude Include="src\UGE\renderer\Renderer2D.h" />
     <ClInclude Include="src\UGE\renderer\RendererAPI.h" />
     <ClInclude Include="src\UGE\renderer\RendererCommand.h" />
     <ClInclude Include="src\UGE\renderer\Shader.h" />
@@ -181,7 +182,7 @@
     <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\platform\openGL\OpenGLShader.h" />
     <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\platform\openGL\OpenGLtTexture.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLTexture.h" />
     <ClInclude Include="src\platform\openGL\gl_debug.h" />
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
@@ -648,6 +649,7 @@
     <ClCompile Include="src\UGE\renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\UGE\renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\UGE\renderer\Renderer.cpp" />
+    <ClCompile Include="src\UGE\renderer\Renderer2D.cpp" />
     <ClCompile Include="src\UGE\renderer\RendererAPI.cpp" />
     <ClCompile Include="src\UGE\renderer\RendererCommand.cpp" />
     <ClCompile Include="src\UGE\renderer\Shader.cpp" />
@@ -661,7 +663,7 @@
     <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLShader.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\platform\openGL\OpenGLtTexture.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ugepch.cpp">
